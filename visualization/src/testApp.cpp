@@ -2,15 +2,36 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+	ofEnableAlphaBlending();
+	ofBackground(0);
+	ofSetVerticalSync(true);
+	wall.setup(180,100);
+	vizX = 220;
+
+	gui.setup("parameters");
+	gui.add(LEDStrip::fadeTime);
+	gui.add(EnergyBurst::decayPct);
+	gui.add(EnergyBurst::minLifeTime);
+	gui.add(EnergyBurst::maxLifeTime);
+	gui.add(EnergyBurst::minSpeed);
+	gui.add(EnergyBurst::maxSpeed);
+	gui.loadFromFile("settings.xml");
+
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+	wall.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
+	ofPushView();
+	ofViewport(vizX,0,1024,768);
+	wall.draw();
+	ofPopView();
 
+	gui.draw();
 }
 
 //--------------------------------------------------------------
@@ -35,7 +56,7 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-
+	wall.energyBurst(float(x-vizX)/float(1024),float(y)/float(ofGetHeight()));
 }
 
 //--------------------------------------------------------------

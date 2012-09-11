@@ -1,0 +1,8 @@
+<parameters>
+    <LED_fadeTime>440</LED_fadeTime>
+    <Burst_decayPct>0.605</Burst_decayPct>
+    <Burst_minLifeTime>500</Burst_minLifeTime>
+    <Burst_maxLifeTime>2000</Burst_maxLifeTime>
+    <Burst_minSpeed>0.14365</Burst_minSpeed>
+    <Burst_maxSpeed>0.2674</Burst_maxSpeed>
+</parameters>

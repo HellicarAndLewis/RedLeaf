@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Wall.h"
+#include "ofxGui.h"
 
 class testApp : public ofBaseApp{
 
@@ -19,4 +21,7 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+		Wall wall;
+		int vizX;
+		ofxPanel gui;
 };
