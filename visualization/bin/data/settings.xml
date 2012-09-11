@@ -5,4 +5,7 @@
     <Burst_maxLifeTime>2000</Burst_maxLifeTime>
     <Burst_minSpeed>0.14365</Burst_minSpeed>
     <Burst_maxSpeed>0.2674</Burst_maxSpeed>
+    <>
+        <checkEvery>1000</checkEvery>
+    </>
 </parameters>

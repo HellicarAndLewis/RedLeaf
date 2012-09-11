@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "Wall.h"
 #include "ofxGui.h"
+#include "TwitterListener.h"
 
 class testApp : public ofBaseApp{
 
@@ -21,7 +22,10 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+		void newTweet(const Tweet & tweet);
+
 		Wall wall;
 		int vizX;
 		ofxPanel gui;
+		TwitterListener twitterListener;
 };

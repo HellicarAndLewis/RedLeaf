@@ -8,6 +8,8 @@ void testApp::setup(){
 	wall.setup(180,100);
 	vizX = 220;
 
+	twitterListener.setup();
+
 	gui.setup("parameters");
 	gui.add(LEDStrip::fadeTime);
 	gui.add(EnergyBurst::decayPct);
@@ -15,8 +17,13 @@ void testApp::setup(){
 	gui.add(EnergyBurst::maxLifeTime);
 	gui.add(EnergyBurst::minSpeed);
 	gui.add(EnergyBurst::maxSpeed);
+	gui.add(twitterListener.parameters);
 	gui.loadFromFile("settings.xml");
 
+	//twitterListener.hashtag = "#RedLeaf";
+
+	ofAddListener(twitterListener.newTweetE,this,&testApp::newTweet);
+	twitterListener.start();
 }
 
 //--------------------------------------------------------------
@@ -32,6 +39,10 @@ void testApp::draw(){
 	ofPopView();
 
 	gui.draw();
+}
+
+void testApp::newTweet(const Tweet & tweet){
+	wall.energyBurst(ofRandom(1),.5);
 }
 
 //--------------------------------------------------------------

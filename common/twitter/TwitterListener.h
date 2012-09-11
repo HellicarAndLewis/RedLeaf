@@ -14,7 +14,13 @@
 
 class TwitterListener: public ofThread {
 public:
+	void setup();
 	void start();
+
+	ofEvent<const Tweet> newTweetE;
+	ofParameterGroup parameters;
+	ofParameter<string> hashtag;
+	ofParameter<int> checkEvery;
 
 private:
 	void threadedFunction();
@@ -22,8 +28,6 @@ private:
 
 	ofxTwitter twitter;
 	Poco::DateTime timeLastTweet;
-	string hashtag;
-	u_int checkEvery;
 };
 
 #endif /* TWITTERLISTENER_H_ */

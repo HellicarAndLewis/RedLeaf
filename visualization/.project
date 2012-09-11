@@ -26,6 +26,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>common</name>
+			<type>2</type>
+			<location>/home/arturo/Desktop/openFrameworks/apps/RedLeaf/common</location>
+		</link>
+		<link>
 			<name>ofxTween</name>
 			<type>2</type>
 			<location>/home/arturo/Desktop/openFrameworks/addons/ofxTween</location>
