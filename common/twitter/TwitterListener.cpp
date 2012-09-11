@@ -12,6 +12,7 @@ void TwitterListener::setup(){
 	twitter.setup();
 	twitter.setTimeout(20);
 	timeLastTweet.assign(1970,1,1);
+	parameters.setName("Twitter");
 	parameters.add(hashtag.set("hashtag","#RedLeaf"));
 	parameters.add(checkEvery.set("checkEvery",1000,500,20000));
 }
