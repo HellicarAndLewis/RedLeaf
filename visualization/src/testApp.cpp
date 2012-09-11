@@ -5,7 +5,7 @@ void testApp::setup(){
 	ofEnableAlphaBlending();
 	ofBackground(0);
 	ofSetVerticalSync(true);
-	wall.setup(180,100);
+	wall.setup();
 	vizX = 220;
 
 	twitterListener.setup();
@@ -18,6 +18,7 @@ void testApp::setup(){
 	gui.add(EnergyBurst::minSpeed);
 	gui.add(EnergyBurst::maxSpeed);
 	gui.add(twitterListener.parameters);
+	gui.add(wall.parameters);
 	gui.loadFromFile("settings.xml");
 
 	//twitterListener.hashtag = "#RedLeaf";
@@ -67,7 +68,8 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-	wall.energyBurst(float(x-vizX)/float(1024),float(y)/float(ofGetHeight()));
+	if(x>vizX)
+		wall.energyBurst(float(x-vizX)/float(1024),float(y)/float(ofGetHeight()));
 }
 
 //--------------------------------------------------------------

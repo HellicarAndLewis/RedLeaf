@@ -8,7 +8,22 @@
 #include "Wall.h"
 #include "ofAppRunner.h"
 
-void Wall::setup(u_int w, u_int h){
+void Wall::setup(){
+	w.set("w",180,0,200);
+	h.set("h",100,0,200);
+	w.addListener(this,&Wall::sizeChanged);
+	h.addListener(this,&Wall::sizeChanged);
+	parameters.setName("Wall");
+	parameters.add(w);
+	parameters.add(h);
+	reset();
+}
+
+void Wall::sizeChanged(int & size){
+	reset();
+}
+
+void Wall::reset(){
 	strips.resize(w);
 	float stripRadius = 1./float((strips.size()+1)*2.);
 	float stripSize = stripRadius*2;

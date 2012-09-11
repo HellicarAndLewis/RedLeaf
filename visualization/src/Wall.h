@@ -11,17 +11,22 @@
 #include "LEDStrip.h"
 #include "ofConstants.h"
 #include "EnergyBurst.h"
+#include "ofParameterGroup.h"
 #include <list>
 
 class Wall {
 public:
-	void setup(u_int w, u_int h);
+	void setup();
 	void update();
 	void draw();
 
 	void energyBurst(float x, float y);
 
+	ofParameter<int> w,h;
+	ofParameterGroup parameters;
 private:
+	void sizeChanged(int & size);
+	void reset();
 	vector<LEDStrip> strips;
 	list<EnergyBurst> bursts;
 };
