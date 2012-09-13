@@ -10,6 +10,7 @@ void testApp::setup(){
 	twitterListener.setup();
 
 	gui.setup("parameters");
+	gui.add(currentTag.setup("",twitterListener.hashtag));
 	gui.add(changeTag.setup("changeHashtag"));
 	gui.add(LEDStrip::fadeTime);
 	gui.add(EnergyBurst::decayPct);

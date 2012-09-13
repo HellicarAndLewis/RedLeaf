@@ -28,5 +28,6 @@ class testApp : public ofBaseApp{
 		Wall wall;
 		ofxPanel gui;
 		ofxButton changeTag;
+		ofxLabel currentTag;
 		TwitterListener twitterListener;
 };
