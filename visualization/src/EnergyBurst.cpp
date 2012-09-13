@@ -49,6 +49,7 @@ void EnergyBurst::trigger(LEDStrip & strip){
 }
 
 void EnergyBurst::draw(){
+	ofCircle(startPosition*ofVec2f(ofGetWidth(),ofGetHeight()),3);
 	if(!lCycle){
 		ofLine(startPosition*ofVec2f(ofGetWidth(),ofGetHeight()),currentPositionL*ofVec2f(ofGetWidth(),ofGetHeight()));
 	}else{
