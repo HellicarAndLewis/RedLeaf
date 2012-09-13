@@ -17,7 +17,8 @@
         <vizX>250</vizX>
         <renderW>1024</renderW>
         <renderH>512</renderH>
-        <renderMode>0</renderMode>
+        <renderMode>2</renderMode>
         <rotation3D>232.123</rotation3D>
+        <z>0.875</z>
     </Wall>
 </parameters>

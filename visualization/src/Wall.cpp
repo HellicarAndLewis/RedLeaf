@@ -121,9 +121,10 @@ void Wall::setup(){
 	parameters.add(w.set("w",180,0,200));
 	parameters.add(h.set("h",100,0,200));
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
-	parameters.add(vizX.set("vizX",250,0,300));
-	parameters.add(renderW.set("renderW",1024,256,2048));
-	parameters.add(renderH.set("renderH",512,256,2048));
+	parameters.add(z.set("z",.7,.5,2));
+	vizX.set("vizX",250,0,300);
+	renderW.set("renderW",1024,256,2048);
+	renderH.set("renderH",512,256,2048);
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
 	parameters.add(rotation3D.set("rotation3D",0,0,360));
 	w.addListener(this,&Wall::sizeChanged);
@@ -201,7 +202,7 @@ void Wall::draw(){
 		ofPushView();
 		ofViewport(viewport);
 		for(u_int i=0;i<strips.size();i++){
-			strips[i].draw(strips[i].getPosition(),radiusScale,ofGetWidth(),ofGetHeight());
+			strips[i].draw(strips[i].getPosition(),1,ofGetWidth(),ofGetHeight());
 		}
 		ofPopView();
 	}break;
@@ -325,7 +326,7 @@ void Wall::draw(){
 		ofPushView();
 		viewport.set(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
 		ofViewport(viewport);
-		ofTranslate(ofPoint(ofGetWidth()*.5,ofGetHeight()*.5,-renderW*.7));
+		ofTranslate(ofPoint(ofGetWidth()*.5,ofGetHeight()*.5,-renderW*z));
 		ofRotateY(rotation3D);
 		ofFill();
 		renderFbo.getTextureReference().bind();

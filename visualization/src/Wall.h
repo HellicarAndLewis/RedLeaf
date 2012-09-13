@@ -29,6 +29,7 @@ public:
 	ofParameter<int> renderMode;
 	ofParameter<float> rotation3D;
 	ofParameter<float> radiusScale;
+	ofParameter<float> z;
 	ofParameterGroup parameters;
 	enum RenderMode{
 		Continuous,

@@ -10,6 +10,7 @@ void testApp::setup(){
 	twitterListener.setup();
 
 	gui.setup("parameters");
+	gui.add(changeTag.setup("changeHashtag"));
 	gui.add(LEDStrip::fadeTime);
 	gui.add(EnergyBurst::decayPct);
 	gui.add(EnergyBurst::minLifeTime);
@@ -21,9 +22,14 @@ void testApp::setup(){
 	gui.loadFromFile("settings.xml");
 
 	//twitterListener.hashtag = "#RedLeaf";
+	changeTag.addListener(this,&testApp::changeHashTag);
 
 	ofAddListener(twitterListener.newTweetE,this,&testApp::newTweet);
 	twitterListener.start();
+}
+
+void testApp::changeHashTag(bool & pressed){
+	if(!pressed) twitterListener.hashtag = ofSystemTextBoxDialog("new hashtag",twitterListener.hashtag);
 }
 
 //--------------------------------------------------------------

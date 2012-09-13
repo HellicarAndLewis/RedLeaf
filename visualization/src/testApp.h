@@ -23,8 +23,10 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 		
 		void newTweet(const Tweet & tweet);
+		void changeHashTag(bool & pressed);
 
 		Wall wall;
 		ofxPanel gui;
+		ofxButton changeTag;
 		TwitterListener twitterListener;
 };
