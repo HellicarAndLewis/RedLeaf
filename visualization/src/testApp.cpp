@@ -6,7 +6,7 @@ void testApp::setup(){
 	ofBackground(0);
 	ofSetVerticalSync(true);
 	wall.setup();
-	vizX = 220;
+	vizX = 250;
 
 	twitterListener.setup();
 
@@ -34,10 +34,16 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+	ofFill();
+	ofSetColor(255);
 	ofPushView();
-	ofViewport(vizX,0,1024,768);
+	ofViewport(vizX,(768-512)*.5,1024,512);
 	wall.draw();
 	ofPopView();
+
+	ofNoFill();
+	ofSetColor(200);
+	ofRect(vizX,(768-512)*.5,1024,512);
 
 	gui.draw();
 }
