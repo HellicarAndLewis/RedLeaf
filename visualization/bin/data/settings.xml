@@ -12,7 +12,7 @@
     </Twitter>
     <Wall>
         <w>180</w>
-        <h>100</h>
+        <h>54</h>
         <radiusScale>2.1445</radiusScale>
         <vizX>250</vizX>
         <renderW>1024</renderW>
@@ -21,4 +21,5 @@
         <rotation3D>232.123</rotation3D>
         <z>0.875</z>
     </Wall>
+    <hashtag>#RedLeaf</hashtag>
 </parameters>
