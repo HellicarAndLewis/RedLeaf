@@ -6,6 +6,18 @@
     <Burst_minSpeed>0.14365</Burst_minSpeed>
     <Burst_maxSpeed>0.2674</Burst_maxSpeed>
     <>
+    <checkEvery>1000</checkEvery>
+    <Twitter>
         <checkEvery>1000</checkEvery>
-    </>
+    </Twitter>
+    <Wall>
+        <w>180</w>
+        <h>100</h>
+        <radiusScale>2.1445</radiusScale>
+        <vizX>250</vizX>
+        <renderW>1024</renderW>
+        <renderH>512</renderH>
+        <renderMode>0</renderMode>
+        <rotation3D>232.123</rotation3D>
+    </Wall>
 </parameters>

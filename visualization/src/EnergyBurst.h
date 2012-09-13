@@ -24,18 +24,25 @@ public:
 	,startTime(startTime)
 	,lifeTime(ofRandom(minLifeTime,maxLifeTime))
 	,speed(ofRandom(minSpeed,maxSpeed))
-	,now(startTime){}
+	,now(startTime)
+	,lCycle(false)
+	,rCycle(false){}
 
 	EnergyBurst()
 	:alive(true)
 	,startTime(ofGetElapsedTimeMillis())
 	,lifeTime(ofRandom(500,2000))
 	,speed(ofRandom(.08,.2))
-	,now(startTime){}
+	,now(startTime)
+	,lCycle(false)
+	,rCycle(false){}
 
 	void update(u_long nowMS);
 	bool triggeredAlready(LEDStrip & strip);
 	void trigger(LEDStrip & strip);
+	void draw();
+	bool leftHasCycled();
+	bool rightHasCycled();
 
 	ofVec2f startPosition;
 	ofVec3f currentPositionL,currentPositionR;
@@ -50,6 +57,9 @@ public:
 	static ofParameter<float> maxLifeTime;
 	static ofParameter<float> minSpeed;
 	static ofParameter<float> maxSpeed;
+
+private:
+	bool lCycle,rCycle;
 };
 
 #endif /* ENERGYBURST_H_ */

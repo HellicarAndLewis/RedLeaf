@@ -25,7 +25,6 @@ class testApp : public ofBaseApp{
 		void newTweet(const Tweet & tweet);
 
 		Wall wall;
-		int vizX;
 		ofxPanel gui;
 		TwitterListener twitterListener;
 };

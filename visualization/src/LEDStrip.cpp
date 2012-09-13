@@ -12,8 +12,8 @@
 
 ofParameter<int> LEDStrip::fadeTime("LED_fadeTime",200,0,2000);
 
-void LEDStrip::setup(u_int _h, float position,float _radius){
-	x = position;
+void LEDStrip::setup(u_int _h, float _position,float _radius){
+	position = _position;
 	h = _h;
 	radius = _radius;
 	color.set(0,0,0);
@@ -35,17 +35,17 @@ void LEDStrip::update(u_long now){
 	color.set(ofxTween::map(t,0,1,triggerColor.r,0,true,easing),ofxTween::map(t,0,1,triggerColor.g,0,true,easing),ofxTween::map(t,0,1,triggerColor.b,0,true,easing));
 }
 
-void LEDStrip::draw(){
+void LEDStrip::draw(float x, float radiusScale, float renderW, float renderH){
 	ofColor c = ofGetStyle().color;
 	ofSetColor(color);
-	float sep = ofGetHeight()/float(h+1);
+	float sep = renderH/float(h+1);
 	for(u_int y=0; y<h; y++){
-		ofCircle(x*ofGetWidth(),(y+1)*sep,radius*ofGetWidth());
+		ofCircle(x*renderW,(y+1)*sep,radius*renderH*radiusScale);
 	}
 	ofSetColor(c);
 }
 
 
 float LEDStrip::getPosition(){
-	return x;
+	return position;
 }

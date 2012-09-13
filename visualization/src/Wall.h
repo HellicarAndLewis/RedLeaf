@@ -12,6 +12,7 @@
 #include "ofConstants.h"
 #include "EnergyBurst.h"
 #include "ofParameterGroup.h"
+#include "ofFbo.h"
 #include <list>
 
 class Wall {
@@ -23,12 +24,28 @@ public:
 	void energyBurst(float x, float y);
 
 	ofParameter<int> w,h;
+	ofParameter<int> vizX;
+	ofParameter<int> renderW,renderH;
+	ofParameter<int> renderMode;
+	ofParameter<float> rotation3D;
+	ofParameter<float> radiusScale;
 	ofParameterGroup parameters;
+	enum RenderMode{
+		Continuous,
+		Separate,
+		ThreeD,
+		NumModes
+	};
 private:
+	void mouseDragged(ofMouseEventArgs & mouse);
+	void mousePressed(ofMouseEventArgs & mouse);
 	void sizeChanged(int & size);
 	void reset();
 	vector<LEDStrip> strips;
 	list<EnergyBurst> bursts;
+	ofFbo renderFbo;
+	ofPoint dragStart;
+	float startRotation3D;
 };
 
 #endif /* WALL_H_ */

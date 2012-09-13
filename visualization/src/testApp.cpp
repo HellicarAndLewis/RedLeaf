@@ -6,7 +6,6 @@ void testApp::setup(){
 	ofBackground(0);
 	ofSetVerticalSync(true);
 	wall.setup();
-	vizX = 250;
 
 	twitterListener.setup();
 
@@ -34,16 +33,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	ofFill();
-	ofSetColor(255);
-	ofPushView();
-	ofViewport(vizX,(768-512)*.5,1024,512);
 	wall.draw();
-	ofPopView();
 
-	ofNoFill();
-	ofSetColor(200);
-	ofRect(vizX,(768-512)*.5,1024,512);
 
 	gui.draw();
 }
@@ -74,8 +65,8 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-	if(x>vizX)
-		wall.energyBurst(float(x-vizX)/float(1024),float(y)/float(ofGetHeight()));
+	if(x>wall.vizX)
+		wall.energyBurst(float(x-wall.vizX)/float(1024),float(y)/float(ofGetHeight()));
 }
 
 //--------------------------------------------------------------

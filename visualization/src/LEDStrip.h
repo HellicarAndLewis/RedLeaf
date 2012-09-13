@@ -10,20 +10,21 @@
 
 #include "ofColor.h"
 #include "ofParameter.h"
+#include "ofAppRunner.h"
 
 class LEDStrip {
 public:
 	void setup(u_int h, float position,float radius);
 	void trigger(const ofColor & rgb, u_long now);
 	void update(u_long now);
-	void draw();
+	void draw(float x, float radiusScale, float w=ofGetWidth(), float h=ofGetHeight());
 
 	float getPosition();
 
 	static ofParameter<int> fadeTime;
 private:
 	ofColor color,triggerColor;
-	float x, radius;
+	float position, radius;
 	u_int h;
 	u_long triggerTime;
 };
