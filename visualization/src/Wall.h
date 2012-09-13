@@ -27,7 +27,7 @@ public:
 	ofParameter<int> vizX;
 	ofParameter<int> renderW,renderH;
 	ofParameter<int> renderMode;
-	ofParameter<float> rotation3D;
+	ofParameter<ofVec2f> rotation3D;
 	ofParameter<float> radiusScale;
 	ofParameter<float> z;
 	ofParameterGroup parameters;
@@ -46,7 +46,7 @@ private:
 	list<EnergyBurst> bursts;
 	ofFbo renderFbo;
 	ofPoint dragStart;
-	float startRotation3D;
+	ofVec2f startRotation3D;
 };
 
 #endif /* WALL_H_ */

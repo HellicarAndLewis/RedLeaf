@@ -45,10 +45,10 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 
 		static ofVec2f tex[] = {
 			ofVec2f(0,0), ofVec2f(.25,0), ofVec2f(.25,1), ofVec2f(0,1),
-			ofVec2f(0,0), ofVec2f(0,1), ofVec2f(1,1), ofVec2f(1,0),
+			ofVec2f(0,0), ofVec2f(0,1), ofVec2f(0,0), ofVec2f(0,0),
 			ofVec2f(1,1), ofVec2f(.75,1), ofVec2f(.75,0), ofVec2f(1,0),
 			ofVec2f(.75,0), ofVec2f(.75,1),  ofVec2f(.50,1),ofVec2f(.50,0),
-			ofVec2f(0,0), ofVec2f(0,1), ofVec2f(1,1), ofVec2f(1,0),
+			ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0),
 			ofVec2f(.50,0), ofVec2f(.5,1), ofVec2f(.25,1), ofVec2f(.25,0),
 			/*ofVec2f(.50,1), ofVec2f(.5,0), ofVec2f(.25,0), ofVec2f(.25,1),
 			ofVec2f(.50,1), ofVec2f(.75,1), ofVec2f(.75,0), ofVec2f(.50,0),
@@ -126,7 +126,7 @@ void Wall::setup(){
 	renderW.set("renderW",1024,256,2048);
 	renderH.set("renderH",512,256,2048);
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
-	parameters.add(rotation3D.set("rotation3D",0,0,360));
+	parameters.add(rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180)));
 	w.addListener(this,&Wall::sizeChanged);
 	h.addListener(this,&Wall::sizeChanged);
 	renderMode.addListener(this,&Wall::sizeChanged);
@@ -327,7 +327,8 @@ void Wall::draw(){
 		viewport.set(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
 		ofViewport(viewport);
 		ofTranslate(ofPoint(ofGetWidth()*.5,ofGetHeight()*.5,-renderW*z));
-		ofRotateY(rotation3D);
+		ofRotateX(rotation3D->y);
+		ofRotateY(rotation3D->x);
 		ofFill();
 		renderFbo.getTextureReference().bind();
 		ofBox(ofPoint(0,0,0),renderW,renderH,renderW);
@@ -351,8 +352,8 @@ void Wall::mousePressed(ofMouseEventArgs & mouse){
 
 void Wall::mouseDragged(ofMouseEventArgs & mouse){
 	if(mouse.x>=vizX && renderMode==ThreeD){
-		float delta = mouse.x-dragStart.x;
-		rotation3D = startRotation3D + ofMap(delta,-(ofGetWidth()-vizX), ofGetWidth()-vizX, -180, 180);
+		ofVec2f delta = ofVec2f(mouse.x,mouse.y)-dragStart;
+		rotation3D = startRotation3D + ofVec2f(ofMap(delta.x,-(ofGetWidth()-vizX), ofGetWidth()-vizX, -180, 180),ofMap(delta.y,-ofGetHeight(), ofGetHeight(), 180, -180));
 	}
 }
 
