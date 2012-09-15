@@ -13,6 +13,7 @@
 #include "EnergyBurst.h"
 #include "ofParameterGroup.h"
 #include "ofFbo.h"
+#include "ofVboMesh.h"
 #include <list>
 
 class Wall {
@@ -47,6 +48,8 @@ private:
 	ofFbo renderFbo;
 	ofPoint dragStart;
 	ofVec2f startRotation3D;
+	ofVboMesh building;
+	ofVboMesh buildingWireframe;
 };
 
 #endif /* WALL_H_ */

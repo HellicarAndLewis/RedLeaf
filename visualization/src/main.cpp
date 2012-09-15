@@ -6,7 +6,7 @@
 int main( ){
 
     ofAppGlutWindow window;
-    window.setGlutDisplayString("double rgba samples>=8");
+    window.setGlutDisplayString("double depth rgba samples>=8");
 	ofSetupOpenGL(&window, 1024+300,768, OF_WINDOW);			// <-------- setup the GL context
 
 	// this kicks off the running of my app

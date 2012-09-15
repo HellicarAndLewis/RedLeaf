@@ -10,10 +10,8 @@
 #include "ofAppRunner.h"
 
 
-static ofMesh vertexData;
-void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
-	ofPushMatrix();
-	ofTranslate(position);
+ofMesh generateBuilding(float sizeW, float sizeH, float sizeD, bool fill){
+	ofMesh vertexData;
 	if(ofGetCoordHandedness() == OF_LEFT_HANDED){
 		ofScale(1, 1, -1);
 	}
@@ -21,8 +19,7 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 	float h = sizeH * .5;
 	float d = sizeD * .5;
 
-	vertexData.clear();
-	if(ofGetStyle().bFill){
+	if(fill){
 		ofVec3f vertices[] = {
 			ofVec3f(+w,-h,+d), ofVec3f(+w,-h,-d), ofVec3f(+w,+h,-d), ofVec3f(+w,+h,+d),
 			ofVec3f(+w,+h,+d), ofVec3f(+w,+h,-d), ofVec3f(-w,+h,-d), ofVec3f(-w,+h,+d),
@@ -33,7 +30,7 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 		};
 		vertexData.addVertices(vertices,24);
 
-		static ofVec3f normals[] = {
+		/*static ofVec3f normals[] = {
 			ofVec3f(+1,0,0), ofVec3f(+1,0,0), ofVec3f(+1,0,0), ofVec3f(+1,0,0),
 			ofVec3f(0,+1,0), ofVec3f(0,+1,0), ofVec3f(0,+1,0), ofVec3f(0,+1,0),
 			ofVec3f(0,0,+1), ofVec3f(0,0,+1), ofVec3f(0,0,+1), ofVec3f(0,0,+1),
@@ -41,7 +38,7 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 			ofVec3f(0,-1,0), ofVec3f(0,-1,0), ofVec3f(0,-1,0), ofVec3f(0,-1,0),
 			ofVec3f(0,0,-1), ofVec3f(0,0,-1), ofVec3f(0,0,-1), ofVec3f(0,0,-1)
 		};
-		vertexData.addNormals(normals,24);
+		vertexData.addNormals(normals,24);*/
 
 		static ofVec2f tex[] = {
 			ofVec2f(0,0), ofVec2f(.25,0), ofVec2f(.25,1), ofVec2f(0,1),
@@ -62,7 +59,7 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 			0,1,2, // right top left
 			0,2,3, // right bottom right
 			4,5,6, // bottom top right
-			4,6,7, // bottom bottom left
+			4,7,6, // bottom bottom left
 			8,9,10, // back bottom right
 			8,10,11, // back top left
 			12,13,14, // left bottom right
@@ -74,7 +71,7 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 		};
 		vertexData.addIndices(indices,36);
 		vertexData.setMode(OF_PRIMITIVE_TRIANGLES);
-		ofGetCurrentRenderer()->draw(vertexData,vertexData.usingColors(),vertexData.usingTextures(),vertexData.usingNormals());
+		//ofGetCurrentRenderer()->draw(vertexData,vertexData.usingColors(),vertexData.usingTextures(),vertexData.usingNormals());
 	} else {
 		ofVec3f vertices[] = {
 			ofVec3f(+w,+h,+d),
@@ -109,11 +106,10 @@ void ofBox(const ofPoint& position, float sizeW, float sizeH, float sizeD){
 		vertexData.addIndices(indices,24);
 
 		vertexData.setMode(OF_PRIMITIVE_LINES);
-		ofGetCurrentRenderer()->draw(vertexData, vertexData.usingColors(),vertexData.usingTextures(),vertexData.usingNormals());
+		//ofGetCurrentRenderer()->draw(vertexData, vertexData.usingColors(),vertexData.usingTextures(),vertexData.usingNormals());
 	}
 
-
-	ofPopMatrix();
+	return vertexData;
 }
 
 void Wall::setup(){
@@ -148,6 +144,11 @@ void Wall::reset(){
 	for(u_int i=0;i<strips.size();i++){
 		strips[i].setup(h,(i+1)*stripSize,stripRadius);
 	}
+	//.load("building.ply");
+	building = generateBuilding(renderW,renderH,renderW,true);
+	buildingWireframe = generateBuilding(renderW+3,renderH+3,renderW+3,false);
+
+	//building.save("building.ply");
 
 	ofFbo::Settings settings;
 	settings.width = renderW*2;
@@ -331,10 +332,10 @@ void Wall::draw(){
 		ofRotateY(rotation3D->x);
 		ofFill();
 		renderFbo.getTextureReference().bind();
-		ofBox(ofPoint(0,0,0),renderW,renderH,renderW);
+		building.draw();
 		renderFbo.getTextureReference().unbind();
 		ofNoFill();
-		ofBox(ofPoint(0,0,0),renderW+3,renderH+3,renderW+3);
+		buildingWireframe.draw();
 		ofPopView();
 		glDisable(GL_DEPTH_TEST);
 		break;
