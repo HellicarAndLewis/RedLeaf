@@ -9,11 +9,21 @@
 #include "ofAppRunner.h"
 #include "ofGraphics.h"
 
-ofParameter<float> EnergyBurst::decayPct("Burst_decayPct",.8,0,1);
-ofParameter<float> EnergyBurst::minLifeTime("Burst_minLifeTime",500,0,2000);
-ofParameter<float> EnergyBurst::maxLifeTime("Burst_maxLifeTime",2000,500,4000);
-ofParameter<float> EnergyBurst::minSpeed("Burst_minSpeed",.08,0.01,1);
-ofParameter<float> EnergyBurst::maxSpeed("Burst_maxSpeed",.2,0.01,1);
+ofParameter<float> EnergyBurst::decayPct("decayPct",.8,0,1);
+ofParameter<float> EnergyBurst::minLifeTime("minLifeTime",500,0,2000);
+ofParameter<float> EnergyBurst::maxLifeTime("maxLifeTime",2000,500,4000);
+ofParameter<float> EnergyBurst::minSpeed("minSpeed",.08,0.01,1);
+ofParameter<float> EnergyBurst::maxSpeed("maxSpeed",.2,0.01,1);
+ofParameterGroup EnergyBurst::parameters;
+
+void EnergyBurst::initClassParameters(){
+	parameters.setName("EnergyBurst");
+	parameters.add(decayPct);
+	parameters.add(minLifeTime);
+	parameters.add(maxLifeTime);
+	parameters.add(minSpeed);
+	parameters.add(maxSpeed);
+}
 
 void EnergyBurst::update(u_long nowMS){
 	now = nowMS;

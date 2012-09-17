@@ -10,7 +10,13 @@
 #include "ofAppRunner.h"
 #include "ofxTween.h"
 
-ofParameter<int> LEDStrip::fadeTime("LED_fadeTime",200,0,2000);
+ofParameter<int> LEDStrip::fadeTime("fadeTime",200,0,2000);
+ofParameterGroup LEDStrip::parameters;
+
+void LEDStrip::initClassParameters(){
+	parameters.setName("LEDStrip");
+	parameters.add(fadeTime);
+}
 
 void LEDStrip::setup(u_int _h, float _position,float _radius){
 	position = _position;

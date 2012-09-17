@@ -9,15 +9,14 @@ void testApp::setup(){
 
 	twitterListener.setup();
 
+	LEDStrip::initClassParameters();
+	EnergyBurst::initClassParameters();
+
 	gui.setup("parameters");
 	gui.add(currentTag.setup("",twitterListener.hashtag));
 	gui.add(changeTag.setup("changeHashtag"));
-	gui.add(LEDStrip::fadeTime);
-	gui.add(EnergyBurst::decayPct);
-	gui.add(EnergyBurst::minLifeTime);
-	gui.add(EnergyBurst::maxLifeTime);
-	gui.add(EnergyBurst::minSpeed);
-	gui.add(EnergyBurst::maxSpeed);
+	gui.add(LEDStrip::parameters);
+	gui.add(EnergyBurst::parameters);
 	gui.add(useColors.set("useColors",false));
 	gui.add(twitterListener.parameters);
 	gui.add(wall.parameters);

@@ -8,14 +8,18 @@
 #ifndef ENERGYBURST_H_
 #define ENERGYBURST_H_
 
+#include <set>
 #include "ofUtils.h"
 #include "ofVec2f.h"
 #include "ofConstants.h"
+#include "ofParameter.h"
+#include "ofParameterGroup.h"
 #include "LEDStrip.h"
-#include <set>
 
 class EnergyBurst {
 public:
+	static void initClassParameters();
+
 	EnergyBurst(ofVec2f pos,  const ofColor & color=ofColor(), u_long startTime=ofGetElapsedTimeMillis())
 	:startPosition(pos)
 	,currentPositionL(pos)
@@ -59,6 +63,7 @@ public:
 	static ofParameter<float> maxLifeTime;
 	static ofParameter<float> minSpeed;
 	static ofParameter<float> maxSpeed;
+	static ofParameterGroup parameters;
 
 private:
 	bool lCycle,rCycle;
