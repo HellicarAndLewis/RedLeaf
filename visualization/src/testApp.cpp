@@ -46,8 +46,17 @@ void testApp::draw(){
 	gui.draw();
 }
 
+ofColor testApp::niceRandomColor(){
+	ofColor c;
+	unsigned char hue = ofRandom(255);
+	unsigned char sat = ofRandom(190,256);
+	unsigned char bri = ofRandom(190,256);
+	c.setHsb(hue,sat,bri);
+	return c;
+}
+
 void testApp::newTweet(const Tweet & tweet){
-	wall.energyBurst(ofRandom(1),.5);
+	wall.energyBurst(ofRandom(1),.5,niceRandomColor());
 }
 
 //--------------------------------------------------------------
@@ -73,7 +82,7 @@ void testApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
 	if(x>wall.vizX)
-		wall.energyBurst(float(x-wall.vizX)/float(1024),float(y)/float(ofGetHeight()));
+		wall.energyBurst(float(x-wall.vizX)/float(1024), float(y)/float(ofGetHeight()), niceRandomColor());
 }
 
 //--------------------------------------------------------------

@@ -32,7 +32,9 @@ void LEDStrip::trigger(const ofColor & rgb, u_long now){
 void LEDStrip::update(u_long now){
 	float t = float(now-triggerTime)/float(fadeTime);
 	ofxEasingSine easing;
-	color.set(ofxTween::map(t,0,1,triggerColor.r,0,true,easing),ofxTween::map(t,0,1,triggerColor.g,0,true,easing),ofxTween::map(t,0,1,triggerColor.b,0,true,easing));
+	color.set(ofxTween::map(t,0,1,triggerColor.r,0,true,easing),
+				ofxTween::map(t,0,1,triggerColor.g,0,true,easing),
+				ofxTween::map(t,0,1,triggerColor.b,0,true,easing));
 }
 
 void LEDStrip::draw(float x, float radiusScale, float renderW, float renderH){

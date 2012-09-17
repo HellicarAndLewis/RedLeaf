@@ -358,6 +358,6 @@ void Wall::mouseDragged(ofMouseEventArgs & mouse){
 	}
 }
 
-void Wall::energyBurst(float x, float y){
-	bursts.push_back(EnergyBurst(ofVec2f(x,.5)));
+void Wall::energyBurst(float x, float y, const ofColor & c){
+	bursts.push_back(EnergyBurst(ofVec2f(x,.5),c));
 }

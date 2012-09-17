@@ -39,7 +39,7 @@ bool EnergyBurst::triggeredAlready(LEDStrip & strip){
 }
 
 void EnergyBurst::trigger(LEDStrip & strip){
-	ofColor color = ofColor::white;
+	ofColor color = this->color;
 	float lifePct = float(now-startTime)/float(lifeTime);
 	if(lifePct>=decayPct){
 		color *= ofMap(lifePct,decayPct,1,1,0);

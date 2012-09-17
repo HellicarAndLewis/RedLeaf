@@ -16,7 +16,7 @@
 
 class EnergyBurst {
 public:
-	EnergyBurst(ofVec2f pos, u_long startTime=ofGetElapsedTimeMillis())
+	EnergyBurst(ofVec2f pos,  const ofColor & color=ofColor(), u_long startTime=ofGetElapsedTimeMillis())
 	:startPosition(pos)
 	,currentPositionL(pos)
 	,currentPositionR(pos)
@@ -25,6 +25,7 @@ public:
 	,lifeTime(ofRandom(minLifeTime,maxLifeTime))
 	,speed(ofRandom(minSpeed,maxSpeed))
 	,now(startTime)
+	,color(color)
 	,lCycle(false)
 	,rCycle(false){}
 
@@ -52,6 +53,7 @@ public:
 	float speed;
 	set<LEDStrip*> triggeredStrips;
 	u_long now;
+	ofColor color;
 	static ofParameter<float> decayPct;
 	static ofParameter<float> minLifeTime;
 	static ofParameter<float> maxLifeTime;

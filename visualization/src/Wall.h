@@ -22,7 +22,7 @@ public:
 	void update();
 	void draw();
 
-	void energyBurst(float x, float y);
+	void energyBurst(float x, float y, const ofColor & c);
 
 	ofParameter<int> w,h;
 	ofParameter<int> vizX;

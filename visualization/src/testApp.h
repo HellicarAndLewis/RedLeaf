@@ -25,6 +25,8 @@ class testApp : public ofBaseApp{
 		void newTweet(const Tweet & tweet);
 		void changeHashTag(bool & pressed);
 
+		ofColor niceRandomColor();
+
 		Wall wall;
 		ofxPanel gui;
 		ofxButton changeTag;
