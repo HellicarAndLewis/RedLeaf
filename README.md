@@ -16,6 +16,11 @@ to compile the application clone the repository with submodules:
 
 git clone --recursive git@github.com:HellicarAndLewis/RedLeaf
 
+the ofxHttpUtils addon needs the experimental branch to compile, once cloned the whole repository:
+
+cd addons/ofxHttpUtils
+git checkout experimental
+
 The code needs this specifc branch of openFrameworks to compile:
 
 https://github.com/arturoc/openFramewors/tree/arturodevelop
