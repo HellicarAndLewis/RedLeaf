@@ -18,3 +18,5 @@
 *.cbp
 *.workspace
 Makefile
+.DS_Store
+*/build
