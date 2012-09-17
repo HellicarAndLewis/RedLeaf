@@ -18,6 +18,7 @@ void testApp::setup(){
 	gui.add(EnergyBurst::maxLifeTime);
 	gui.add(EnergyBurst::minSpeed);
 	gui.add(EnergyBurst::maxSpeed);
+	gui.add(useColors.set("useColors",false));
 	gui.add(twitterListener.parameters);
 	gui.add(wall.parameters);
 	gui.loadFromFile("settings.xml");
@@ -56,7 +57,7 @@ ofColor testApp::niceRandomColor(){
 }
 
 void testApp::newTweet(const Tweet & tweet){
-	wall.energyBurst(ofRandom(1),.5,niceRandomColor());
+	wall.energyBurst(ofRandom(1),.5,useColors ? niceRandomColor() : ofColor::white);
 }
 
 //--------------------------------------------------------------
@@ -82,7 +83,7 @@ void testApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
 	if(x>wall.vizX)
-		wall.energyBurst(float(x-wall.vizX)/float(1024), float(y)/float(ofGetHeight()), niceRandomColor());
+		wall.energyBurst(float(x-wall.vizX)/float(1024), float(y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
 }
 
 //--------------------------------------------------------------

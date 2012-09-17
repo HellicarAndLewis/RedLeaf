@@ -31,5 +31,6 @@ class testApp : public ofBaseApp{
 		ofxPanel gui;
 		ofxButton changeTag;
 		ofxLabel currentTag;
+		ofParameter<bool> useColors;
 		TwitterListener twitterListener;
 };
