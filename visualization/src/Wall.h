@@ -8,13 +8,14 @@
 #ifndef WALL_H_
 #define WALL_H_
 
-#include "LEDStrip.h"
+#include <list>
 #include "ofConstants.h"
-#include "EnergyBurst.h"
 #include "ofParameterGroup.h"
 #include "ofFbo.h"
 #include "ofVboMesh.h"
-#include <list>
+#include "ofImage.h"
+#include "LEDStrip.h"
+#include "EnergyBurst.h"
 
 class Wall {
 public:
@@ -36,6 +37,7 @@ public:
 		Continuous,
 		Separate,
 		ThreeD,
+		Output,
 		NumModes
 	};
 private:
@@ -50,6 +52,7 @@ private:
 	ofVec2f startRotation3D;
 	ofVboMesh building;
 	ofVboMesh buildingWireframe;
+	ofImage outputBuffer;
 };
 
 #endif /* WALL_H_ */

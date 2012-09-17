@@ -57,3 +57,7 @@ void LEDStrip::draw(float x, float radiusScale, float renderW, float renderH){
 float LEDStrip::getPosition(){
 	return position;
 }
+
+const ofColor & LEDStrip::getColor() const{
+	return color;
+}

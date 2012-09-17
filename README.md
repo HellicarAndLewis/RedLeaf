@@ -84,6 +84,8 @@ Wall
 
 		** 3D!: yay, drag the mouse over the model to rotate it in 3D. Press on the line at the bottom to create a burst in that position, the walls in the 3d model are numbered
 		
+		** Output: outputs a line of pixels with a pixel per strip, needs to be send to a different screen yet
+		
 - *rotation3D:* shows the current rotation in the model, not really needed cause the model can be rotated dragging the mouse over it.
 		
 

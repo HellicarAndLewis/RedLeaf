@@ -23,6 +23,7 @@ public:
 	void draw(float x, float radiusScale, float w=ofGetWidth(), float h=ofGetHeight());
 
 	float getPosition();
+	const ofColor & getColor() const;
 
 	static ofParameter<int> fadeTime;
 	static ofParameterGroup parameters;

@@ -148,6 +148,8 @@ void Wall::reset(){
 	building = generateBuilding(renderW,renderH,renderW,true);
 	buildingWireframe = generateBuilding(renderW+3,renderH+3,renderW+3,false);
 
+	outputBuffer.allocate(w,1,OF_IMAGE_COLOR_ALPHA);
+
 	//building.save("building.ply");
 
 	ofFbo::Settings settings;
@@ -290,7 +292,7 @@ void Wall::draw(){
 		ofPopMatrix();
 		ofPopView();
 	}break;
-	case ThreeD:
+	case ThreeD:{
 		ofRectangle viewport(vizX,0,renderW,ofGetHeight());
 		ofPushView();
 		ofViewport(viewport);
@@ -338,6 +340,13 @@ void Wall::draw(){
 		buildingWireframe.draw();
 		ofPopView();
 		glDisable(GL_DEPTH_TEST);
+	}break;
+	case Output:
+		for(int i=0;i<w;i++){
+			outputBuffer.getPixelsRef().setColor(i,0,strips[i].getColor());
+		}
+		outputBuffer.update();
+		outputBuffer.draw(vizX,20);
 		break;
 
 	}
