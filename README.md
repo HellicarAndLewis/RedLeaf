@@ -8,6 +8,28 @@ Visualization App
 
 The visualization app shows a simulation of the real wall were the parameters for the lights can be adjusted.
 
+
+Compiling
+=========
+
+to compile the application clone the repository with submodules:
+
+git clone --recursive git@github.com:HellicarAndLewis/RedLeaf
+
+The code needs this specifc branch of openFrameworks to compile:
+
+https://github.com/arturoc/openFramewors/tree/arturodevelop
+
+to pull it into an existing openFrameworks git download:
+
+git checkout -b arturodevelop
+git pull https://github.com/arturoc/openFrameworks arturodevelop
+
+
+
+User manual
+===========
+
 In the parameters gui there's controls to change:
 
 General Parameters
