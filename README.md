@@ -42,7 +42,8 @@ General Parameters
 
 - *changeHashTag:* when pressing it, it shows a text box that allows the current twitter hashtag that the application listens for. Whenever there's a new hashtag the application creates an energy burst in a random position in the wall that travels across it with a random life and speed
 
-- *useColors:* if activated the energy bursts will use random hue instead of pure white
+- *startTest:* starts the test mode showing 3 different test patterns, the whole wall with one color, strip by strip with and strip by strip without turning off the previous strips. All the test patterns are repeated 4 times one per primary color (rgb) + white
+
 
 Twitter
 =======
@@ -87,6 +88,10 @@ Wall
 		** Output: outputs a line of pixels with a pixel per strip, needs to be send to a different screen yet
 		
 - *rotation3D:* shows the current rotation in the model, not really needed cause the model can be rotated dragging the mouse over it.
+
+- *useColors:* if activated the energy bursts will use random hue instead of pure white
+
+- *testStateMillis:* duration of each test state in milliseconds
 		
 
 		
