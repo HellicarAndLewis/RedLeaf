@@ -34,4 +34,5 @@ class testApp : public ofBaseApp{
 		ofxButton startTest;
 		ofxLabel currentTag;
 		TwitterListener twitterListener;
+		bool cursorHidden;
 };

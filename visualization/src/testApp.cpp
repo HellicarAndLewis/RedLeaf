@@ -29,6 +29,8 @@ void testApp::setup(){
 	changeTag.addListener(this,&testApp::changeHashTag);
 	startTest.addListener(this,&testApp::startTestPressed);
 
+	cursorHidden = false;
+
 	ofAddListener(twitterListener.newTweetE,this,&testApp::newTweet);
 	twitterListener.start();
 }
@@ -60,7 +62,14 @@ void testApp::newTweet(const Tweet & tweet){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
+	if(key=='m'){
+		if(!cursorHidden) ofHideCursor();
+		else ofShowCursor();
+		cursorHidden = !cursorHidden;
+	}
+	if(key=='f'){
+		ofToggleFullscreen();
+	}
 }
 
 //--------------------------------------------------------------
