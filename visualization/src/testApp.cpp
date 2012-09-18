@@ -1,4 +1,7 @@
 #include "testApp.h"
+#include "Poco/DateTimeFormatter.h"
+#include "Poco/DateTimeFormat.h"
+#include "Poco/DateTime.h"
 
 //--------------------------------------------------------------
 void testApp::setup(){
@@ -46,9 +49,9 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 	wall.draw();
-
-
 	gui.draw();
+	Poco::LocalDateTime date;
+	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),ofGetWidth()-210,20);
 }
 
 void testApp::newTweet(const Tweet & tweet){

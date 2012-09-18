@@ -35,5 +35,10 @@
 			<type>2</type>
 			<location>/home/arturo/Desktop/openFrameworks/addons/ofxTween</location>
 		</link>
+		<link>
+			<name>ofxTwitter</name>
+			<type>2</type>
+			<location>/home/arturo/Desktop/openFrameworks/addons/ofxTwitter</location>
+		</link>
 	</linkedResources>
 </projectDescription>
