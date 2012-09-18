@@ -28,14 +28,19 @@ void LEDStrip::setup(u_int _h, float _position,float _radius){
 }
 
 void LEDStrip::trigger(const ofColor & rgb, u_long now){
-	color.r = max(color.r,rgb.r);
-	color.g = max(color.g,rgb.g);
-	color.b = max(color.b,rgb.b);
+	if(testMode){
+		color = rgb;
+	}else{
+		color.r = max(color.r,rgb.r);
+		color.g = max(color.g,rgb.g);
+		color.b = max(color.b,rgb.b);
+	}
 	triggerColor = color;
 	triggerTime = now;
 }
 
 void LEDStrip::update(u_long now){
+	if(testMode) return;
 	float t = float(now-triggerTime)/float(fadeTime);
 	ofxEasingSine easing;
 	color.set(ofxTween::map(t,0,1,triggerColor.r,0,true,easing),
@@ -60,4 +65,8 @@ float LEDStrip::getPosition(){
 
 const ofColor & LEDStrip::getColor() const{
 	return color;
+}
+
+void LEDStrip::setTestMode(bool _testMode){
+	testMode = _testMode;
 }

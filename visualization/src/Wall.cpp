@@ -30,28 +30,13 @@ ofMesh generateBuilding(float sizeW, float sizeH, float sizeD, bool fill){
 		};
 		vertexData.addVertices(vertices,24);
 
-		/*static ofVec3f normals[] = {
-			ofVec3f(+1,0,0), ofVec3f(+1,0,0), ofVec3f(+1,0,0), ofVec3f(+1,0,0),
-			ofVec3f(0,+1,0), ofVec3f(0,+1,0), ofVec3f(0,+1,0), ofVec3f(0,+1,0),
-			ofVec3f(0,0,+1), ofVec3f(0,0,+1), ofVec3f(0,0,+1), ofVec3f(0,0,+1),
-			ofVec3f(-1,0,0), ofVec3f(-1,0,0), ofVec3f(-1,0,0), ofVec3f(-1,0,0),
-			ofVec3f(0,-1,0), ofVec3f(0,-1,0), ofVec3f(0,-1,0), ofVec3f(0,-1,0),
-			ofVec3f(0,0,-1), ofVec3f(0,0,-1), ofVec3f(0,0,-1), ofVec3f(0,0,-1)
-		};
-		vertexData.addNormals(normals,24);*/
-
 		static ofVec2f tex[] = {
 			ofVec2f(0,0), ofVec2f(.25,0), ofVec2f(.25,1), ofVec2f(0,1),
 			ofVec2f(0,0), ofVec2f(0,1), ofVec2f(0,0), ofVec2f(0,0),
 			ofVec2f(1,1), ofVec2f(.75,1), ofVec2f(.75,0), ofVec2f(1,0),
 			ofVec2f(.75,0), ofVec2f(.75,1),  ofVec2f(.50,1),ofVec2f(.50,0),
 			ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0),
-			ofVec2f(.50,0), ofVec2f(.5,1), ofVec2f(.25,1), ofVec2f(.25,0),
-			/*ofVec2f(.50,1), ofVec2f(.5,0), ofVec2f(.25,0), ofVec2f(.25,1),
-			ofVec2f(.50,1), ofVec2f(.75,1), ofVec2f(.75,0), ofVec2f(.50,0),
-			ofVec2f(.25,0), ofVec2f(0,0), ofVec2f(0,1), ofVec2f(.25,1),
-			ofVec2f(.50,1), ofVec2f(.75,1), ofVec2f(.75,0), ofVec2f(.50,0),
-			ofVec2f(.75,0), ofVec2f(.75,1), ofVec2f(1,1), ofVec2f(1,0),*/
+			ofVec2f(.50,0), ofVec2f(.5,1), ofVec2f(.25,1), ofVec2f(.25,0)
 		};
 		vertexData.addTexCoords(tex,24);
 
@@ -71,7 +56,6 @@ ofMesh generateBuilding(float sizeW, float sizeH, float sizeD, bool fill){
 		};
 		vertexData.addIndices(indices,36);
 		vertexData.setMode(OF_PRIMITIVE_TRIANGLES);
-		//ofGetCurrentRenderer()->draw(vertexData,vertexData.usingColors(),vertexData.usingTextures(),vertexData.usingNormals());
 	} else {
 		ofVec3f vertices[] = {
 			ofVec3f(+w,+h,+d),
@@ -85,28 +69,13 @@ ofMesh generateBuilding(float sizeW, float sizeH, float sizeD, bool fill){
 		};
 		vertexData.addVertices(vertices,8);
 
-		static float n = sqrtf(3);
-		static ofVec3f normals[] = {
-			ofVec3f(+n,+n,+n),
-			ofVec3f(+n,+n,-n),
-			ofVec3f(+n,-n,+n),
-			ofVec3f(+n,-n,-n),
-			ofVec3f(-n,+n,+n),
-			ofVec3f(-n,+n,-n),
-			ofVec3f(-n,-n,+n),
-			ofVec3f(-n,-n,-n)
-		};
-		vertexData.addNormals(normals,8);
-
 		static ofIndexType indices[] = {
 			0,1, 1,3, 3,2, 2,0,
 			4,5, 5,7, 7,6, 6,4,
 			0,4, 5,1, 7,3, 6,2
 		};
 		vertexData.addIndices(indices,24);
-
 		vertexData.setMode(OF_PRIMITIVE_LINES);
-		//ofGetCurrentRenderer()->draw(vertexData, vertexData.usingColors(),vertexData.usingTextures(),vertexData.usingNormals());
 	}
 
 	return vertexData;
@@ -116,13 +85,15 @@ void Wall::setup(){
 	parameters.setName("Wall");
 	parameters.add(w.set("w",180,0,200));
 	parameters.add(h.set("h",100,0,200));
+	parameters.add(useColors.set("useColors",false));
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
 	parameters.add(z.set("z",.7,.5,2));
 	vizX.set("vizX",250,0,300);
 	renderW.set("renderW",1024,256,2048);
 	renderH.set("renderH",512,256,2048);
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
-	parameters.add(rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180)));
+	parameters.add(testStateMillis.set("testStateMillis",1000,100,10000));
+	rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180));
 	w.addListener(this,&Wall::sizeChanged);
 	h.addListener(this,&Wall::sizeChanged);
 	renderMode.addListener(this,&Wall::sizeChanged);
@@ -163,32 +134,187 @@ void Wall::reset(){
 
 void Wall::update(){
 	u_long now = ofGetElapsedTimeMillis();
-	vector<list<EnergyBurst>::iterator > toDelete;
-	list<EnergyBurst>::iterator it;
-	for(it = bursts.begin(); it!=bursts.end(); ++it){
-		EnergyBurst & burst = *it;
-		burst.update(now);
-		if(!burst.alive){
-			toDelete.push_back(it);
+	if(runningTest){
+		u_long msStripOn = double(testStateMillis)/double(w);
+		u_long currentTestEndTime = prevTestEndTime+testStateMillis;
+		if(testState>=9){
+			nextStripOn = double(now-prevTestEndTime)/double(testStateMillis)*w;
 		}else{
+			if(now-lastTimeStripChangedTest>=msStripOn){
+				prevStripOn = nextStripOn;
+				nextStripOn++;
+				lastTimeStripChangedTest = now;
+			}
+		}
+		switch(testState){
+		case AllRed:
 			for(u_int i=0;i<strips.size();++i){
-				if(!burst.triggeredAlready(strips[i])){
-					if((strips[i].getPosition()<burst.currentPositionR.x && strips[i].getPosition()>=burst.startPosition.x) ||
-						(burst.rightHasCycled() && strips[i].getPosition()<burst.currentPositionR.x))
-						burst.trigger(strips[i]);
-					if((strips[i].getPosition()>burst.currentPositionL.x && strips[i].getPosition()<=burst.startPosition.x) ||
-						(burst.leftHasCycled() && strips[i].getPosition()>burst.currentPositionL.x))
-						burst.trigger(strips[i]);
+				strips[i].trigger(ofColor::red,now);
+			}
+			if(now>=currentTestEndTime){
+				testState++;
+				prevTestEndTime = now;
+			}
+			break;
+		case AllGreen:
+			for(u_int i=0;i<strips.size();++i){
+				strips[i].trigger(ofColor::green,now);
+			}
+			if(now>=currentTestEndTime){
+				testState++;
+				prevTestEndTime = now;
+			}
+			break;
+		case AllBlue:
+			for(u_int i=0;i<strips.size();++i){
+				strips[i].trigger(ofColor::blue,now);
+			}
+			if(now>=currentTestEndTime){
+				testState++;
+				prevTestEndTime = now;
+			}
+			break;
+		case AllWhite:
+			for(u_int i=0;i<strips.size();++i){
+				strips[i].trigger(ofColor::white,now);
+			}
+			if(now>=currentTestEndTime){
+				testState++;
+				prevStripOn = -1;
+				nextStripOn = 0;
+				lastTimeStripChangedTest = now + msStripOn;
+				for(u_int i=0;i<strips.size();++i){
+					strips[i].trigger(ofColor::black,now);
+				}
+				prevTestEndTime = now;
+			}
+			break;
+		case RedOneByOne:
+			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+			if(nextStripOn>=w){
+				testState++;
+				prevStripOn = -1;
+				nextStripOn = 0;
+				lastTimeStripChangedTest = now + msStripOn;
+				prevTestEndTime = now;
+			}else{
+				strips[nextStripOn].trigger(ofColor::red,now);
+			}
+			break;
+		case GreenOneByOne:
+			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+			if(nextStripOn>=w){
+				testState++;
+				prevStripOn = -1;
+				nextStripOn = 0;
+				lastTimeStripChangedTest = now + msStripOn;
+				prevTestEndTime = now;
+			}else{
+				strips[nextStripOn].trigger(ofColor::green,now);
+			}
+			break;
+		case BlueOneByOne:
+			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+			if(nextStripOn>=w){
+				testState++;
+				prevStripOn = -1;
+				nextStripOn = 0;
+				lastTimeStripChangedTest = now + msStripOn;
+				prevTestEndTime = now;
+			}else{
+				strips[nextStripOn].trigger(ofColor::blue,now);
+			}
+			break;
+		case WhiteOneByOne:
+			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+			if(nextStripOn>=w){
+				testState++;
+				prevStripOn = -1;
+				nextStripOn = 0;
+				lastTimeStripChangedTest = now + msStripOn;
+				lastStripTestOn = 0;
+				prevTestEndTime = now;
+			}else{
+				strips[nextStripOn].trigger(ofColor::white,now);
+			}
+			break;
+		case ProgressiveRed:
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+				strips[i].trigger(ofColor::red,now);
+			}
+			lastStripTestOn = min((int)nextStripOn,(int)w);
+			if(now>=currentTestEndTime){
+				testState++;
+				lastStripTestOn = 0;
+				prevTestEndTime = now;
+			}
+			break;
+		case ProgressiveGreen:
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+				strips[i].trigger(ofColor::green,now);
+			}
+			lastStripTestOn = min((int)nextStripOn,(int)w);
+			if(now>=currentTestEndTime){
+				testState++;
+				lastStripTestOn = 0;
+				prevTestEndTime = now;
+			}
+			break;
+		case ProgressiveBlue:
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+				strips[i].trigger(ofColor::blue,now);
+			}
+			lastStripTestOn = min((int)nextStripOn,(int)w);
+			if(now>=currentTestEndTime){
+				testState++;
+				lastStripTestOn = 0;
+				prevTestEndTime = now;
+			}
+			break;
+		case ProgressiveWhite:
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+				strips[i].trigger(ofColor::white,now);
+			}
+			lastStripTestOn = min((int)nextStripOn,(int)w);
+			if(now>=currentTestEndTime){
+				testState=0;
+				lastStripTestOn = 0;
+				runningTest = false;
+				for(u_int i=0;i<strips.size();++i){
+					strips[i].setTestMode(false);
+				}
+			}
+			break;
+			break;
+		}
+	}else{
+		vector<list<EnergyBurst>::iterator > toDelete;
+		list<EnergyBurst>::iterator it;
+		for(it = bursts.begin(); it!=bursts.end(); ++it){
+			EnergyBurst & burst = *it;
+			burst.update(now);
+			if(!burst.alive){
+				toDelete.push_back(it);
+			}else{
+				for(u_int i=0;i<strips.size();++i){
+					if(!burst.triggeredAlready(strips[i])){
+						if((strips[i].getPosition()<burst.currentPositionR.x && strips[i].getPosition()>=burst.startPosition.x) ||
+							(burst.rightHasCycled() && strips[i].getPosition()<burst.currentPositionR.x))
+							burst.trigger(strips[i]);
+						if((strips[i].getPosition()>burst.currentPositionL.x && strips[i].getPosition()<=burst.startPosition.x) ||
+							(burst.leftHasCycled() && strips[i].getPosition()>burst.currentPositionL.x))
+							burst.trigger(strips[i]);
+					}
 				}
 			}
 		}
-	}
-	for(u_int i=0;i<toDelete.size();++i){
-		bursts.erase(toDelete[i]);
-	}
+		for(u_int i=0;i<toDelete.size();++i){
+			bursts.erase(toDelete[i]);
+		}
 
-	for(u_int i=0;i<strips.size();++i){
-		strips[i].update(now);
+		for(u_int i=0;i<strips.size();++i){
+			strips[i].update(now);
+		}
 	}
 }
 
@@ -248,7 +374,6 @@ void Wall::draw(){
 		ofPushView();
 		ofViewport(viewport);
 		ofPushMatrix();
-		//ofTranslate(-renderW*.5,0);
 		for(u_int i=strips.size()*.25;i<strips.size()*.5;i++){
 			strips[i].draw((strips[i].getPosition()-.25)*4,radiusScale);
 		}
@@ -267,7 +392,6 @@ void Wall::draw(){
 		ofPushView();
 		ofViewport(viewport);
 		ofPushMatrix();
-		//ofTranslate(-renderW*.5,0);
 		for(u_int i=strips.size()*.5;i<strips.size()*.75;i++){
 			strips[i].draw((strips[i].getPosition()-.5)*4,radiusScale);
 		}
@@ -285,7 +409,6 @@ void Wall::draw(){
 		ofPushView();
 		ofViewport(viewport);
 		ofPushMatrix();
-		//ofTranslate(-renderW*.5,0);
 		for(u_int i=strips.size()*.75;i<strips.size();i++){
 			strips[i].draw((strips[i].getPosition()-.75)*4,radiusScale);
 		}
@@ -312,8 +435,6 @@ void Wall::draw(){
 
 		ofFill();
 		ofSetColor(255);
-		//ofRectangle viewport(0,0,renderFbo.getWidth()*.25,renderFbo.getHeight());
-		//ofViewport(viewport);
 		for(u_int i=0;i<strips.size();i++){
 			strips[i].draw(strips[i].getPosition(),radiusScale,renderFbo.getWidth(),renderFbo.getHeight());
 		}
@@ -353,20 +474,62 @@ void Wall::draw(){
 	//renderFbo.draw(vizX,20,renderFbo.getWidth()*.25,renderFbo.getHeight()*.25);
 }
 
+
+ofColor Wall::niceRandomColor(){
+	ofColor c;
+	unsigned char hue = ofRandom(255);
+	unsigned char sat = ofRandom(190,256);
+	unsigned char bri = ofRandom(190,256);
+	c.setHsb(hue,sat,bri);
+	return c;
+}
+
 void Wall::mousePressed(ofMouseEventArgs & mouse){
-	if(mouse.x>=vizX){
-		dragStart.set(mouse.x,mouse.y);
-		startRotation3D = rotation3D;
+	switch(renderMode){
+	case Continuous:
+	case Output:
+		if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH).inside(mouse.x,mouse.y)){
+			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
+		}
+		break;
+	case Separate:
+		if(ofRectangle(vizX,ofGetHeight()*.5-15,renderW,30).inside(mouse.x,mouse.y)){
+			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
+		}
+		break;
+	case ThreeD:
+		if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH-50).inside(mouse.x,mouse.y)){
+			dragStart.set(mouse.x,mouse.y);
+			startRotation3D = rotation3D;
+		}
+		if(ofRectangle(vizX,ofGetHeight()-50,renderW,50).inside(mouse.x,mouse.y)){
+			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
+		}
+		break;
+
 	}
+
 }
 
 void Wall::mouseDragged(ofMouseEventArgs & mouse){
-	if(mouse.x>=vizX && renderMode==ThreeD){
+	if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH-50).inside(mouse.x,mouse.y) && renderMode==ThreeD){
 		ofVec2f delta = ofVec2f(mouse.x,mouse.y)-dragStart;
 		rotation3D = startRotation3D + ofVec2f(ofMap(delta.x,-(ofGetWidth()-vizX), ofGetWidth()-vizX, -180, 180),ofMap(delta.y,-ofGetHeight(), ofGetHeight(), 180, -180));
 	}
 }
 
 void Wall::energyBurst(float x, float y, const ofColor & c){
-	bursts.push_back(EnergyBurst(ofVec2f(x,.5),c));
+	if(!runningTest) bursts.push_back(EnergyBurst(ofVec2f(x,.5),c));
+}
+
+void Wall::startTest(){
+	u_long now = ofGetElapsedTimeMillis();
+	for(u_int i=0;i<strips.size();++i){
+		strips[i].setTestMode(true);
+		strips[i].trigger(ofColor::black,now);
+	}
+	testState = AllRed;
+	testStartTime = now;
+	runningTest = true;
+	lastStripTestOn = 0;
 }

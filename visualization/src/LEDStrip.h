@@ -22,6 +22,8 @@ public:
 	void update(u_long now);
 	void draw(float x, float radiusScale, float w=ofGetWidth(), float h=ofGetHeight());
 
+	void setTestMode(bool testMode);
+
 	float getPosition();
 	const ofColor & getColor() const;
 
@@ -32,6 +34,7 @@ private:
 	float position, radius;
 	u_int h;
 	u_long triggerTime;
+	bool testMode;
 };
 
 #endif /* LEDSTRIP_H_ */

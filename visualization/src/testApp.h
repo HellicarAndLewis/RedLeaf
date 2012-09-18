@@ -24,13 +24,14 @@ class testApp : public ofBaseApp{
 		
 		void newTweet(const Tweet & tweet);
 		void changeHashTag(bool & pressed);
+		void startTestPressed(bool & pressed);
 
 		ofColor niceRandomColor();
 
 		Wall wall;
 		ofxPanel gui;
 		ofxButton changeTag;
+		ofxButton startTest;
 		ofxLabel currentTag;
-		ofParameter<bool> useColors;
 		TwitterListener twitterListener;
 };

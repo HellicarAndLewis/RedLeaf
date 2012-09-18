@@ -24,6 +24,8 @@ public:
 	void draw();
 
 	void energyBurst(float x, float y, const ofColor & c);
+	void startTest();
+	ofColor niceRandomColor();
 
 	ofParameter<int> w,h;
 	ofParameter<int> vizX;
@@ -32,6 +34,8 @@ public:
 	ofParameter<ofVec2f> rotation3D;
 	ofParameter<float> radiusScale;
 	ofParameter<float> z;
+	ofParameter<float> testStateMillis;
+	ofParameter<bool> useColors;
 	ofParameterGroup parameters;
 	enum RenderMode{
 		Continuous,
@@ -53,6 +57,30 @@ private:
 	ofVboMesh building;
 	ofVboMesh buildingWireframe;
 	ofImage outputBuffer;
+
+	enum TestState{
+		AllRed=1,
+		AllGreen,
+		AllBlue,
+		AllWhite,
+		RedOneByOne,
+		GreenOneByOne,
+		BlueOneByOne,
+		WhiteOneByOne,
+		ProgressiveRed,
+		ProgressiveGreen,
+		ProgressiveBlue,
+		ProgressiveWhite,
+		NumTestStates
+	};
+	int testState;
+	u_long testStartTime;
+	bool runningTest;
+	u_int lastStripTestOn;
+	u_int lastTimeStripChangedTest;
+	u_int nextStripOn;
+	int prevStripOn;
+	u_long prevTestEndTime;
 };
 
 #endif /* WALL_H_ */
