@@ -532,4 +532,6 @@ void Wall::startTest(){
 	testStartTime = now;
 	runningTest = true;
 	lastStripTestOn = 0;
+	nextStripOn = 0;
+	prevTestEndTime = now;
 }
