@@ -25,6 +25,7 @@ void LEDStrip::setup(u_int _h, float _position,float _radius){
 	color.set(0,0,0);
 	triggerColor = color;
 	triggerTime = 0;
+	testMode = false;
 }
 
 void LEDStrip::trigger(const ofColor & rgb, u_long now){

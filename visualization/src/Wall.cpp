@@ -101,6 +101,8 @@ void Wall::setup(){
 	ofAddListener(ofEvents().mousePressed,this,&Wall::mousePressed);
 	ofAddListener(ofEvents().mouseDragged,this,&Wall::mouseDragged);
 
+	runningTest = false;
+	
 	reset();
 }
 
