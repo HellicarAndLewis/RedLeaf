@@ -17,6 +17,7 @@
 #include "LEDStrip.h"
 #include "EnergyBurst.h"
 #include "AudioManager.h"
+#include "../../../../libs/openFrameworks/graphics/ofTrueTypeFont.h"
 
 class Wall {
 public:
@@ -38,6 +39,7 @@ public:
 	ofParameter<float> z;
 	ofParameter<float> testStateMillis;
 	ofParameter<bool> useColors;
+	ofParameter<bool> muted;
 	ofParameterGroup parameters;
 	enum RenderMode{
 		Continuous,
@@ -84,6 +86,7 @@ private:
 	u_int nextStripOn;
 	int prevStripOn;
 	u_long prevTestEndTime;
+	ofTrueTypeFont font;
 };
 
 #endif /* WALL_H_ */

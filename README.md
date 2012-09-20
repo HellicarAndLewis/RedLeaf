@@ -94,6 +94,8 @@ Wall
 - *useColors:* if activated the energy bursts will use random hue instead of pure white
 
 - *testStateMillis:* duration of each test state in milliseconds
+
+- *muted:* mutes the output on the wall
 		
 		
 Audio

@@ -100,6 +100,7 @@ void Wall::setup(){
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
 	parameters.add(testStateMillis.set("testStateMillis",1000,100,10000));
 	rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180));
+	parameters.add(muted.set("muted",false));
 	w.addListener(this,&Wall::sizeChanged);
 	h.addListener(this,&Wall::sizeChanged);
 	renderMode.addListener(this,&Wall::sizeChanged);
@@ -109,6 +110,8 @@ void Wall::setup(){
 
 	runningTest = false;
 	
+	font.loadFont("verdana.ttf",40,true,false);
+
 	reset();
 }
 
@@ -327,6 +330,7 @@ void Wall::update(){
 }
 
 void Wall::draw(){
+
 	switch (renderMode){
 	case Continuous:{
 		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
@@ -356,6 +360,7 @@ void Wall::draw(){
 			ofLine(x,ofGetHeight()*.5-10,x,ofGetHeight()*.5+10);
 		}
 		ofPopView();
+
 
 		viewport.set(vizX,float(ofGetHeight()-renderH)/3.,renderW*.5,renderH*.5);
 		ofNoFill();
@@ -438,6 +443,7 @@ void Wall::draw(){
 		}
 		ofPopView();
 
+
 		renderFbo.begin();
 		ofClear(0,255);
 
@@ -471,6 +477,7 @@ void Wall::draw(){
 		glDisable(GL_DEPTH_TEST);
 	}break;
 	case Output:
+		if(muted) break;
 		for(int i=0;i<w;i++){
 			outputBuffer.getPixelsRef().setColor(i,0,strips[i].getColor());
 		}
@@ -478,6 +485,12 @@ void Wall::draw(){
 		outputBuffer.draw(vizX,20);
 		break;
 
+	}
+	if(muted){
+		ofPushStyle();
+		ofSetColor(255,0,0);
+		font.drawString("Muted",vizX+20,80);
+		ofPopStyle();
 	}
 	//renderFbo.draw(vizX,20,renderFbo.getWidth()*.25,renderFbo.getHeight()*.25);
 }
