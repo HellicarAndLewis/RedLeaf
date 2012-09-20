@@ -71,3 +71,7 @@ const ofColor & LEDStrip::getColor() const{
 void LEDStrip::setTestMode(bool _testMode){
 	testMode = _testMode;
 }
+
+void LEDStrip::setAmplitude(float amp){
+	color *= amp;
+}

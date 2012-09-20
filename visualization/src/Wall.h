@@ -16,9 +16,11 @@
 #include "ofImage.h"
 #include "LEDStrip.h"
 #include "EnergyBurst.h"
+#include "AudioManager.h"
 
 class Wall {
 public:
+	void setAudioManager(AudioManager & audio);
 	void setup();
 	void update();
 	void draw();
@@ -57,6 +59,7 @@ private:
 	ofVboMesh building;
 	ofVboMesh buildingWireframe;
 	ofImage outputBuffer;
+	AudioManager * audio;
 
 	enum TestState{
 		AllRed=1,

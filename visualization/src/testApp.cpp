@@ -8,12 +8,18 @@ void testApp::setup(){
 	ofEnableAlphaBlending();
 	ofBackground(0);
 	ofSetVerticalSync(true);
+
+
+	LEDStrip::initClassParameters();
+	EnergyBurst::initClassParameters();
+
+	audio.setup();
+	wall.setAudioManager(audio);
 	wall.setup();
 
 	twitterListener.setup();
 
-	LEDStrip::initClassParameters();
-	EnergyBurst::initClassParameters();
+
 
 	gui.setup("parameters");
 	gui.add(currentTag.setup("",twitterListener.hashtag));
@@ -23,6 +29,7 @@ void testApp::setup(){
 	gui.add(EnergyBurst::parameters);
 	gui.add(twitterListener.parameters);
 	gui.add(wall.parameters);
+	gui.add(audio.parameters);
 	gui.loadFromFile("settings.xml");
 
 	//twitterListener.hashtag = "#RedLeaf";
@@ -46,6 +53,7 @@ void testApp::startTestPressed(bool & pressed){
 //--------------------------------------------------------------
 void testApp::update(){
 	wall.update();
+	audio.update();
 }
 
 //--------------------------------------------------------------
@@ -71,6 +79,7 @@ void testApp::keyPressed(int key){
 		ofToggleFullscreen();
 	}
 }
+
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){

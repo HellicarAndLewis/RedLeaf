@@ -37,6 +37,7 @@ User manual
 
 In the parameters gui there's controls to change:
 
+
 General Parameters
 ==================
 
@@ -66,6 +67,7 @@ EnergyBurst
 
 - *minSpeed / maxSpeed:* minimum/maximum speed of an energy burst in 0..1 percentage of the whole wall, where the whole wall is 1. the speed of each burst will be a random number between this two values
 
+
 Wall
 ====
 
@@ -93,7 +95,23 @@ Wall
 
 - *testStateMillis:* duration of each test state in milliseconds
 		
+		
+Audio
+=====
 
+- *audioInAmp:*  audio in immediate amplitude
+
+- *cutDown/cutUp:*  litmit the range of the input, cutDown helps to reduce noise, cutUp amplifies the input
+
+- *mappedAudioIn:* audio in amplitude mapped between cutDown and cutUp values
+
+- *smoothedAudioIn:* mapped amplitude is smoothed according to the smooth values so the level decay is slower. This is the value used for the visualization
+
+- *smoothFactor:* factor by which the amplitude is smoothed, goes from 0..0.9
+
+- *fineSmoothedFactor:* fine tuning slider for the smoothing factor, adds to the smoothFactor value to calculate the smoothed amplitude, goes from 0..0.09999
+
+- *audioEnabled:* when turned off the visualization is always at it's maximum brightness not influenced by the audio. The amplitude levels in the gui will still get updated
 		
 
 

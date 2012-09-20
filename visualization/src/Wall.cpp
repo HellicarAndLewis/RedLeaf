@@ -81,6 +81,12 @@ ofMesh generateBuilding(float sizeW, float sizeH, float sizeD, bool fill){
 	return vertexData;
 }
 
+
+void Wall::setAudioManager(AudioManager & _audio){
+	audio = &_audio;
+	audio->setLeds(strips);
+}
+
 void Wall::setup(){
 	parameters.setName("Wall");
 	parameters.add(w.set("w",180,0,200));

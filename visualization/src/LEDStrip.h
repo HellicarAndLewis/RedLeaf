@@ -26,6 +26,7 @@ public:
 
 	float getPosition();
 	const ofColor & getColor() const;
+	void setAmplitude(float amp);
 
 	static ofParameter<int> fadeTime;
 	static ofParameterGroup parameters;

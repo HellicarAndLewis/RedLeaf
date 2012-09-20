@@ -4,6 +4,7 @@
 #include "Wall.h"
 #include "ofxGui.h"
 #include "TwitterListener.h"
+#include "AudioManager.h"
 
 class testApp : public ofBaseApp{
 
@@ -28,11 +29,15 @@ class testApp : public ofBaseApp{
 
 		ofColor niceRandomColor();
 
-		Wall wall;
 		ofxPanel gui;
 		ofxButton changeTag;
 		ofxButton startTest;
 		ofxLabel currentTag;
-		TwitterListener twitterListener;
 		bool cursorHidden;
+
+
+		Wall wall;
+		TwitterListener twitterListener;
+		AudioManager audio;
+
 };
