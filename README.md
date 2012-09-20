@@ -112,6 +112,8 @@ Audio
 - *fineSmoothedFactor:* fine tuning slider for the smoothing factor, adds to the smoothFactor value to calculate the smoothed amplitude, goes from 0..0.09999
 
 - *audioEnabled:* when turned off the visualization is always at it's maximum brightness not influenced by the audio. The amplitude levels in the gui will still get updated
+
+- *audioTest:* tests the audio levels on the wall, all the strips will be lighten up with the level of the audio
 		
 
 

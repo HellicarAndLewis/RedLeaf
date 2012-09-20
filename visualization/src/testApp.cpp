@@ -13,9 +13,9 @@ void testApp::setup(){
 	LEDStrip::initClassParameters();
 	EnergyBurst::initClassParameters();
 
-	audio.setup();
 	wall.setAudioManager(audio);
 	wall.setup();
+	audio.setup();
 
 	twitterListener.setup();
 

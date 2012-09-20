@@ -295,7 +295,7 @@ void Wall::update(){
 			break;
 			break;
 		}
-	}else{
+	}else if(!audio->audioTest){
 		vector<list<EnergyBurst>::iterator > toDelete;
 		list<EnergyBurst>::iterator it;
 		for(it = bursts.begin(); it!=bursts.end(); ++it){
