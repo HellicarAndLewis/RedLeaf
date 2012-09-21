@@ -17,7 +17,7 @@
 #include "LEDStrip.h"
 #include "EnergyBurst.h"
 #include "AudioManager.h"
-#include "../../../../libs/openFrameworks/graphics/ofTrueTypeFont.h"
+#include "ofTrueTypeFont.h"
 
 class Wall {
 public:
