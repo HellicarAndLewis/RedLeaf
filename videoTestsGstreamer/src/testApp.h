@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxGui.h"
+#include "ofxAxisGrabber.h"
+#include "ofxGstVideoRecorder.h"
 
 class testApp : public ofBaseApp{
 
@@ -19,7 +22,20 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		ofVideoPlayer gst;
-		ofTexture tex;
+		void autofocusPressed(bool & pressed);
+		void recordPressed(bool & record);
+		void showFocusWindowChanged(bool & sfw);
 
+		ofVideoGrabber 			grabber;
+		ofPtr<ofxAxisGrabber> 	axis;
+		bool settingFocusWindow;
+		ofRectangle focusWindow;
+
+		ofxPanel gui;
+		ofxButton autofocus;
+		ofParameter<bool> showFocusWindow;
+		ofParameter<bool> record;
+
+		ofVideoPlayer player;
+		ofxGstVideoRecorder gstRecorder;
 };

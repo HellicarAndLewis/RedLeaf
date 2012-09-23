@@ -24,4 +24,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>ofxHttpUtils</name>
+			<type>2</type>
+			<location>/home/arturo/Desktop/openFrameworks/addons/ofxHttpUtils</location>
+		</link>
+	</linkedResources>
 </projectDescription>
