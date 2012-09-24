@@ -9,10 +9,10 @@
 #define OFXAXISGRABBER_H_
 
 #include "ofBaseTypes.h"
-#include "ofVideoPlayer.h"
 #include "ofParameter.h"
 #include "ofParameterGroup.h"
 #include "ofxHttpUtils.h"
+#include "ofGstUtils.h"
 
 class ofxAxisGrabber: public ofBaseVideoGrabber {
 public:

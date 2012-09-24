@@ -1,26 +1,75 @@
 #include "testApp.h"
+
+
 //--------------------------------------------------------------
 void testApp::setup(){
+	settingFocusWindow = false;
+	
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	axis = ofPtr<ofxAxisGrabber>(new ofxAxisGrabber);
-	axis->setCameraAddress("10.42.0.23");
+
+	gui.setup("camera","settings.xml",650,10);
+	parameters.setName("generalConfig");
+	parameters.add(showFocusWindow.set("showFocusWindow",false));
+	parameters.add(record.set("record",false));
+	parameters.add(resolution.set("resolution",1,0,3));
+	parameters.add(address.set("address","192.168.0.90"));
+				   
+	gui.add(autofocus.setup("autofocus"));
+	gui.add(changeIp.setup("changeIp"));
+	gui.add(parameters);
+	
+	axis->setCameraAddress(address);
 	axis->setParametersRefreshRate(5000);
 	axis->setDesiredFrameRate(30);
 	axis->setCodec(ofxAxisGrabber::H264);
 	axis->setAuth("root","asdqwe");
+	
+	gui.add(axis->parameters);
+	gui.getGroup(address).getIntSlider("focus").setUpdateOnReleaseOnly(true);
+	gui.getGroup("generalConfig").getIntSlider("resolution").setUpdateOnReleaseOnly(true);
+	
 	grabber.setGrabber(axis);
 	grabber.initGrabber(640,480);
-
-	gui.setup("","settings.xml",650,10);
-	gui.add(autofocus.setup("autofocus"));
-	gui.add(showFocusWindow.set("showFocusWindow",false));
-	gui.add(record.set("record",false));
-	gui.add(axis->parameters);
-	gui.getGroup("10.42.0.23").getIntSlider("focus").setUpdateOnReleaseOnly(true);
 
 	autofocus.addListener(this,&testApp::autofocusPressed);
 	showFocusWindow.addListener(this,&testApp::showFocusWindowChanged);
 	record.addListener(this,&testApp::recordPressed);
+	changeIp.addListener(this,&testApp::changeIpPressed);
+	resolution.addListener(this,&testApp::resolutionChanged);
+}
+
+			
+void testApp::changeIpPressed(bool & pressed){
+	if(!pressed){
+		address = ofSystemTextBoxDialog("ip", address);
+		reset();
+	}
+}
+
+void testApp::resolutionChanged(int & resolution){
+	reset();
+}
+
+void testApp::reset(){
+	grabber.close();
+	axis->setCameraAddress(address);
+	switch (resolution) {
+		case 0:
+			grabber.initGrabber(320, 240);
+			break;
+		case 1:
+			grabber.initGrabber(640, 480);
+			break;
+		case 2:
+			grabber.initGrabber(800, 600);
+			break;
+		case 3:
+			grabber.initGrabber(1280, 720);
+			break;
+		default:
+			break;
+	}
 }
 
 void testApp::autofocusPressed(bool & pressed){
@@ -34,7 +83,8 @@ void testApp::showFocusWindowChanged(bool & sfw){
 
 void testApp::recordPressed(bool & record){
 	if(record){
-		gstRecorder.setup(640,480,24,ofGetTimestampString()+".mov",ofxGstVideoRecorder::JPEG,30);
+		ofDirectory(ofGetTimestampString()).create();
+		gstRecorder.setup(640,480,24,ofGetTimestampString()+"/0.png",ofxGstVideoRecorder::PNG_SEQUENCE,axis->fps);
 	}else{
 		gstRecorder.shutdown();
 	}

@@ -21,10 +21,14 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+	
+		void reset();
 		
 		void autofocusPressed(bool & pressed);
 		void recordPressed(bool & record);
 		void showFocusWindowChanged(bool & sfw);
+		void changeIpPressed(bool & pressed);
+		void resolutionChanged(int & resolution);
 
 		ofVideoGrabber 			grabber;
 		ofPtr<ofxAxisGrabber> 	axis;
@@ -35,6 +39,10 @@ class testApp : public ofBaseApp{
 		ofxButton autofocus;
 		ofParameter<bool> showFocusWindow;
 		ofParameter<bool> record;
+		ofxButton changeIp;
+		ofParameter<int> resolution;
+		ofParameter<string> address;
+		ofParameterGroup parameters;
 
 		ofVideoPlayer player;
 		ofxGstVideoRecorder gstRecorder;

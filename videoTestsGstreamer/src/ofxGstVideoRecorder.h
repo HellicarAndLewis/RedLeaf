@@ -22,7 +22,7 @@ typedef struct
   int fps;
 } AppData;
 
-class ofxGstVideoRecorder: public ofGstVideoUtils {
+class ofxGstVideoRecorder: public ofGstUtils {
 public:
 	ofxGstVideoRecorder();
 	virtual ~ofxGstVideoRecorder();
@@ -37,9 +37,11 @@ public:
 		QT_ANIM,
 		PDF,
 		PNG_SEQUENCE,
+		JPEG_SEQUENCE,
 		FLV,
 		FLV_H264,
 		YUV,
+		Y4M,
 		DIRAC
 	};
 

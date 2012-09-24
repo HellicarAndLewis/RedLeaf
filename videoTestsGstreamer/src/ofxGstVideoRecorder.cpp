@@ -8,6 +8,7 @@
 #include "ofxGstVideoRecorder.h"
 #include <gst/app/gstappsink.h>
 #include <gst/app/gstappbuffer.h>
+#include "ofAppRunner.h"
 
 ofxGstVideoRecorder::ofxGstVideoRecorder() {
 	bIsTcpStream = false;
@@ -19,6 +20,10 @@ void ofxGstVideoRecorder::shutdown()
 {
     if(gstSrc)
 	    gst_app_src_end_of_stream (gstSrc);
+	if(getPipeline()) gst_element_send_event (getPipeline(), gst_event_new_eos());
+	close();
+	gst_object_unref(gstSrc);
+	gstSrc = NULL;
 }
 
 ofxGstVideoRecorder::~ofxGstVideoRecorder() {
@@ -43,15 +48,16 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	//gst_debug_set_active (true);
 
 	if(!bIsTcpStream && !bIsUdpStream)
-		sink= "filesink name=video-sink sync=false location=" + file;
+		sink= "filesink name=video-sink location=" + file;
 
 	string encoder;
-	string muxer;
+	string muxer = "avimux ! ";
 
 	if(ofFilePath(file).getExtension()=="avi") muxer = "avimux ! ";
 	else if(ofFilePath(file).getExtension()=="mp4") muxer = "mp4mux ! ";
 	else if(ofFilePath(file).getExtension()=="mov") muxer = "qtmux ! ";
 	else if(ofFilePath(file).getExtension()=="mkv") muxer = "matroskamux ! ";
+	else if(ofFilePath(file).getExtension()=="ogg" || ofFilePath(file).getExtension()=="ogv") muxer = "oggmux ! ";
 
 	string pay = "";
 	string videorate = "videorate ! video/x-raw-yuv,framerate="+ofToString(fps)+"/1 ! ";
@@ -67,15 +73,22 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 		pay = "rtph264pay pt=96 !";
 	break;
 	case MP4:
-		encoder = "ffenc_mpeg4 ! ";
+		encoder = "ffenc_mpeg4 bitrate=2000000 ! ";
 		pay = "rtpmp4vpay pt=96 !";
 	break;
 	case XVID:
 		encoder = "xvidenc ! ";
 	break;
 	case JPEG:
-		encoder = "jpegenc ! ";
+		encoder = "jpegenc quality=100 idct-method=float ! ";
 		pay = "rtpjpegpay pt=96 !";
+		break;
+	case JPEG_SEQUENCE:
+		encoder = "jpegenc quality=100 idct-method=float ! ";
+		pay = "";
+		sink = "multifilesink name=video-sink location=" + file.substr(0,file.rfind('.')) + "%05d" + file.substr(file.rfind('.'));
+		videorate = "";
+		muxer = "";
 	break;
 	case LOSLESS_JPEG:
 		encoder = "ffenc_ljpeg ! ";
@@ -107,6 +120,10 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 		encoder = "";
 		muxer = "avimux ! ";
 	break;
+	case Y4M:
+		encoder = "y4menc !";
+		muxer = "";
+		break;
 	case DIRAC:
 		encoder = "schroenc ! ";
 		//muxer = "ffmux_dirac ! ";
@@ -155,12 +172,12 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	string pipeline_string = src + " ! " +
 									"queue ! ffmpegcolorspace ! " +
 									videorate +
-									 encoder + muxer +
-									 sink;
+									encoder + muxer +
+									sink;
 
 	ofLogVerbose() << "gstreamer pipeline: " << pipeline_string;
 
-	setPipelineWithSink(pipeline_string,"");
+	setPipelineWithSink(pipeline_string,"video-sink");
 
 	gstSrc = (GstAppSrc*)gst_bin_get_by_name(GST_BIN(getPipeline()),"video_src");
 	if(gstSrc){
@@ -181,5 +198,5 @@ void ofxGstVideoRecorder::newFrame(ofPixels & pixels){
 	if (flow_return != GST_FLOW_OK) {
 		ofLogError() << "error pushing buffer: flow_return was " << flow_return;
 	}
-	ofGstVideoUtils::update();
+	//ofGstVideoUtils::update();
 }
