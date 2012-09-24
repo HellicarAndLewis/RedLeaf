@@ -1,4 +1,5 @@
 #include "testApp.h"
+#include "ofxXmlSettings.h"
 
 
 //--------------------------------------------------------------
