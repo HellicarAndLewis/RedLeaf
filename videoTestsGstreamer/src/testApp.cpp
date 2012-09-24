@@ -1,5 +1,6 @@
 #include "testApp.h"
 #include "ofxXmlSettings.h"
+using namespace ofxCv;
 
 
 //--------------------------------------------------------------

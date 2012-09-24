@@ -4,6 +4,7 @@
 #include "ofxGui.h"
 #include "ofxAxisGrabber.h"
 #include "ofxGstVideoRecorder.h"
+#include "ofxCv.h"
 
 class testApp : public ofBaseApp{
 
@@ -44,6 +45,15 @@ class testApp : public ofBaseApp{
 		ofParameter<string> address;
 		ofParameterGroup parameters;
 
+		ofParameter<bool> cv;
+		ofParameter<int> thresholdLevel;
+		ofParameterGroup cvParameters;
+
 		ofVideoPlayer player;
 		ofxGstVideoRecorder gstRecorder;
+
+		ofPixels gray, prevFrame, diffFrame, color;
+		ofTexture tex;
+		ofxCv::ContourFinder contourFinder;
+
 };

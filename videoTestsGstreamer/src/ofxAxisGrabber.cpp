@@ -217,22 +217,25 @@ void ofxAxisGrabber::checkCompression(){
 }
 
 void ofxAxisGrabber::requestFocusWindow(){
-	string focusWindowStr = http.getUrl("http://"+cameraAddress+"/axis-cgi/param.cgi?action=list&group=ImageSource.I0.Focus.Window.W0&timestamp="+ofToString(ofGetSystemTime())).responseBody;
-	focusWindowStr = focusWindowStr.substr(string("ImageSource.I0.Focus.Window.W0=").size());
-	vector<string> coords = ofSplitString(focusWindowStr,":");
+	ofxHttpResponse response = http.getUrl("http://"+cameraAddress+"/axis-cgi/param.cgi?action=list&group=ImageSource.I0.Focus.Window.W0&timestamp="+ofToString(ofGetSystemTime()));
+	if(response.status==200){
+		string focusWindowStr = response.responseBody;
+		focusWindowStr = focusWindowStr.substr(string("ImageSource.I0.Focus.Window.W0=").size());
+		vector<string> coords = ofSplitString(focusWindowStr,":");
 
-	focusWindow.x = ofToFloat(ofSplitString(coords[0],",")[0]);
-	focusWindow.y = ofToFloat(ofSplitString(coords[0],",")[1]);
-	focusWindow.width = -(ofToFloat(ofSplitString(coords[1],",")[0])-focusWindow.x);
-	focusWindow.height = -(ofToFloat(ofSplitString(coords[2],",")[1])-focusWindow.y);
-	focusWindow.y = 1-focusWindow.y;
-	focusWindow.x = 1-focusWindow.x;
+		focusWindow.x = ofToFloat(ofSplitString(coords[0],",")[0]);
+		focusWindow.y = ofToFloat(ofSplitString(coords[0],",")[1]);
+		focusWindow.width = -(ofToFloat(ofSplitString(coords[1],",")[0])-focusWindow.x);
+		focusWindow.height = -(ofToFloat(ofSplitString(coords[2],",")[1])-focusWindow.y);
+		focusWindow.y = 1-focusWindow.y;
+		focusWindow.x = 1-focusWindow.x;
 
-	focusWindowScaled = focusWindow;
-	focusWindowScaled.x*=gst.getWidth();
-	focusWindowScaled.y*=gst.getHeight();
-	focusWindowScaled.width*=gst.getWidth();
-	focusWindowScaled.height*=gst.getHeight();
+		focusWindowScaled = focusWindow;
+		focusWindowScaled.x*=gst.getWidth();
+		focusWindowScaled.y*=gst.getHeight();
+		focusWindowScaled.width*=gst.getWidth();
+		focusWindowScaled.height*=gst.getHeight();
+	}
 }
 
 void ofxAxisGrabber::setManualIris(bool & manual){

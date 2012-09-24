@@ -1,3 +1,5 @@
 ofxGui
 ofxXmlSettings
 ofxHttpUtils
+ofxCv
+ofxOpenCv

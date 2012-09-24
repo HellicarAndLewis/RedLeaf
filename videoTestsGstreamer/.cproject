@@ -40,6 +40,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="ofxCv/example-undistortion|ofxCv/example-threshold|ofxCv/example-kalman|ofxCv/example-homography|ofxCv/example-flow|ofxCv/example-face|ofxCv/example-empty|ofxCv/example-edge|ofxCv/example-difference-columns|ofxCv/example-difference|ofxCv/example-contours-tracking|ofxCv/example-contours-quad|ofxCv/example-contours-following|ofxCv/example-contours-color|ofxCv/example-contours-basic|ofxCv/example-contours-advanced|ofxCv/example-calibration|ofxCv/example-bayer|ofxCv/example-background|ofxCv/example-ar|ofxHttpUtils/example" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

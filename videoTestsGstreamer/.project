@@ -26,6 +26,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>ofxCv</name>
+			<type>2</type>
+			<location>/home/arturo/Desktop/openFrameworks/addons/ofxCv</location>
+		</link>
+		<link>
 			<name>ofxHttpUtils</name>
 			<type>2</type>
 			<location>/home/arturo/Desktop/openFrameworks/addons/ofxHttpUtils</location>
