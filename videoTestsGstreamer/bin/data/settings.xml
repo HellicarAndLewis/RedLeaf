@@ -3,10 +3,8 @@
         <showFocusWindow>0</showFocusWindow>
         <record>0</record>
         <resolution>1</resolution>
+        <user>root</user>
+        <pwd>password</pwd>
+        <address>192.168.1.40</address>
     </generalConfig>
-    <192.168.0.90>
-        <focus>100</focus>
-        <manualIris>1</manualIris>
-        <fps>9.68906</fps>
-    </192.168.0.90>
 </camera>

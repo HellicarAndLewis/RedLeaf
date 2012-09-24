@@ -8,25 +8,32 @@ void testApp::setup(){
 	ofSetLogLevel(OF_LOG_VERBOSE);
 	axis = ofPtr<ofxAxisGrabber>(new ofxAxisGrabber);
 
+	ofxXmlSettings xml("settings.xml");
+
 	gui.setup("camera","settings.xml",650,10);
 	parameters.setName("generalConfig");
 	parameters.add(showFocusWindow.set("showFocusWindow",false));
 	parameters.add(record.set("record",false));
 	parameters.add(resolution.set("resolution",1,0,3));
-	parameters.add(address.set("address","192.168.0.90"));
+	parameters.add(address.set("address",xml.getValue("camera:generalConfig:address","")));
+
 				   
 	gui.add(autofocus.setup("autofocus"));
 	gui.add(changeIp.setup("changeIp"));
 	gui.add(parameters);
+
 	
 	axis->setCameraAddress(address);
 	axis->setParametersRefreshRate(5000);
 	axis->setDesiredFrameRate(30);
 	axis->setCodec(ofxAxisGrabber::H264);
-	axis->setAuth("root","asdqwe");
+	axis->setAuth(xml.getValue("camera:generalConfig:user",""),xml.getValue("camera:generalConfig:pwd",""));
 	
 	gui.add(axis->parameters);
 	gui.getGroup(address).getIntSlider("focus").setUpdateOnReleaseOnly(true);
+	gui.getGroup(address).getIntSlider("exposure").setUpdateOnReleaseOnly(true);
+	gui.getGroup(address).getIntSlider("irFilterCut").setUpdateOnReleaseOnly(true);
+	gui.getGroup(address).getIntSlider("compression").setUpdateOnReleaseOnly(true);
 	gui.getGroup("generalConfig").getIntSlider("resolution").setUpdateOnReleaseOnly(true);
 	
 	grabber.setGrabber(axis);
@@ -42,8 +49,11 @@ void testApp::setup(){
 			
 void testApp::changeIpPressed(bool & pressed){
 	if(!pressed){
-		address = ofSystemTextBoxDialog("ip", address);
-		reset();
+		string newAddress = ofSystemTextBoxDialog("ip", address);
+		if(string(address) != newAddress){
+			address = newAddress;
+			reset();
+		}
 	}
 }
 
