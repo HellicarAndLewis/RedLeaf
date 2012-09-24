@@ -20,8 +20,7 @@ void ofxGstVideoRecorder::shutdown()
 {
     if(gstSrc)
 	    gst_app_src_end_of_stream (gstSrc);
-	if(getPipeline()) gst_element_send_event (getPipeline(), gst_event_new_eos());
-	close();
+	/*if(getPipeline()) gst_element_send_event (getPipeline(), gst_event_new_eos());*/
 	gst_object_unref(gstSrc);
 	gstSrc = NULL;
 }
@@ -41,6 +40,7 @@ void ofxGstVideoRecorder::tcpStreamTo(string host, int port){
 }
 
 void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Codec codec, int fps){
+	close();
 	ofGstUtils::startGstMainLoop();
 
 	file = ofToDataPath(file);
@@ -48,7 +48,7 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	//gst_debug_set_active (true);
 
 	if(!bIsTcpStream && !bIsUdpStream)
-		sink= "filesink name=video-sink location=" + file;
+		sink= "filesink name=video-sink sync=false location=" + file;
 
 	string encoder;
 	string muxer = "avimux ! ";
@@ -57,7 +57,7 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	else if(ofFilePath(file).getExtension()=="mp4") muxer = "mp4mux ! ";
 	else if(ofFilePath(file).getExtension()=="mov") muxer = "qtmux ! ";
 	else if(ofFilePath(file).getExtension()=="mkv") muxer = "matroskamux ! ";
-	else if(ofFilePath(file).getExtension()=="ogg" || ofFilePath(file).getExtension()=="ogv") muxer = "oggmux ! ";
+	else if(ofFilePath(file).getExtension()=="ogg" || ofFilePath(file).getExtension()=="ogv") muxer = " oggmux ! ";
 
 	string pay = "";
 	string videorate = "videorate ! video/x-raw-yuv,framerate="+ofToString(fps)+"/1 ! ";
@@ -65,16 +65,16 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	switch(codec){
 	case THEORA:
 		encoder = "theoraenc quality=63 ! ";
-		muxer = "oggmux !";
-		pay = "rtptheorapay pt=96 !";
+		muxer = "oggmux ! ";
+		pay = "rtptheorapay pt=96 ! ";
 	break;
 	case H264:
-		encoder = "x264enc pass=4 !";
-		pay = "rtph264pay pt=96 !";
+		encoder = "x264enc pass=4 ! ";
+		pay = "rtph264pay pt=96 ! ";
 	break;
 	case MP4:
 		encoder = "ffenc_mpeg4 bitrate=2000000 ! ";
-		pay = "rtpmp4vpay pt=96 !";
+		pay = "rtpmp4vpay pt=96 ! ";
 	break;
 	case XVID:
 		encoder = "xvidenc ! ";
@@ -114,14 +114,14 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	case FLV_H264:
 		encoder = "x264enc ! ";
 		muxer = "flvmux ! ";
-		pay = "rtph264pay pt=96 !";
+		pay = "rtph264pay pt=96 ! ";
 	break;
 	case YUV:
 		encoder = "";
 		muxer = "avimux ! ";
 	break;
 	case Y4M:
-		encoder = "y4menc !";
+		encoder = "y4menc ! ";
 		muxer = "";
 		break;
 	case DIRAC:
@@ -177,7 +177,7 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 
 	ofLogVerbose() << "gstreamer pipeline: " << pipeline_string;
 
-	setPipelineWithSink(pipeline_string,"video-sink");
+	setPipelineWithSink(pipeline_string,"");
 
 	gstSrc = (GstAppSrc*)gst_bin_get_by_name(GST_BIN(getPipeline()),"video_src");
 	if(gstSrc){

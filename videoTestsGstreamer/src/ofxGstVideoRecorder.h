@@ -12,15 +12,6 @@
 #include <gst/app/gstappsrc.h>
 #include "ofGstUtils.h"
 
-typedef struct
-{
-  GstElement *pipeline;
-  GstAppSrc *source;
-  unsigned char * pixels;
-  int width, height, bpp;
-  bool new_frame;
-  int fps;
-} AppData;
 
 class ofxGstVideoRecorder: public ofGstUtils {
 public:
