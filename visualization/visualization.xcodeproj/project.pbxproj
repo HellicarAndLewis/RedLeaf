@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
+		DA496C32160C74E7007ED082 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA496C30160C74E7007ED082 /* AudioManager.cpp */; };
 		DAA56ADB1603E270004C6857 /* ofxHttpUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAA56A271603E270004C6857 /* ofxHttpUtils.cpp */; };
 		DAA56AE01603E270004C6857 /* ofxEasing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAA56A651603E270004C6857 /* ofxEasing.cpp */; };
 		DAA56AE11603E270004C6857 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAA56A671603E270004C6857 /* ofxEasingBack.cpp */; };
@@ -94,6 +95,8 @@
 
 /* Begin PBXFileReference section */
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
+		DA496C30160C74E7007ED082 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioManager.cpp; sourceTree = "<group>"; };
+		DA496C31160C74E7007ED082 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
 		DAA569681603E270004C6857 /* .cproject */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = .cproject; sourceTree = "<group>"; };
 		DAA5696B1603E270004C6857 /* config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
 		DAA5696C1603E270004C6857 /* description */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description; sourceTree = "<group>"; };
@@ -1883,6 +1886,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				DA496C30160C74E7007ED082 /* AudioManager.cpp */,
+				DA496C31160C74E7007ED082 /* AudioManager.h */,
 				DAF2C2871603EABE00A3D6B2 /* EnergyBurst.cpp */,
 				DAF2C2881603EABE00A3D6B2 /* EnergyBurst.h */,
 				DAF2C2891603EABE00A3D6B2 /* LEDStrip.cpp */,
@@ -2023,6 +2028,7 @@
 				DAF2C28D1603EABE00A3D6B2 /* EnergyBurst.cpp in Sources */,
 				DAF2C28E1603EABE00A3D6B2 /* LEDStrip.cpp in Sources */,
 				DAF2C28F1603EABE00A3D6B2 /* Wall.cpp in Sources */,
+				DA496C32160C74E7007ED082 /* AudioManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
