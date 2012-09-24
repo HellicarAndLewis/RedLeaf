@@ -53,6 +53,8 @@ protected:
 	string src;
 	string sink;
 	bool bIsUdpStream, bIsTcpStream;
+	ofPixels pixels;
+	Codec codec;
 
 
 };

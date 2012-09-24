@@ -1,13 +1,13 @@
 <parameters>
     <LEDStrip>
-    	<fadeTime>440</fadeTime>
+        <fadeTime>440</fadeTime>
     </LEDStrip>
     <EnergyBurst>
-	    <decayPct>0.605</decayPct>
-	    <minLifeTime>500</minLifeTime>
-	    <maxLifeTime>2000</maxLifeTime>
-	    <minSpeed>0.14365</minSpeed>
-	    <maxSpeed>0.2674</maxSpeed>
+        <decayPct>0.605</decayPct>
+        <minLifeTime>500</minLifeTime>
+        <maxLifeTime>2000</maxLifeTime>
+        <minSpeed>0.14365</minSpeed>
+        <maxSpeed>0.2674</maxSpeed>
     </EnergyBurst>
     <checkEvery>1000</checkEvery>
     <Twitter>
@@ -22,7 +22,22 @@
         <renderH>512</renderH>
         <renderMode>2</renderMode>
         <rotation3D>232.123</rotation3D>
-        <z>0.875</z>
+        <z>1.01</z>
+        <useColors>0</useColors>
+        <secondScreenX>1280</secondScreenX>
+        <testStateMillis>1000</testStateMillis>
+        <muted>0</muted>
     </Wall>
     <hashtag>#RedLeaf</hashtag>
+    <Audio>
+        <audioInAmp>0.000567835</audioInAmp>
+        <cutDown>0</cutDown>
+        <cutUp>1</cutUp>
+        <mappedAudioIn>0.000567835</mappedAudioIn>
+        <smoothedAudioIn>0.0086417</smoothedAudioIn>
+        <smoothFactor>0.9</smoothFactor>
+        <fineSmoothFactor>0.0289971</fineSmoothFactor>
+        <audioEnabled>0</audioEnabled>
+        <audioTest>0</audioTest>
+    </Audio>
 </parameters>
