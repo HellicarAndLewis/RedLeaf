@@ -7,7 +7,7 @@
 void testApp::setup(){
 	ofEnableAlphaBlending();
 	ofBackground(0);
-	ofSetVerticalSync(true);
+	//ofSetVerticalSync(true);
 
 
 	LEDStrip::initClassParameters();
@@ -61,7 +61,7 @@ void testApp::draw(){
 	wall.draw();
 	gui.draw();
 	Poco::LocalDateTime date;
-	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),ofGetWidth()-210,20);
+	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),wall.vizX+wall.renderW-210,20);
 }
 
 void testApp::newTweet(const Tweet & tweet){
@@ -77,6 +77,12 @@ void testApp::keyPressed(int key){
 	}
 	if(key=='f'){
 		ofToggleFullscreen();
+	}
+	if(key==OF_KEY_LEFT){
+		wall.secondScreenX--;
+	}
+	if(key==OF_KEY_RIGHT){
+		wall.secondScreenX++;
 	}
 }
 

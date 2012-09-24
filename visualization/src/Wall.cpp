@@ -94,6 +94,7 @@ void Wall::setup(){
 	parameters.add(useColors.set("useColors",false));
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
 	parameters.add(z.set("z",.7,.5,2));
+	parameters.add(secondScreenX.set("secondScreenX",1280,-2560,2560));
 	vizX.set("vizX",250,0,300);
 	renderW.set("renderW",1024,256,2048);
 	renderH.set("renderH",512,256,2048);
@@ -463,8 +464,10 @@ void Wall::draw(){
 		glEnable(GL_DEPTH_TEST);
 		ofPushView();
 		viewport.set(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
+		//ofTranslate(vizX,(ofGetHeight()-renderH)*.5);
 		ofViewport(viewport);
-		ofTranslate(ofPoint(ofGetWidth()*.5,ofGetHeight()*.5,-renderW*z));
+		ofSetupScreenPerspective(viewport.width, viewport.height);
+		ofTranslate(ofPoint(renderW*.5,viewport.height*.5,-renderW*z));
 		ofRotateX(rotation3D->y);
 		ofRotateY(rotation3D->x);
 		ofFill();
@@ -475,18 +478,23 @@ void Wall::draw(){
 		buildingWireframe.draw();
 		ofPopView();
 		glDisable(GL_DEPTH_TEST);
-	}break;
-	case Output:
-		if(muted) break;
+		}break;
+	}
+	
+	ofSetColor(0);
+	ofRect(secondScreenX,0,ofGetWidth()-secondScreenX,ofGetHeight());
+	
+	ofSetColor(255);
+	if(!muted){
+		ofPushMatrix();
+		ofTranslate(secondScreenX, 0, 0);
 		for(int i=0;i<w;i++){
 			outputBuffer.getPixelsRef().setColor(i,0,strips[i].getColor());
 		}
 		outputBuffer.update();
-		outputBuffer.draw(vizX,20);
-		break;
-
-	}
-	if(muted){
+		outputBuffer.draw(0,0);
+		ofPopMatrix();
+	}else{
 		ofPushStyle();
 		ofSetColor(255,0,0);
 		font.drawString("Muted",vizX+20,80);
@@ -508,11 +516,6 @@ ofColor Wall::niceRandomColor(){
 void Wall::mousePressed(ofMouseEventArgs & mouse){
 	switch(renderMode){
 	case Continuous:
-	case Output:
-		if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH).inside(mouse.x,mouse.y)){
-			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
-		}
-		break;
 	case Separate:
 		if(ofRectangle(vizX,ofGetHeight()*.5-15,renderW,30).inside(mouse.x,mouse.y)){
 			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
