@@ -24,6 +24,11 @@ void testApp::setup(){
 	gui.add(changeIp.setup("changeIp"));
 	gui.add(parameters);
 
+
+	cvParameters.add(cv.set("cv",false));
+	cvParameters.add(thresholdLevel.set("threshold",80,0,255));
+	gui.add(cvParameters);
+
 	
 	axis->setCameraAddress(address);
 	axis->setParametersRefreshRate(5000);
@@ -38,8 +43,10 @@ void testApp::setup(){
 	gui.getGroup(address).getIntSlider("compression").setUpdateOnReleaseOnly(true);
 	gui.getGroup("generalConfig").getIntSlider("resolution").setUpdateOnReleaseOnly(true);
 	
+	contourFinder.setAutoThreshold(false);
+
 	grabber.setGrabber(axis);
-	grabber.initGrabber(640,480);
+	reset();
 
 	autofocus.addListener(this,&testApp::autofocusPressed);
 	showFocusWindow.addListener(this,&testApp::showFocusWindowChanged);
@@ -69,15 +76,31 @@ void testApp::reset(){
 	switch (resolution) {
 		case 0:
 			grabber.initGrabber(320, 240);
+			tex.allocate(320, 240, GL_LUMINANCE);
+			gray.allocate(320,240,1);
+			prevFrame.allocate(320,240,1);
+			diffFrame.allocate(320,240,1);
 			break;
 		case 1:
 			grabber.initGrabber(640, 480);
+			tex.allocate(640, 480, GL_LUMINANCE);
+			gray.allocate(640, 480,1);
+			prevFrame.allocate(640, 480,1);
+			diffFrame.allocate(640, 480,1);
 			break;
 		case 2:
 			grabber.initGrabber(800, 600);
+			tex.allocate(800, 600, GL_LUMINANCE);
+			gray.allocate(800, 600,1);
+			prevFrame.allocate(800, 600,1);
+			diffFrame.allocate(800, 600,1);
 			break;
 		case 3:
 			grabber.initGrabber(1280, 720);
+			tex.allocate(1280, 720, GL_LUMINANCE);
+			gray.allocate(1280, 720,1);
+			prevFrame.allocate(1280, 720,1);
+			diffFrame.allocate(1280, 720,1);
 			break;
 		default:
 			break;
@@ -96,7 +119,7 @@ void testApp::showFocusWindowChanged(bool & sfw){
 void testApp::recordPressed(bool & record){
 	if(record){
 		ofDirectory(ofGetTimestampString()).create();
-		gstRecorder.setup(640,480,24,ofGetTimestampString()+"/0.png",ofxGstVideoRecorder::PNG_SEQUENCE,round(axis->fps));
+		gstRecorder.setup(640,480,24,ofGetTimestampString()+"/0.mov",ofxGstVideoRecorder::H264,30);
 	}else{
 		gstRecorder.shutdown();
 	}
@@ -112,15 +135,43 @@ void testApp::update(){
 	grabber.update();
 	if(grabber.isFrameNew()){
 		//cout << "new frame" << endl;
-		if(record){
-			gstRecorder.newFrame(grabber.getPixelsRef());
+		if(cv){
+			if(prevFrame.isAllocated()){
+				convertColor(grabber.getPixelsRef(),gray,CV_RGB2GRAY);
+				absdiff(gray,prevFrame,diffFrame);
+				//blur(diffFrame,5);
+				threshold(diffFrame,thresholdLevel);
+				contourFinder.findContours(diffFrame);
+			}
+			prevFrame = gray;
+			if(record){
+				convertColor(diffFrame,color,CV_GRAY2RGB);
+				gstRecorder.newFrame(color);
+			}
+		}else{
+			if(record){
+				gstRecorder.newFrame(grabber.getPixelsRef());
+			}
 		}
 	}
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	grabber.draw(0,0);
+	if(cv){
+		if(grabber.isFrameNew()){
+			tex.loadData(diffFrame);
+		}
+
+		tex.draw(0,0);
+		/*ofSetColor(0,255,0);
+		for(u_int i=0;i<contourFinder.getContours().size();i++){
+			ofRect(toOf(contourFinder.getBoundingRect(i)));
+		}*/
+		ofSetColor(255);
+	}else{
+		grabber.draw(0,0);
+	}
 	gui.draw();
 	if(showFocusWindow){
 		ofNoFill();
