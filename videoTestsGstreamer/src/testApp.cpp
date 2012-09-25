@@ -120,8 +120,8 @@ void testApp::showFocusWindowChanged(bool & sfw){
 void testApp::recordPressed(bool & record){
 	if(record){
 		string dir = ofGetTimestampString();
-		ofDirectory(dir).create();
-		gstRecorder.setup(640,480,24,dir+"/0.png",ofxGstVideoRecorder::PNG_SEQUENCE,round(axis->fps));
+		//ofDirectory(dir).create();
+		gstRecorder.setup(640,480,24,dir+"0.avi",ofxGstVideoRecorder::YUV,round(axis->fps));
 	}else{
 		gstRecorder.shutdown();
 	}
