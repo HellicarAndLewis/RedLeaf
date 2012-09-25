@@ -4,7 +4,7 @@
         <record>0</record>
         <resolution>1</resolution>
         <user>root</user>
-        <pwd>asdqwe</pwd>
-        <address>10.42.0.23</address>
+        <pwd>password</pwd>
+        <address>192.168.0.90</address>
     </generalConfig>
 </camera>
