@@ -64,14 +64,21 @@ ofxGstVideoRecorder::ofxGstVideoRecorder() {
 
 void ofxGstVideoRecorder::shutdown()
 {
-    if(gstSrc)
-	    gst_app_src_end_of_stream (gstSrc);
-	/*if(getPipeline()) gst_element_send_event (getPipeline(), gst_event_new_eos());*/
-	gst_object_unref(gstSrc);
-	gstSrc = NULL;
+    if(gstSrc){
+	    //gst_app_src_end_of_stream (gstSrc);
+		gst_element_send_event(getPipeline(), gst_event_new_eos());
+		gst_object_unref(gstSrc);
+		gstSrc = NULL;
+	}
+}
+
+void ofxGstVideoRecorder::on_eos(){
+	ofLogVerbose() << "got eos message, closing pipeline" << endl;
+	close();
 }
 
 ofxGstVideoRecorder::~ofxGstVideoRecorder() {
+	setSinkListener(NULL);
 	shutdown();
 }
 
@@ -122,10 +129,11 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 		pay = "rtptheorapay pt=96 ! ";
 	break;
 	case H264:
-		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
 #ifdef TARGET_OSX
+		encoderformat << " video/x-raw-yuv, format=(fourcc)NV12, width=" << width << ", height=" << height;
 		encoder = "vtenc_h264 ! ";
 #else
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
 		encoder = "x264enc profile=high ! ";
 #endif
 		pay = "rtph264pay pt=96 ! ";
@@ -139,9 +147,13 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
 		encoder = "xvidenc ! ";
 	break;
-	case JPEG:
+		case JPEG:
+#ifdef TARGET_OSX
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+#else
 		colorspaceconversion = "";
 		encoderformat << "";
+#endif
 		encoder = "jpegenc quality=98 ! ";
 		pay = "rtpjpegpay pt=96 !";
 		break;
@@ -251,6 +263,8 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 									sink;
 
 	ofLogVerbose() << "gstreamer pipeline: " << pipeline_string;
+	
+	setSinkListener(this);
 
 	setPipelineWithSink(pipeline_string,"video-sink");
 

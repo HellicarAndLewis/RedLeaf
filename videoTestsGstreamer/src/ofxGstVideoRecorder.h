@@ -15,7 +15,7 @@
 class ofxGstBufferPool;
 
 
-class ofxGstVideoRecorder: public ofGstUtils {
+class ofxGstVideoRecorder: public ofGstUtils, public ofGstAppSink {
 public:
 	ofxGstVideoRecorder();
 	virtual ~ofxGstVideoRecorder();
@@ -47,7 +47,8 @@ public:
 
 
 protected:
-
+	void			on_eos();
+	
 	GstAppSrc * gstSrc;
 	string src;
 	string sink;
