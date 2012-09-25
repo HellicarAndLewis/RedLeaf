@@ -94,7 +94,7 @@ void Wall::setup(){
 	parameters.add(useColors.set("useColors",false));
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
 	parameters.add(z.set("z",.7,.5,2));
-	parameters.add(secondScreenX.set("secondScreenX",1280,-2560,2560));
+	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1280,0),ofVec2f(-2560,0),ofVec2f(2560,768)));
 	vizX.set("vizX",250,0,300);
 	renderW.set("renderW",1024,256,2048);
 	renderH.set("renderH",512,256,2048);
@@ -482,17 +482,21 @@ void Wall::draw(){
 	}
 	
 	ofSetColor(0);
-	ofRect(secondScreenX,0,ofGetWidth()-secondScreenX,ofGetHeight());
+	ofRect(secondScreenPos->x,0,ofGetWidth()-secondScreenPos->x,ofGetHeight());
 	
 	ofSetColor(255);
 	if(!muted){
 		ofPushMatrix();
-		ofTranslate(secondScreenX, 0, 0);
-		for(int i=0;i<w;i++){
+		ofTranslate((ofVec2f)secondScreenPos);
+		/*for(int i=0;i<w;i++){
 			outputBuffer.getPixelsRef().setColor(i,0,strips[i].getColor());
 		}
 		outputBuffer.update();
-		outputBuffer.draw(0,0);
+		outputBuffer.draw(0,0);*/
+		for(int i=0;i<w;i++){
+			ofSetColor(strips[i].getColor());
+			ofLine(i,0,i,h);
+		}
 		ofPopMatrix();
 	}else{
 		ofPushStyle();

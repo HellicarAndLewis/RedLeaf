@@ -37,7 +37,7 @@ public:
 	ofParameter<ofVec2f> rotation3D;
 	ofParameter<float> radiusScale;
 	ofParameter<float> z;
-	ofParameter<int> secondScreenX;
+	ofParameter<ofVec2f> secondScreenPos;
 	ofParameter<float> testStateMillis;
 	ofParameter<bool> useColors;
 	ofParameter<bool> muted;

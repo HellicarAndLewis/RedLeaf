@@ -79,10 +79,16 @@ void testApp::keyPressed(int key){
 		ofToggleFullscreen();
 	}
 	if(key==OF_KEY_LEFT){
-		wall.secondScreenX--;
+		wall.secondScreenPos = ofVec2f(wall.secondScreenPos->x-1,wall.secondScreenPos->y);
 	}
 	if(key==OF_KEY_RIGHT){
-		wall.secondScreenX++;
+		wall.secondScreenPos = ofVec2f(wall.secondScreenPos->x+1,wall.secondScreenPos->y);
+	}
+	if(key==OF_KEY_UP){
+		wall.secondScreenPos = ofVec2f(wall.secondScreenPos->x,wall.secondScreenPos->y-1);
+	}
+	if(key==OF_KEY_DOWN){
+		wall.secondScreenPos = ofVec2f(wall.secondScreenPos->x,wall.secondScreenPos->y+1);
 	}
 }
 
