@@ -6,11 +6,57 @@
  */
 
 #include "ofxGstVideoRecorder.h"
+#include <list>
+#include <map>
 #include <gst/app/gstappsink.h>
 #include <gst/app/gstappbuffer.h>
 #include "ofAppRunner.h"
 
+
+class PooledPixels: public ofPixels{
+public:
+	ofxGstBufferPool * pool;
+};
+
+class ofxGstBufferPool{
+public:
+	ofxGstBufferPool(int width, int height, int channels)
+	:width(width), height(height), channels(channels){};
+	PooledPixels * newBuffer(){
+		PooledPixels * pixels;
+		mutex.lock();
+		if(pool.empty()){
+			mutex.unlock();
+			pixels = new PooledPixels;
+			pixels->allocate(width,height,channels);
+			pixels->pool = this;
+		}else{
+			pixels = pool.back();
+			pool.pop_back();
+			mutex.unlock();
+		}
+		return pixels;
+	}
+
+	void releaseBuffer(PooledPixels * pixels){
+		mutex.lock();
+		pool.push_back(pixels);
+		mutex.unlock();
+	}
+
+private:
+	list<PooledPixels*> pool;
+	int width, height, channels;
+	ofMutex mutex;
+};
+
+static void ofxGstRecorderRelaseBuffer(void * buffer){
+	PooledPixels* pixels = (PooledPixels*) buffer;
+	pixels->pool->releaseBuffer(pixels);
+}
+
 ofxGstVideoRecorder::ofxGstVideoRecorder() {
+	bufferPool = NULL;
 	bIsTcpStream = false;
 	bIsUdpStream = false;
 	gstSrc = NULL;
@@ -43,6 +89,8 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	close();
 	ofGstUtils::startGstMainLoop();
 
+	bufferPool = new ofxGstBufferPool(width,height,bpp/8);
+
 	file = ofToDataPath(file);
 	
 	codec = _codec;
@@ -62,79 +110,87 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	else if(ofFilePath(file).getExtension()=="mkv") muxer = "matroskamux ! ";
 	else if(ofFilePath(file).getExtension()=="ogg" || ofFilePath(file).getExtension()=="ogv") muxer = " oggmux ! ";
 
+	stringstream encoderformat;
 	string pay = "";
-	string videorate = " video/x-raw-yuv ! videorate force-fps=" +ofToString(fps)+"/1  ! ";
+	string videorate = " videorate force-fps=" +ofToString(fps)+"/1  ! ";
 
 	switch(codec){
 	case THEORA:
-		encoder = " video/x-raw-yuv ! theoraenc quality=63 ! ";
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+		encoder = "theoraenc quality=63 ! ";
 		muxer = "oggmux ! ";
 		pay = "rtptheorapay pt=96 ! ";
 	break;
 	case H264:
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
 #ifdef TARGET_OSX
-		encoder = " video/x-raw-yuv ! vtenc_h264 ! ";
+		encoder = "vtenc_h264 ! ";
 #else
-		encoder = " video/x-raw-yuv ! x264enc pass=4 ! ";
+		encoder = "x264enc profile=high ! ";
 #endif
 		pay = "rtph264pay pt=96 ! ";
 	break;
 	case MP4:
-		encoder = " video/x-raw-yuv ! ffenc_mpeg4 bitrate=2000000 ! ";
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+		encoder = "ffenc_mpeg4 ! ";
 		pay = "rtpmp4vpay pt=96 ! ";
 	break;
 	case XVID:
-		encoder = " video/x-raw-yuv ! xvidenc ! ";
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+		encoder = "xvidenc ! ";
 	break;
 	case JPEG:
-		encoder = " video/x-raw-yuv ! jpegenc quality=98 ! ";
+		colorspaceconversion = "";
+		encoderformat << "";
+		encoder = "jpegenc quality=98 ! ";
 		pay = "rtpjpegpay pt=96 !";
 		break;
 	case JPEG_SEQUENCE:
+		colorspaceconversion = "";
+		encoderformat << "";
 		encoder = "jpegenc quality=100 idct-method=float ! ";
 		pay = "";
 		sink = "multifilesink name=video-sink location=" + file.substr(0,file.rfind('.')) + "%05d" + file.substr(file.rfind('.'));
 		videorate = "";
 		muxer = "";
 	break;
-	case LOSLESS_JPEG:
-		encoder = " video/x-raw-yuv ! ffenc_ljpeg ! ";
-	break;
-	case PDF:
-		//videorate = "videorate ! video/x-raw-rgb, depth=24, bpp=32, endianness= 4321, red_mask= 65280, green_mask= 16711680, blue_mask= -16777216, framerate="+ofToString(fps)+"/1 !";
-		encoder = "cairorender ! ";
-		muxer = "";
-	break;
 	case PNG_SEQUENCE:
+		colorspaceconversion = "";
+		encoderformat << "";
 		encoder = "pngenc snapshot=false ! ";
 		sink = "multifilesink name=video-sink location=" + file.substr(0,file.rfind('.')) + "%05d" + file.substr(file.rfind('.'));
 		videorate = "";
 		muxer = "";
-		colorspaceconversion = "";
 	break;
-	case QT_ANIM:
-		encoder = "ffenc_qtrle ! ";
+	case TIFF_SEQUENCE:
+		colorspaceconversion = "";
+		encoderformat << "";
+		encoder = "ffenc_tiff ! ";
+		sink = "multifilesink name=video-sink location=" + file.substr(0,file.rfind('.')) + "%05d" + file.substr(file.rfind('.'));
+		videorate = "";
+		muxer = "";
 	break;
 	case FLV:
-		encoder = " video/x-raw-yuv ! ffenc_flv ! ";
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+		encoder = "ffenc_flv ! ";
 		muxer = "flvmux ! ";
 	break;
 	case FLV_H264:
-		encoder = " video/x-raw-yuv ! x264enc ! ";
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+		encoder = "x264enc ! ";
 		muxer = "flvmux ! ";
 		pay = "rtph264pay pt=96 ! ";
 	break;
 	case YUV:
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
 		encoder = "";
-		muxer = " video/x-raw-yuv ! avimux ! ";
+		muxer = "avimux ! ";
 	break;
 	case Y4M:
-		encoder = " video/x-raw-yuv ! y4menc ! ";
+		encoderformat << " video/x-raw-yuv, format=(fourcc)I420, width=" << width << ", height=" << height;
+		encoder = "y4menc ! ";
 		muxer = "";
 		break;
-	case DIRAC:
-		encoder = "schroenc ! ";
-		//muxer = "ffmux_dirac ! ";
 	break;
 	}
 
@@ -159,37 +215,44 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 	string other_format;
 	if(bpp==24 || bpp==32){
 		input_mime = "video/x-raw-rgb";
-		if(codec==PNG_SEQUENCE){
-			other_format = ",endianness=4321,red_mask=16711680,green_mask=65280,blue_mask=255,framerate="+ofToString(fps)+"/1 ";
+		if(codec==PNG_SEQUENCE || codec==TIFF_SEQUENCE){
+			other_format = ",endianness=4321,red_mask=16711680,green_mask=65280,blue_mask=255";
 		}else{
-			other_format = ",endianness=4321,red_mask=255,green_mask=65280,blue_mask=16711680,framerate="+ofToString(fps)+"/1 ";
+			other_format = ",endianness=4321,red_mask=255,green_mask=65280,blue_mask=16711680";
 		}
 	}
 	if(bpp==8){
 		input_mime = "video/x-raw-gray";
-		other_format = ",framerate="+ofToString(fps)+"/1";
+		other_format = "";
 	}
+
+	string input_format = input_mime
+			+ ", width=" + ofToString(width)
+			+ ", height=" + ofToString(height)
+			+ ", depth=" + ofToString(bpp)
+			+ ", bpp=" + ofToString(bpp)
+			+ other_format;
 
 	if(src==""){
 		src="appsrc  name=video_src is-live=true do-timestamp=true ! "
-				+ input_mime
-				+ ", width=" + ofToString(width)
-				+ ", height=" + ofToString(height)
-				+ ", depth=" + ofToString(bpp)
-				+ ", bpp=" + ofToString(bpp)
-				+ other_format;
+				+ input_format + ",framerate="+ofToString(fps)+"/1 ";
 	}
 
+	string videorateformat;
+	if(videorate!=""){
+		videorateformat = (encoderformat.str()!="" ? encoderformat.str() : input_format) + " ! ";
+	}
+	string encoderformatstr = (encoderformat.str()!="" ? encoderformat.str() : input_format) + ", framerate=" +ofToString(fps) + "/1 ! ";
 
 	string pipeline_string = src + " ! " +
-									"queue ! " + colorspaceconversion +
-									videorate +
+									"queue ! " + colorspaceconversion + videorateformat +
+									videorate + encoderformatstr +
 									encoder + muxer +
 									sink;
 
 	ofLogVerbose() << "gstreamer pipeline: " << pipeline_string;
 
-	setPipelineWithSink(pipeline_string,"");
+	setPipelineWithSink(pipeline_string,"video-sink");
 
 	gstSrc = (GstAppSrc*)gst_bin_get_by_name(GST_BIN(getPipeline()),"video_src");
 	if(gstSrc){
@@ -203,14 +266,13 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 }
 
 void ofxGstVideoRecorder::newFrame(ofPixels & pixels){
-	if(codec=PNG_SEQUENCE){
-		this->pixels = pixels;
-		this->pixels.swapRgb();
-	}else{
-		this->pixels.setFromExternalPixels(pixels.getPixels(),pixels.getWidth(),pixels.getHeight(),pixels.getNumChannels());
+	PooledPixels * pooledPixels = bufferPool->newBuffer();
+	(*(ofPixels*)pooledPixels) = pixels;
+	if(codec==PNG_SEQUENCE || codec==TIFF_SEQUENCE){
+		pooledPixels->swapRgb();
 	}
 	GstBuffer * buffer;
-	buffer = gst_app_buffer_new (this->pixels.getPixels(), this->pixels.size(), NULL, this->pixels.getPixels());
+	buffer = gst_app_buffer_new (pooledPixels->getPixels(), pooledPixels->size(), &ofxGstRecorderRelaseBuffer, pooledPixels);
 
 	GstFlowReturn flow_return = gst_app_src_push_buffer(gstSrc, buffer);
 	if (flow_return != GST_FLOW_OK) {

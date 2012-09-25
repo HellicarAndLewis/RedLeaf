@@ -12,6 +12,8 @@
 #include <gst/app/gstappsrc.h>
 #include "ofGstUtils.h"
 
+class ofxGstBufferPool;
+
 
 class ofxGstVideoRecorder: public ofGstUtils {
 public:
@@ -24,16 +26,13 @@ public:
 		MP4,
 		XVID,
 		JPEG,
-		LOSLESS_JPEG,
-		QT_ANIM,
-		PDF,
 		PNG_SEQUENCE,
 		JPEG_SEQUENCE,
+		TIFF_SEQUENCE,
 		FLV,
 		FLV_H264,
 		YUV,
-		Y4M,
-		DIRAC
+		Y4M
 	};
 
 	void udpStreamTo(string comma_separated_ips);
@@ -53,9 +52,8 @@ protected:
 	string src;
 	string sink;
 	bool bIsUdpStream, bIsTcpStream;
-	ofPixels pixels;
 	Codec codec;
-
+	ofxGstBufferPool * bufferPool;
 
 };
 

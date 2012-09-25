@@ -108,7 +108,8 @@ void testApp::reset(){
 }
 
 void testApp::autofocusPressed(bool & pressed){
-	axis->triggerAutoFocus();
+	if(!pressed)
+		axis->triggerAutoFocus();
 }
 
 
@@ -118,8 +119,9 @@ void testApp::showFocusWindowChanged(bool & sfw){
 
 void testApp::recordPressed(bool & record){
 	if(record){
-		ofDirectory(ofGetTimestampString()).create();
-		gstRecorder.setup(640,480,24,ofGetTimestampString()+"/0.mov",ofxGstVideoRecorder::H264,30);
+		string dir = ofGetTimestampString();
+		ofDirectory(dir).create();
+		gstRecorder.setup(640,480,24,dir+"/0.png",ofxGstVideoRecorder::PNG_SEQUENCE,round(axis->fps));
 	}else{
 		gstRecorder.shutdown();
 	}
