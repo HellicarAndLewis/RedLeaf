@@ -51,7 +51,6 @@ public:
 	void setParametersRefreshRate(int ms);  //default 0 no refresh
 	void setCodec(AxisCodec codec);
 	void setCompression(int compression=30);
-	void setRecording(bool recording);
 	void setCameraAddress(string address);
 	string getCameraAddress();
 	ofRectangle & getFocusWindow();
@@ -104,9 +103,10 @@ private:
 	string user,pwd;
 	int desiredFramerate;
 	AxisCodec codec;
-	bool recording;
 
 	string cameraAddress;
+
+	bool started;
 };
 
 #endif /* OFXAXISGRABBER_H_ */

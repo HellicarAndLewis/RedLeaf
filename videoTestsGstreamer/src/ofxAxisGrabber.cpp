@@ -19,7 +19,7 @@ ofxAxisGrabber::ofxAxisGrabber() {
 	framesInOneSec = 0;
 	codec = H264;
 	updating = false;
-	recording = false;
+	started = false;
 
 	parameters.add(focus.set("focus",100,0,297));
 	parameters.add(manualIris.set("manualIris",true));
@@ -48,7 +48,9 @@ void ofxAxisGrabber::setCodec(ofxAxisGrabber::AxisCodec _codec){
 }
 
 void ofxAxisGrabber::setCameraAddress(string address){
-	parameters.setName(address);
+	string parametersName = address;
+	ofStringReplace(parametersName,".","_");
+	parameters.setName(parametersName);
 	cameraAddress = address;
 }
 
@@ -92,12 +94,8 @@ bool ofxAxisGrabber::initGrabber(int w, int h){
 			"&maxframesize=0";
 
 	stringstream pipeline;
-	pipeline << "rtspsrc location=\"" << url.str() << "\" latency=0 !";
-	if(recording){
-		pipeline << "tee name=t ! queue ! decodebin2 ! mpegtsmux ! filesink location=prueba.mp4 t. ! queue ! decodebin2 ! ffmpegcolorspace ";
-	}else{
-		pipeline << " decodebin2 ! ffmpegcolorspace ";
-	}
+	pipeline << "rtspsrc location=\"" << url.str() << "\" latency=0 ! decodebin2 ! ffmpegcolorspace ";
+
 	ofLogNotice("ofxAxisGrabber") << "pipeline: ";
 	ofLogNotice("ofxAxisGrabber") << pipeline.str();
 	bool ret = gst.setPipeline(pipeline.str(),24,true,w,h);
@@ -111,11 +109,12 @@ bool ofxAxisGrabber::initGrabber(int w, int h){
 
 		http.setTimeoutSeconds(30);
 		http.start();
-		startThread();
+		if(!getPocoThread().isRunning()) startThread();
 	}else{
 		ofLogError("ofxAxisGrabber") << "couldn't allocate gstreamer";
 	}
 
+	started = ret;
 	return ret;
 }
 
@@ -306,6 +305,7 @@ void ofxAxisGrabber::update(){
 			framesInOneSec = 0;
 		}
 	}
+	if(!getPocoThread().isRunning()) startThread();
 }
 
 bool ofxAxisGrabber::isFrameNew(){
@@ -321,8 +321,12 @@ ofPixels_<unsigned char> & ofxAxisGrabber::getPixelsRef(){
 }
 
 void ofxAxisGrabber::close(){
-	gst.close();
-	http.stop();
+	if(started){
+		gst.close();
+		http.stop();
+		stopThread();
+		started = false;
+	}
 }
 
 float ofxAxisGrabber::getHeight(){

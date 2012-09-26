@@ -5,61 +5,45 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	settingFocusWindow = false;
 	updatingPosition = false;
 	
 	//ofSetLogLevel(OF_LOG_VERBOSE);
-	axis = ofPtr<ofxAxisGrabber>(new ofxAxisGrabber);
 
 	ofxXmlSettings xml("settings.xml");
+	for(u_int i=0;i<4;i++){
+		axisCameras.push_back(new ofxAxisGui());
+		axisCameras[i]->setDrawGui(false);
+		axisCameras[i]->setAuth(xml.getValue("camera:generalConfig:user",""),xml.getValue("camera:generalConfig:pwd",""));
+		axisCameras[i]->setup(xml.getValue("camera:generalConfig:address",""),"camera"+ofToString(i+1),220,10);
+	}
 
-	gui.setup("camera","settings.xml",650,10);
-	parameters.setName("generalConfig");
-	parameters.add(showFocusWindow.set("showFocusWindow",false));
-	parameters.add(record.set("record",false));
-	parameters.add(resolution.set("resolution",1,0,3));
-	parameters.add(address.set("address",xml.getValue("camera:generalConfig:address","")));
+	gui.setup("general","settings.xml");
 
-	parameters.add(usePlayer.set("usePlayer",false));
-	parameters.add(playerPaused.set("playerPaused",false));
-	parameters.add(playerPosition.set("playerPosition",0,0,1));
-				   
-	gui.add(autofocus.setup("autofocus"));
-	gui.add(changeIp.setup("changeIp"));
-	gui.add(parameters);
+	videoParameters.setName("video");
+	videoParameters.add(record.set("record",false));
+	videoParameters.add(usePlayer.set("usePlayer",false));
+	videoParameters.add(playerPaused.set("playerPaused",false));
+	videoParameters.add(playerPosition.set("playerPosition",0,0,1));
+	videoParameters.add(drawCamera.set("drawCamera",1,1,axisCameras.size()+1));
+	gui.add(videoParameters);
 
+	for(u_int i=0;i<axisCameras.size();i++){
+		gui.add(&axisCameras[i]->gui);
+	}
 
+	cvParameters.setName("cv");
 	cvParameters.add(cv.set("cv",false));
 	cvParameters.add(thresholdLevel.set("threshold",80,0,255));
 	gui.add(cvParameters);
 
-	
-	axis->setCameraAddress(address);
-	axis->setParametersRefreshRate(5000);
-	axis->setDesiredFrameRate(30);
-	axis->setCodec(ofxAxisGrabber::H264);
-	axis->setAuth(xml.getValue("camera:generalConfig:user",""),xml.getValue("camera:generalConfig:pwd",""));
-	
-	gui.add(axis->parameters);
-	gui.getGroup(address).getIntSlider("focus").setUpdateOnReleaseOnly(true);
-	gui.getGroup(address).getIntSlider("exposure").setUpdateOnReleaseOnly(true);
-	gui.getGroup(address).getIntSlider("irFilterCut").setUpdateOnReleaseOnly(true);
-	gui.getGroup(address).getIntSlider("compression").setUpdateOnReleaseOnly(true);
-	gui.getGroup("generalConfig").getIntSlider("resolution").setUpdateOnReleaseOnly(true);
-	
 	contourFinder.setAutoThreshold(false);
 
-	grabber.setGrabber(axis);
-	reset();
-
-	autofocus.addListener(this,&testApp::autofocusPressed);
-	showFocusWindow.addListener(this,&testApp::showFocusWindowChanged);
 	record.addListener(this,&testApp::recordPressed);
-	changeIp.addListener(this,&testApp::changeIpPressed);
-	resolution.addListener(this,&testApp::resolutionChanged);
 	usePlayer.addListener(this,&testApp::usePlayerChanged);
 	playerPosition.addListener(this,&testApp::playerPositionChanged);
 	playerPaused.addListener(this,&testApp::playerPausedChanged);
+
+	drawCamera=5;
 }
 
 void testApp::playerPausedChanged(bool & paused){
@@ -84,71 +68,26 @@ void testApp::playerPositionChanged(float & position){
 	}
 }
 			
-void testApp::changeIpPressed(bool & pressed){
-	if(!pressed){
-		string newAddress = ofSystemTextBoxDialog("ip", address);
-		if(string(address) != newAddress){
-			address = newAddress;
-			reset();
-		}
-	}
-}
-
-void testApp::resolutionChanged(int & resolution){
-	reset();
-}
 
 void testApp::reset(){
-	grabber.close();
 	player.close();
 
 	if(usePlayer){
 		player.loadMovie(videoPath);
 		player.play();
-		video = &player;
-	}else{
-		videoPath = "";
-		axis->setCameraAddress(address);
-		switch (resolution) {
-			case 0:
-				grabber.initGrabber(320, 240);
-				break;
-			case 1:
-				grabber.initGrabber(640, 480);
-				break;
-			case 2:
-				grabber.initGrabber(800, 600);
-				break;
-			case 3:
-				grabber.initGrabber(1280, 720);
-				break;
-			default:
-				break;
-		}
-		video = &grabber;
 	}
 
-	tex.allocate(video->getWidth(), video->getHeight(), GL_LUMINANCE);
+	/*tex.allocate(video->getWidth(), video->getHeight(), GL_LUMINANCE);
 	gray.allocate(video->getWidth(), video->getHeight(), 1);
 	prevFrame.allocate(video->getWidth(), video->getHeight(), 1);
-	diffFrame.allocate(video->getWidth(), video->getHeight(), 1);
-}
-
-void testApp::autofocusPressed(bool & pressed){
-	if(!pressed && !usePlayer)
-		axis->triggerAutoFocus();
-}
-
-
-void testApp::showFocusWindowChanged(bool & sfw){
-	if(sfw && !usePlayer) focusWindow = axis->getFocusWindow();
+	diffFrame.allocate(video->getWidth(), video->getHeight(), 1);*/
 }
 
 void testApp::recordPressed(bool & record){
 	if(record){
 		string dir = ofGetTimestampString();
 		//ofDirectory(dir).create();
-		gstRecorder.setup(640,480,24,dir+"0.avi",ofxGstVideoRecorder::YUV,round(axis->fps));
+		gstRecorder.setup(640,480,24,dir+"0.avi",ofxGstVideoRecorder::YUV,round(axisCameras[0]->axis->fps));
 	}else{
 		gstRecorder.shutdown();
 	}
@@ -157,17 +96,16 @@ void testApp::recordPressed(bool & record){
 
 //--------------------------------------------------------------
 void testApp::update(){
-	if(settingFocusWindow  && showFocusWindow && ofGetMousePressed(0)){
-		focusWindow.width = ofGetMouseX() - focusWindow.x;
-		focusWindow.height = ofGetMouseY() - focusWindow.y;
+	for(u_int i=0;i<axisCameras.size();i++){
+		axisCameras[i]->update();
 	}
-	video->update();
 	if(usePlayer){
+		player.update();
 		updatingPosition = true;
 		playerPosition = player.getPosition();
 		updatingPosition = false;
 	}
-	if(video->isFrameNew()){
+	/*if(video->isFrameNew()){
 		//cout << "new frame" << endl;
 		if(cv){
 			if(prevFrame.isAllocated()){
@@ -187,29 +125,40 @@ void testApp::update(){
 				gstRecorder.newFrame(video->getPixelsRef());
 			}
 		}
-	}
+	}*/
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	if(cv){
+	/*if(cv){
 		if(video->isFrameNew()){
 			tex.loadData(diffFrame);
 		}
 
 		tex.draw(0,0);
-		/*ofSetColor(0,255,0);
+		ofNoFill();
+		ofSetColor(0,255,0);
 		for(u_int i=0;i<contourFinder.getContours().size();i++){
 			ofRect(toOf(contourFinder.getBoundingRect(i)));
-		}*/
+		}
+		ofFill();
 		ofSetColor(255);
 	}else{
 		video->draw(0,0);
-	}
+	}*/
+
 	gui.draw();
-	if(showFocusWindow){
-		ofNoFill();
-		ofRect(focusWindow);
+
+	if(drawCamera<=axisCameras.size()){
+		axisCameras[drawCamera-1]->draw(220,10,640,480);
+	}else{
+		axisCameras[0]->draw(220,10,320,240);
+		axisCameras[1]->draw(550,10,320,240);
+		axisCameras[2]->draw(220,260,320,240);
+		axisCameras[3]->draw(550,260,320,240);
+	}
+	if(usePlayer){
+		player.draw(200,500);
 	}
 }
 
@@ -244,22 +193,11 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-	if(button == 0 && showFocusWindow && x<grabber.getWidth() && y<grabber.getHeight()){
-		focusWindow.x = x;
-		focusWindow.y = y;
-		focusWindow.width = 0;
-		focusWindow.height = 0;
-		settingFocusWindow = true;
-	}
 
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-	if(settingFocusWindow && button==0 && showFocusWindow){
-		axis->setFocusWindow(focusWindow);
-		settingFocusWindow = false;
-	}
 }
 
 //--------------------------------------------------------------
