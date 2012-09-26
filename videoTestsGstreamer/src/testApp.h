@@ -30,6 +30,9 @@ class testApp : public ofBaseApp{
 		void showFocusWindowChanged(bool & sfw);
 		void changeIpPressed(bool & pressed);
 		void resolutionChanged(int & resolution);
+		void usePlayerChanged(bool & usePlayer);
+		void playerPositionChanged(float & position);
+		void playerPausedChanged(bool & paused);
 
 		ofVideoGrabber 			grabber;
 		ofPtr<ofxAxisGrabber> 	axis;
@@ -50,6 +53,14 @@ class testApp : public ofBaseApp{
 		ofParameterGroup cvParameters;
 
 		ofVideoPlayer player;
+		ofParameter<bool> usePlayer;
+		ofParameter<bool> playerPaused;
+		ofParameter<float> playerPosition;
+		bool updatingPosition;
+		string videoPath;
+
+		ofBaseVideoDraws * video;
+
 		ofxGstVideoRecorder gstRecorder;
 
 		ofPixels gray, prevFrame, diffFrame, color;
