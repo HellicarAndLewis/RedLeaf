@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09C11BF41613580A009BD404 /* ofxAxisGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09C11BF21613580A009BD404 /* ofxAxisGui.cpp */; };
+		09E09EBE16137B5E003ED533 /* ComputerVision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09E09EBC16137B5E003ED533 /* ComputerVision.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		DA415393160FCFED00CF692E /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA415379160FCFED00CF692E /* ofxBaseGui.cpp */; };
 		DA415394160FCFED00CF692E /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA41537B160FCFED00CF692E /* ofxButton.cpp */; };
@@ -198,6 +199,8 @@
 		09C11BF11613580A009BD404 /* ofxAxisGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAxisGrabber.h; sourceTree = "<group>"; };
 		09C11BF21613580A009BD404 /* ofxAxisGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAxisGui.cpp; sourceTree = "<group>"; };
 		09C11BF31613580A009BD404 /* ofxAxisGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAxisGui.h; sourceTree = "<group>"; };
+		09E09EBC16137B5E003ED533 /* ComputerVision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComputerVision.cpp; sourceTree = "<group>"; };
+		09E09EBD16137B5E003ED533 /* ComputerVision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComputerVision.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		DA415379160FCFED00CF692E /* ofxBaseGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
 		DA41537A160FCFED00CF692E /* ofxBaseGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBaseGui.h; sourceTree = "<group>"; };
@@ -1264,6 +1267,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				09E09EBC16137B5E003ED533 /* ComputerVision.cpp */,
+				09E09EBD16137B5E003ED533 /* ComputerVision.h */,
 				09C11BF11613580A009BD404 /* ofxAxisGrabber.h */,
 				09C11BF21613580A009BD404 /* ofxAxisGui.cpp */,
 				09C11BF31613580A009BD404 /* ofxAxisGui.h */,
@@ -1397,6 +1402,7 @@
 				DAC1EA621611E072009D3289 /* Utilities.cpp in Sources */,
 				DAC1EA631611E072009D3289 /* Wrappers.cpp in Sources */,
 				09C11BF41613580A009BD404 /* ofxAxisGui.cpp in Sources */,
+				09E09EBE16137B5E003ED533 /* ComputerVision.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
