@@ -4,7 +4,7 @@
 #include "ofxGui.h"
 #include "ofxAxisGui.h"
 #include "ofxGstVideoRecorder.h"
-#include "ofxCv.h"
+#include "ComputerVision.h"
 
 class testApp : public ofBaseApp{
 
@@ -22,25 +22,22 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-	
-		void reset();
 
-		void recordPressed(bool & record);
-		
+		void recordChanged(int & record);
 		void usePlayerChanged(bool & usePlayer);
 		void playerPositionChanged(float & position);
 		void playerPausedChanged(bool & paused);
 
 		vector<ofxAxisGui*> axisCameras;
+		vector<ComputerVision*> cvModules;
 
 		ofxPanel gui;
 
 		ofParameter<bool> cv;
-		ofParameter<int> thresholdLevel;
 		ofParameterGroup cvParameters;
 
 		ofVideoPlayer player;
-		ofParameter<bool> record;
+		ofParameter<int> record;
 		ofParameter<bool> usePlayer;
 		ofParameter<bool> playerPaused;
 		ofParameter<float> playerPosition;
@@ -52,9 +49,5 @@ class testApp : public ofBaseApp{
 
 
 		ofxGstVideoRecorder gstRecorder;
-
-		ofPixels gray, prevFrame, diffFrame, color;
-		ofTexture tex;
-		ofxCv::ContourFinder contourFinder;
 
 };

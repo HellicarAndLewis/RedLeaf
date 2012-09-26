@@ -69,7 +69,10 @@ void ofxGstVideoRecorder::shutdown()
 		gst_element_send_event(getPipeline(), gst_event_new_eos());
 		gst_object_unref(gstSrc);
 		gstSrc = NULL;
+	}else{
+		close();
 	}
+    if(bufferPool) delete bufferPool;
 }
 
 void ofxGstVideoRecorder::on_eos(){
@@ -93,7 +96,7 @@ void ofxGstVideoRecorder::tcpStreamTo(string host, int port){
 }
 
 void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Codec _codec, int fps){
-	close();
+	shutdown();
 	ofGstUtils::startGstMainLoop();
 
 	bufferPool = new ofxGstBufferPool(width,height,bpp/8);
@@ -280,6 +283,8 @@ void ofxGstVideoRecorder::setup(int width, int height, int bpp, string file, Cod
 }
 
 void ofxGstVideoRecorder::newFrame(ofPixels & pixels){
+	if(!bufferPool || !gstSrc) return;
+
 	PooledPixels * pooledPixels = bufferPool->newBuffer();
 	(*(ofPixels*)pooledPixels) = pixels;
 	if(codec==PNG_SEQUENCE || codec==TIFF_SEQUENCE){

@@ -378,3 +378,7 @@ void ofxAxisGrabber::setAuth(string user, string pwd){
 void ofxAxisGrabber::setParametersRefreshRate(int ms){
 	paramRefreshRateMs = ms;
 }
+
+ofGstVideoUtils & ofxAxisGrabber::getGstUtils(){
+	return gst;
+}

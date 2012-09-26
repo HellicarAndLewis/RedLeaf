@@ -63,6 +63,8 @@ public:
 	template<typename T>
 	void setPropertyValue(string property, T & value);
 
+	ofGstVideoUtils & getGstUtils();
+
 	ofParameter<int> focus;
 	ofParameter<int> focusMeasure;
 	ofParameter<bool> manualIris;

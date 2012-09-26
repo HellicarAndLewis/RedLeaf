@@ -1,6 +1,5 @@
 #include "testApp.h"
 #include "ofxXmlSettings.h"
-using namespace ofxCv;
 
 
 //--------------------------------------------------------------
@@ -15,30 +14,35 @@ void testApp::setup(){
 		axisCameras[i]->setDrawGui(false);
 		axisCameras[i]->setAuth(xml.getValue("settings:camera"+ofToString(i+1)+":user",""),xml.getValue("settings:camera"+ofToString(i+1)+":pwd",""));
 		axisCameras[i]->setup(xml.getValue("settings:camera"+ofToString(i+1)+":address",""),"camera"+ofToString(i+1),220,10);
+		cvModules.push_back(new ComputerVision);
+		ofAddListener(axisCameras[i]->axis->getGstUtils().bufferEvent,cvModules[i],&ComputerVision::newFrame);
 	}
 
 	gui.setup("settings","settings.xml");
 
 	videoParameters.setName("video");
-	videoParameters.add(record.set("record",false));
+	videoParameters.add(record.set("record",0,0,axisCameras.size()+1));
 	videoParameters.add(usePlayer.set("usePlayer",false));
 	videoParameters.add(playerPaused.set("playerPaused",false));
 	videoParameters.add(playerPosition.set("playerPosition",0,0,1));
 	videoParameters.add(drawCamera.set("drawCamera",1,1,axisCameras.size()+1));
 	gui.add(videoParameters);
 
+
+	cvParameters.setName("cv");
+	cvParameters.add(cv.set("showCV",false));
+	cvParameters.add(ComputerVision::thresholdLevel);
+	gui.add(cvParameters);
+
+
 	for(u_int i=0;i<axisCameras.size();i++){
 		gui.add(&axisCameras[i]->gui);
 	}
 
-	cvParameters.setName("cv");
-	cvParameters.add(cv.set("cv",false));
-	cvParameters.add(thresholdLevel.set("threshold",80,0,255));
-	gui.add(cvParameters);
+	gui.getGroup("video").getIntSlider("record").setUpdateOnReleaseOnly(true);
+	gui.loadFromFile("settings.xml");
 
-	contourFinder.setAutoThreshold(false);
-
-	record.addListener(this,&testApp::recordPressed);
+	record.addListener(this,&testApp::recordChanged);
 	usePlayer.addListener(this,&testApp::usePlayerChanged);
 	playerPosition.addListener(this,&testApp::playerPositionChanged);
 	playerPaused.addListener(this,&testApp::playerPausedChanged);
@@ -51,15 +55,27 @@ void testApp::playerPausedChanged(bool & paused){
 }
 
 void testApp::usePlayerChanged(bool & usePlayer){
+	player.close();
 	if(usePlayer){
 		ofFileDialogResult result = ofSystemLoadDialog("select video",false);
 		if(result.bSuccess){
 			videoPath=result.filePath;
+			player.loadMovie(videoPath);
+			player.play();
+			ofRemoveListener(axisCameras[0]->axis->getGstUtils().bufferEvent,cvModules[0],&ComputerVision::newFrame);
+			ofAddListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
+			ofAddListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
 		}else{
+			ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
+			ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
+			ofAddListener(axisCameras[0]->axis->getGstUtils().bufferEvent,cvModules[0],&ComputerVision::newFrame);
 			usePlayer = false;
 		}
+	}else{
+		ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
+		ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
+		ofAddListener(axisCameras[0]->axis->getGstUtils().bufferEvent,cvModules[0],&ComputerVision::newFrame);
 	}
-	reset();
 }
 
 void testApp::playerPositionChanged(float & position){
@@ -68,22 +84,7 @@ void testApp::playerPositionChanged(float & position){
 	}
 }
 			
-
-void testApp::reset(){
-	player.close();
-
-	if(usePlayer){
-		player.loadMovie(videoPath);
-		player.play();
-	}
-
-	/*tex.allocate(video->getWidth(), video->getHeight(), GL_LUMINANCE);
-	gray.allocate(video->getWidth(), video->getHeight(), 1);
-	prevFrame.allocate(video->getWidth(), video->getHeight(), 1);
-	diffFrame.allocate(video->getWidth(), video->getHeight(), 1);*/
-}
-
-void testApp::recordPressed(bool & record){
+void testApp::recordChanged(int & record){
 	if(record){
 		string dir = ofGetTimestampString();
 		//ofDirectory(dir).create();
@@ -98,6 +99,7 @@ void testApp::recordPressed(bool & record){
 void testApp::update(){
 	for(u_int i=0;i<axisCameras.size();i++){
 		axisCameras[i]->update();
+		cvModules[i]->update();
 	}
 	if(usePlayer){
 		player.update();
@@ -105,61 +107,40 @@ void testApp::update(){
 		playerPosition = player.getPosition();
 		updatingPosition = false;
 	}
-	/*if(video->isFrameNew()){
-		//cout << "new frame" << endl;
-		if(cv){
-			if(prevFrame.isAllocated()){
-				convertColor(video->getPixelsRef(),gray,CV_RGB2GRAY);
-				absdiff(gray,prevFrame,diffFrame);
-				//blur(diffFrame,5);
-				threshold(diffFrame,thresholdLevel);
-				contourFinder.findContours(diffFrame);
-			}
-			prevFrame = gray;
-			if(record){
-				convertColor(diffFrame,color,CV_GRAY2RGB);
-				gstRecorder.newFrame(color);
-			}
-		}else{
-			if(record){
-				gstRecorder.newFrame(video->getPixelsRef());
-			}
-		}
-	}*/
+	if(record && axisCameras[record-1]->grabber.isFrameNew()){
+		gstRecorder.newFrame(axisCameras[record-1]->grabber.getPixelsRef());
+	}
+
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	/*if(cv){
-		if(video->isFrameNew()){
-			tex.loadData(diffFrame);
-		}
-
-		tex.draw(0,0);
-		ofNoFill();
-		ofSetColor(0,255,0);
-		for(u_int i=0;i<contourFinder.getContours().size();i++){
-			ofRect(toOf(contourFinder.getBoundingRect(i)));
-		}
-		ofFill();
-		ofSetColor(255);
-	}else{
-		video->draw(0,0);
-	}*/
-
 	gui.draw();
-
-	if(drawCamera<=axisCameras.size()){
-		axisCameras[drawCamera-1]->draw(220,10,640,480);
+	if(cv){
+		if(drawCamera<=(int)cvModules.size()){
+			cvModules[drawCamera-1]->draw(220,10,640,480);
+		}else{
+			cvModules[0]->draw(220,10,320,240);
+			cvModules[1]->draw(550,10,320,240);
+			cvModules[2]->draw(220,260,320,240);
+			cvModules[3]->draw(550,260,320,240);
+		}
 	}else{
-		axisCameras[0]->draw(220,10,320,240);
-		axisCameras[1]->draw(550,10,320,240);
-		axisCameras[2]->draw(220,260,320,240);
-		axisCameras[3]->draw(550,260,320,240);
+		if(drawCamera<=(int)axisCameras.size()){
+			axisCameras[drawCamera-1]->draw(220,10,640,480);
+		}else{
+			axisCameras[0]->draw(220,10,320,240);
+			axisCameras[1]->draw(550,10,320,240);
+			axisCameras[2]->draw(220,260,320,240);
+			axisCameras[3]->draw(550,260,320,240);
+		}
+		if(usePlayer){
+			if(drawCamera<=(int)axisCameras.size()) player.draw(220,10,640,480);
+			else  player.draw(220,10,320,240);
+		}
 	}
-	if(usePlayer){
-		player.draw(200,500);
-	}
+
+	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),ofGetWidth()-110,20);
 }
 
 //--------------------------------------------------------------
