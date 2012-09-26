@@ -40,13 +40,13 @@ void ofxAxisGui::setup(string cameraAddress,string _cameraName,int x, int y){
 	gui.add(addressLabel.setup("ip:",address));
 	gui.add(changeIp.setup("changeIp"));
 	gui.add(axis->cameraConnected);
+	gui.add(axis->cameraAuth);
 	gui.add(resolution.set("resolution",1,0,3));
 
 	gui.add(showFocusWindow.set("showFocusWindow",false));
 	gui.add(autofocus.setup("autofocus"));
 	gui.add(axis->focus);
 	gui.add(axis->manualIris);
-	gui.add(axis->fps);
 	gui.add(axis->exposure);
 	gui.add(axis->irFilterCut);
 	gui.add(axis->compression);
@@ -106,7 +106,12 @@ void ofxAxisGui::draw(float x, float y, float _w, float _h){
 	ofSetColor(0,180);
 	ofRect(0,0,w,20);
 	ofSetColor(255);
-	ofDrawBitmapString(cameraName + ": " + (string)address + " / " + ofToString((int)axis->fps) + "fps",10,15);
+	string cameraStr = cameraName + ": " + (string)address + " " + ofToString((int)axis->fps) + "fps";
+	if(!axis->cameraAuth){
+		cameraStr += " wrong passwd";
+		ofSetColor(255,0,0);
+	}
+	ofDrawBitmapString(cameraStr,5,15);
 	ofPopMatrix();
 	ofPopStyle();
 }

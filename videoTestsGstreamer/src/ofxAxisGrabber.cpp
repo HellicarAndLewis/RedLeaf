@@ -28,6 +28,7 @@ ofxAxisGrabber::ofxAxisGrabber() {
 	parameters.add(compression.set("compression",30,0,100));
 	parameters.add(fps.set("fps",0,0,60));
 	parameters.add(cameraConnected.set("cameraConnected",false));
+	parameters.add(cameraAuth.set("cameraAuth",false));
 	prevFocus = focus;
 
 	compression.addListener(this,&ofxAxisGrabber::compressionChanged);
@@ -271,6 +272,7 @@ void ofxAxisGrabber::threadedFunction(){
 		ofxHttpResponse response = http.getUrl("http://"+cameraAddress+"/axis-cgi/opticssetup.cgi?monitor=poll&timestamp="+ofToString(ofGetSystemTime()));
 		if(response.status==200){
 			cameraConnected = true;
+			cameraAuth = true;
 			Poco::XML::DOMParser parser;
 			Poco::XML::Document * xml = parser.parseString(response.responseBody);
 			focus = round(ofToFloat(xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusPosition")->nodeValue())*297);
@@ -281,6 +283,8 @@ void ofxAxisGrabber::threadedFunction(){
 		}else{
 			if(response.status==-1){
 				cameraConnected = false;
+			}else if(response.status==401){
+				cameraAuth = false;
 			}
 			ofLogError("ofxAxisGrabber")<< "couldn't update parameters: " << response.status << ": " << response.reasonForStatus;
 		}

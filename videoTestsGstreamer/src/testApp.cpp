@@ -13,11 +13,11 @@ void testApp::setup(){
 	for(u_int i=0;i<4;i++){
 		axisCameras.push_back(new ofxAxisGui());
 		axisCameras[i]->setDrawGui(false);
-		axisCameras[i]->setAuth(xml.getValue("camera:generalConfig:user",""),xml.getValue("camera:generalConfig:pwd",""));
-		axisCameras[i]->setup(xml.getValue("camera:generalConfig:address",""),"camera"+ofToString(i+1),220,10);
+		axisCameras[i]->setAuth(xml.getValue("settings:camera"+ofToString(i+1)+":user",""),xml.getValue("settings:camera"+ofToString(i+1)+":pwd",""));
+		axisCameras[i]->setup(xml.getValue("settings:camera"+ofToString(i+1)+":address",""),"camera"+ofToString(i+1),220,10);
 	}
 
-	gui.setup("general","settings.xml");
+	gui.setup("settings","settings.xml");
 
 	videoParameters.setName("video");
 	videoParameters.add(record.set("record",false));

@@ -1,10 +1,65 @@
-<camera>
-    <generalConfig>
-        <showFocusWindow>0</showFocusWindow>
+<settings>
+    <video>
         <record>0</record>
-        <resolution>1</resolution>
+        <usePlayer>0</usePlayer>
+        <playerPaused>0</playerPaused>
+        <playerPosition>0</playerPosition>
+        <drawCamera>5</drawCamera>
+    </video>
+    <camera1>
+        <address>192.168.1.39</address>
         <user>root</user>
         <pwd>password</pwd>
-        <address>192.168.0.90</address>
-    </generalConfig>
-</camera>
+        <cameraConnected>1</cameraConnected>
+        <resolution>1</resolution>
+        <showFocusWindow>0</showFocusWindow>
+        <focus>183</focus>
+        <manualIris>1</manualIris>
+        <exposure>49</exposure>
+        <irFilterCut>0</irFilterCut>
+        <compression>49</compression>
+    </camera1>
+    <camera2>
+        <address>192.168.1.40</address>
+        <user>root</user>
+        <pwd>password</pwd>
+        <cameraConnected>1</cameraConnected>
+        <resolution>1</resolution>
+        <showFocusWindow>0</showFocusWindow>
+        <focus>183</focus>
+        <manualIris>1</manualIris>
+        <exposure>49</exposure>
+        <irFilterCut>0</irFilterCut>
+        <compression>49</compression>
+    </camera2>
+    <camera3>
+        <address>10.42.0.41</address>
+        <user>root</user>
+        <pwd>password</pwd>
+        <cameraConnected>1</cameraConnected>
+        <resolution>1</resolution>
+        <showFocusWindow>0</showFocusWindow>
+        <focus>183</focus>
+        <manualIris>1</manualIris>
+        <exposure>49</exposure>
+        <irFilterCut>0</irFilterCut>
+        <compression>49</compression>
+    </camera3>
+    <camera4>
+        <address>10.42.0.42</address>
+        <user>root</user>
+        <pwd>password</pwd>
+        <cameraConnected>1</cameraConnected>
+        <resolution>1</resolution>
+        <showFocusWindow>0</showFocusWindow>
+        <focus>183</focus>
+        <manualIris>1</manualIris>
+        <exposure>49</exposure>
+        <irFilterCut>0</irFilterCut>
+        <compression>49</compression>
+    </camera4>
+    <cv>
+        <cv>0</cv>
+        <threshold>80</threshold>
+    </cv>
+</settings>

@@ -68,6 +68,7 @@ public:
 	ofParameter<bool> manualIris;
 	ofParameter<float> fps;
 	ofParameter<bool> cameraConnected;
+	ofParameter<bool> cameraAuth;
 	ofParameter<int> exposure;
 	ofParameter<int> irFilterCut;
 	ofParameter<int> compression;
