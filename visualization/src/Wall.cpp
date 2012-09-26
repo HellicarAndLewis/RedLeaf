@@ -498,6 +498,8 @@ void Wall::draw(){
 			ofLine(i,0,i,h);
 		}
 		ofPopMatrix();
+		
+		ofSetColor(255);
 	}else{
 		ofPushStyle();
 		ofSetColor(255,0,0);
