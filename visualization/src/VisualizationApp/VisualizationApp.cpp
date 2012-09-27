@@ -1,10 +1,10 @@
-#include "testApp.h"
+#include "VisualizationApp.h"
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/DateTimeFormat.h"
 #include "Poco/DateTime.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){
+void VisualizationApp::setup(){
 	ofEnableAlphaBlending();
 	ofBackground(0);
 	//ofSetVerticalSync(true);
@@ -33,43 +33,44 @@ void testApp::setup(){
 	gui.loadFromFile("settings.xml");
 
 	//twitterListener.hashtag = "#RedLeaf";
-	changeTag.addListener(this,&testApp::changeHashTag);
-	startTest.addListener(this,&testApp::startTestPressed);
+	changeTag.addListener(this,&VisualizationApp::changeHashTag);
+	startTest.addListener(this,&VisualizationApp::startTestPressed);
 
 	cursorHidden = false;
 
-	ofAddListener(twitterListener.newTweetE,this,&testApp::newTweet);
+	ofAddListener(twitterListener.newTweetE,this,&VisualizationApp::newTweet);
 	twitterListener.start();
 }
 
-void testApp::changeHashTag(bool & pressed){
+void VisualizationApp::changeHashTag(bool & pressed){
 	if(!pressed) twitterListener.hashtag = ofSystemTextBoxDialog("new hashtag",twitterListener.hashtag);
 }
 
-void testApp::startTestPressed(bool & pressed){
+void VisualizationApp::startTestPressed(bool & pressed){
 	if(!pressed) wall.startTest();
 }
 
 //--------------------------------------------------------------
-void testApp::update(){
+void VisualizationApp::update(){
 	wall.update();
 	audio.update();
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void VisualizationApp::draw(){
 	wall.draw();
 	gui.draw();
 	Poco::LocalDateTime date;
 	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),wall.vizX+wall.renderW-210,20);
+	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),wall.vizX+wall.renderW-210,40);
 }
 
-void testApp::newTweet(const Tweet & tweet){
+void VisualizationApp::newTweet(const Tweet & tweet){
 	wall.energyBurst(ofRandom(1),.5,wall.useColors ? wall.niceRandomColor() : ofColor::white);
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void VisualizationApp::keyPressed(int key){
 	if(key=='m'){
 		if(!cursorHidden) ofHideCursor();
 		else ofShowCursor();
@@ -94,40 +95,40 @@ void testApp::keyPressed(int key){
 
 
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){
+void VisualizationApp::keyReleased(int key){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void VisualizationApp::mouseMoved(int x, int y ){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
+void VisualizationApp::mouseDragged(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
+void VisualizationApp::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
+void VisualizationApp::mouseReleased(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
+void VisualizationApp::windowResized(int w, int h){
 
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
+void VisualizationApp::gotMessage(ofMessage msg){
+
+}
+
+//--------------------------------------------------------------
+void VisualizationApp::dragEvent(ofDragInfo dragInfo){
 
 }

@@ -1,10 +1,10 @@
-#include "testApp.h"
+#include "VideoTestsApp.h"
 #include "ofxXmlSettings.h"
 #include "ofGstVideoPlayer.h"
 
 
 //--------------------------------------------------------------
-void testApp::setup(){
+void VideoTestsApp::setup(){
 	updatingPosition = false;
 	
 	//ofSetLogLevel(OF_LOG_VERBOSE);
@@ -47,21 +47,21 @@ void testApp::setup(){
 	gui.getGroup("video").getIntSlider("record").setUpdateOnReleaseOnly(true);
 	gui.loadFromFile("settings.xml");
 
-	record.addListener(this,&testApp::recordChanged);
-	usePlayer.addListener(this,&testApp::usePlayerChanged);
-	playerPosition.addListener(this,&testApp::playerPositionChanged);
-	playerPaused.addListener(this,&testApp::playerPausedChanged);
-	drawCamera.addListener(this,&testApp::drawCameraChanged);
+	record.addListener(this,&VideoTestsApp::recordChanged);
+	usePlayer.addListener(this,&VideoTestsApp::usePlayerChanged);
+	playerPosition.addListener(this,&VideoTestsApp::playerPositionChanged);
+	playerPaused.addListener(this,&VideoTestsApp::playerPausedChanged);
+	drawCamera.addListener(this,&VideoTestsApp::drawCameraChanged);
 
 	int activeCamera = drawCamera;
 	drawCameraChanged(activeCamera);
 }
 
-void testApp::playerPausedChanged(bool & paused){
+void VideoTestsApp::playerPausedChanged(bool & paused){
 	if(usePlayer) player.setPaused(paused);
 }
 
-void testApp::usePlayerChanged(bool & usePlayer){
+void VideoTestsApp::usePlayerChanged(bool & usePlayer){
 	player.close();
 	if(usePlayer){
 		ofFileDialogResult result = ofSystemLoadDialog("select video",false);
@@ -85,13 +85,13 @@ void testApp::usePlayerChanged(bool & usePlayer){
 	}
 }
 
-void testApp::playerPositionChanged(float & position){
+void VideoTestsApp::playerPositionChanged(float & position){
 	if(usePlayer && !updatingPosition){
 		player.setPosition(position);
 	}
 }
 			
-void testApp::recordChanged(int & record){
+void VideoTestsApp::recordChanged(int & record){
 	if(record){
 		string dir = ofGetTimestampString();
 		//ofDirectory(dir).create();
@@ -101,7 +101,7 @@ void testApp::recordChanged(int & record){
 	}
 }
 
-void testApp::drawCameraChanged(int & drawCamera){
+void VideoTestsApp::drawCameraChanged(int & drawCamera){
 	if(drawCamera<=(int)cvModules.size()){
 		cvModules[drawCamera-1]->setPosition(220,10);
 		cvModules[drawCamera-1]->setSize(640,480);
@@ -119,7 +119,7 @@ void testApp::drawCameraChanged(int & drawCamera){
 
 
 //--------------------------------------------------------------
-void testApp::update(){
+void VideoTestsApp::update(){
 	for(u_int i=0;i<axisCameras.size();i++){
 		axisCameras[i]->update();
 		cvModules[i]->update();
@@ -137,7 +137,7 @@ void testApp::update(){
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void VideoTestsApp::draw(){
 	gui.draw();
 	if(drawCamera<=(int)axisCameras.size()){
 		axisCameras[drawCamera-1]->draw(220,10,640,480);
@@ -165,11 +165,13 @@ void testApp::draw(){
 			ofCircle(ofMap(cvModules[i]->getTriggers()[j],0,1,0.25*i,0.25*(i+1))*600+250,ofGetHeight()-30,3);
 		}
 	}
-	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),ofGetWidth()-110,20);
+	/*Poco::LocalDateTime date;
+	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),wall.vizX+wall.renderW-210,20);
+	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),ofGetWidth()-110,40);*/
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void VideoTestsApp::keyPressed(int key){
 	if(usePlayer && key==OF_KEY_RIGHT){
 		player.setFrame(player.getCurrentFrame()+1);
 	}
@@ -183,40 +185,40 @@ void testApp::keyPressed(int key){
 }
 
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){
+void VideoTestsApp::keyReleased(int key){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void VideoTestsApp::mouseMoved(int x, int y ){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
+void VideoTestsApp::mouseDragged(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
+void VideoTestsApp::mousePressed(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
+void VideoTestsApp::mouseReleased(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
+void VideoTestsApp::windowResized(int w, int h){
 
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
+void VideoTestsApp::gotMessage(ofMessage msg){
+
+}
+
+//--------------------------------------------------------------
+void VideoTestsApp::dragEvent(ofDragInfo dragInfo){ 
 
 }

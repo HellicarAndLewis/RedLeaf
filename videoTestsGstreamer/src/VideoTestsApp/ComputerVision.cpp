@@ -52,9 +52,9 @@ void ComputerVision::newFrame(ofPixels & pixels){
 		threshold(diffFrameBack,thresholdLevel);
 		contourFinder.findContours(diffFrameBack);
 	}
+
 	prevFrame = gray;
 
-	contoursBBsBack.clear();
 	ofPolyline quad = warp.getQuad(ofVec2f(0,0),ofVec2f(diffFrameBack.getWidth(), diffFrameBack.getHeight()));
 	topHalfBack = quad[0]+(quad[1]-quad[0])*.5;
 	bottomHalfBack = quad[3]+(quad[2]-quad[3])*.5;
@@ -63,6 +63,7 @@ void ComputerVision::newFrame(ofPixels & pixels){
 	float y1 = topHalfBack.y;
 	float x2 = bottomHalfBack.x;
 	float y2 = bottomHalfBack.y;
+	contoursBBsBack.clear();
 	crossPointsBack.clear();
 	distancesBack.clear();
 	triggersBack.clear();

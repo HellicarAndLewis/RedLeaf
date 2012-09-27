@@ -6,7 +6,7 @@
 #include "ofxGstVideoRecorder.h"
 #include "ComputerVision.h"
 
-class testApp : public ofBaseApp{
+class VideoTestsApp : public ofBaseApp{
 
 	public:
 		void setup();

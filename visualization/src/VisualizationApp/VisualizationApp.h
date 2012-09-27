@@ -6,7 +6,7 @@
 #include "TwitterListener.h"
 #include "AudioManager.h"
 
-class testApp : public ofBaseApp{
+class VisualizationApp : public ofBaseApp{
 
 	public:
 		void setup();
