@@ -32,6 +32,8 @@ void VisualizationApp::setup(){
 	gui.add(audio.parameters);
 	gui.loadFromFile("settings.xml");
 
+	gui.minimizeAll();
+
 	//twitterListener.hashtag = "#RedLeaf";
 	changeTag.addListener(this,&VisualizationApp::changeHashTag);
 	startTest.addListener(this,&VisualizationApp::startTestPressed);

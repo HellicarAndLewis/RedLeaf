@@ -46,6 +46,7 @@ void VideoTestsApp::setup(){
 
 	gui.getGroup("video").getIntSlider("record").setUpdateOnReleaseOnly(true);
 	gui.loadFromFile("settings.xml");
+	gui.minimizeAll();
 
 	record.addListener(this,&VideoTestsApp::recordChanged);
 	usePlayer.addListener(this,&VideoTestsApp::usePlayerChanged);
