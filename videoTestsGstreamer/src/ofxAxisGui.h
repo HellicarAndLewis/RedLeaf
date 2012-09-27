@@ -26,6 +26,7 @@ public:
 	ofxButton autofocus;
 	ofParameter<bool> showFocusWindow;
 	ofxButton changeIp;
+	ofxButton reset;
 	ofParameter<int> resolution;
 	ofParameter<string> address;
 	ofxGuiGroup gui;
@@ -34,10 +35,11 @@ public:
 	ofPtr<ofxAxisGrabber> axis;
 
 private:
-	void reset();
+	void resetCamera();
 	void autofocusPressed(bool & pressed);
 	void changeIpPressed(bool & pressed);
 	void resolutionChanged(int & resolution);
+	void resetPressed(bool & pressed);
 
 	void mousePressed(ofMouseEventArgs & mouse);
 	void mouseReleased(ofMouseEventArgs & mouse);

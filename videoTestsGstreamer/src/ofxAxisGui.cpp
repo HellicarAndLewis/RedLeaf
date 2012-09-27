@@ -40,6 +40,7 @@ void ofxAxisGui::setup(string cameraAddress,string _cameraName,int x, int y){
 	gui.setup(cameraName,"settings.xml",x+650,y);
 	gui.add(addressLabel.setup("ip:",address));
 	gui.add(changeIp.setup("changeIp"));
+	gui.add(reset.setup("reset"));
 	gui.add(resolution.set("resolution",1,0,3));
 
 	gui.add(showFocusWindow.set("showFocusWindow",false));
@@ -59,11 +60,12 @@ void ofxAxisGui::setup(string cameraAddress,string _cameraName,int x, int y){
 	autofocus.addListener(this,&ofxAxisGui::autofocusPressed);
 	changeIp.addListener(this,&ofxAxisGui::changeIpPressed);
 	resolution.addListener(this,&ofxAxisGui::resolutionChanged);
+	reset.addListener(this,&ofxAxisGui::resetPressed);
 
 	ofAddListener(ofEvents().mousePressed,this,&ofxAxisGui::mousePressed);
 	ofAddListener(ofEvents().mouseReleased,this,&ofxAxisGui::mouseReleased);
 
-	reset();
+	resetCamera();
 }
 
 void ofxAxisGui::update(){
@@ -118,6 +120,11 @@ void ofxAxisGui::draw(float x, float y, float _w, float _h){
 	ofPopStyle();
 }
 
+void ofxAxisGui::resetPressed(bool & pressed){
+	if(!pressed)
+		resetCamera();
+}
+
 void ofxAxisGui::autofocusPressed(bool & pressed){
 	if(!pressed)
 		axis->triggerAutoFocus();
@@ -128,16 +135,16 @@ void ofxAxisGui::changeIpPressed(bool & pressed){
 		string newAddress = ofSystemTextBoxDialog("ip", address);
 		if(string(address) != newAddress){
 			address = newAddress;
-			reset();
+			resetCamera();
 		}
 	}
 }
 
 void ofxAxisGui::resolutionChanged(int & resolution){
-	reset();
+	resetCamera();
 }
 
-void ofxAxisGui::reset(){
+void ofxAxisGui::resetCamera(){
 	grabber.close();
 	axis->setCameraAddress(address);
 	switch (resolution) {
