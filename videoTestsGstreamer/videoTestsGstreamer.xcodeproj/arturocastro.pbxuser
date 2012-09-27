@@ -1,15 +1,5 @@
 // !$*UTF8*$!
 {
-	DA2938B41611FE3200EDF087 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = DA41551C160FD8C400CF692E /* ofxGstVideoRecorder.cpp */;
-		name = "ofxGstVideoRecorder.cpp: 203";
-		rLen = 6;
-		rLoc = 5648;
-		rType = 0;
-		vrLen = 1559;
-		vrLoc = 2145;
-	};
 	DA415379160FCFED00CF692E /* ofxBaseGui.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1215, 2262}}";
@@ -81,44 +71,6 @@
 			sepNavVisRange = "{5410, 1633}";
 		};
 	};
-	DA4153A5160FCFFA00CF692E /* ofxAxisGrabber.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = ofxAxisGrabber.h;
-		path = /Users/arturocastro/Desktop/openFrameworks/apps/RedLeaf/videoTestsGstreamer/src/ofxAxisGrabber.h;
-		sourceTree = "<absolute>";
-	};
-	DA4154E5160FD2BF00CF692E /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = DA4153A5160FCFFA00CF692E /* ofxAxisGrabber.h */;
-		name = "ofxAxisGrabber.h: 15";
-		rLen = 0;
-		rLoc = 216;
-		rType = 0;
-		vrLen = 441;
-		vrLoc = 0;
-	};
-	DA41551B160FD8C400CF692E /* ofxAxisGrabber.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2322, 4901}}";
-			sepNavSelRange = "{3392, 6}";
-			sepNavVisRange = "{3971, 1270}";
-		};
-	};
-	DA41551C160FD8C400CF692E /* ofxGstVideoRecorder.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 3965}}";
-			sepNavSelRange = "{5648, 6}";
-			sepNavVisRange = "{2145, 1559}";
-		};
-	};
-	DA41551D160FD8C400CF692E /* ofxGstVideoRecorder.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 806}}";
-			sepNavSelRange = "{519, 3}";
-			sepNavVisRange = "{253, 735}";
-		};
-	};
 	DA41554F160FD96100CF692E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = DA41538D160FCFED00CF692E /* tinyxml.h */;
@@ -165,16 +117,6 @@
 		rType = 0;
 		vrLen = 1073;
 		vrLoc = 400;
-	};
-	DA4156E616107B4C00CF692E /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = DA41551B160FD8C400CF692E /* ofxAxisGrabber.cpp */;
-		name = "ofxAxisGrabber.cpp: 112";
-		rLen = 6;
-		rLoc = 3392;
-		rType = 0;
-		vrLen = 1270;
-		vrLoc = 3971;
 	};
 	DA4156EE16107C1900CF692E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -310,46 +252,6 @@
 		vrLen = 259;
 		vrLoc = 0;
 	};
-	DAC1EDB61611FB88009D3289 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E4B69E1F0A3A1BDC003C02F2 /* testApp.h */;
-		name = "testApp.h: 28";
-		rLen = 0;
-		rLoc = 630;
-		rType = 0;
-		vrLen = 1111;
-		vrLoc = 82;
-	};
-	DAC1EDC31611FC2D009D3289 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = DA41551D160FD8C400CF692E /* ofxGstVideoRecorder.h */;
-		name = "ofxGstVideoRecorder.h: 35";
-		rLen = 3;
-		rLoc = 519;
-		rType = 0;
-		vrLen = 735;
-		vrLoc = 253;
-	};
-	DADC70F81613175D0063C5B0 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */;
-		name = "testApp.cpp: 124";
-		rLen = 0;
-		rLoc = 3512;
-		rType = 0;
-		vrLen = 1055;
-		vrLoc = 2907;
-	};
-	DADC70FD1613175D0063C5B0 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */;
-		name = "testApp.cpp: 124";
-		rLen = 0;
-		rLoc = 3512;
-		rType = 0;
-		vrLen = 1055;
-		vrLoc = 2907;
-	};
 	E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = DA496B5E160C2DD5007ED082 /* videoTestsGstreamer */;
@@ -384,27 +286,20 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 370349916;
-			PBXWorkspaceStateSaveDate = 370349916;
+			PBXPerProjectTemplateStateSaveDate = 370470704;
+			PBXWorkspaceStateSaveDate = 370470704;
 		};
 		perUserProjectItems = {
-			DA2938B41611FE3200EDF087 /* PBXTextBookmark */ = DA2938B41611FE3200EDF087 /* PBXTextBookmark */;
-			DA4154E5160FD2BF00CF692E /* PBXTextBookmark */ = DA4154E5160FD2BF00CF692E /* PBXTextBookmark */;
 			DA41554F160FD96100CF692E /* PBXTextBookmark */ = DA41554F160FD96100CF692E /* PBXTextBookmark */;
 			DA415550160FD96100CF692E /* PBXTextBookmark */ = DA415550160FD96100CF692E /* PBXTextBookmark */;
 			DA415607160FF35C00CF692E /* PBXTextBookmark */ = DA415607160FF35C00CF692E /* PBXTextBookmark */;
 			DA4156A51610028D00CF692E /* PBXTextBookmark */ = DA4156A51610028D00CF692E /* PBXTextBookmark */;
-			DA4156E616107B4C00CF692E /* PBXTextBookmark */ = DA4156E616107B4C00CF692E /* PBXTextBookmark */;
 			DA4156EE16107C1900CF692E /* PBXTextBookmark */ = DA4156EE16107C1900CF692E /* PBXTextBookmark */;
 			DAC1EB3B1611E101009D3289 /* PBXTextBookmark */ = DAC1EB3B1611E101009D3289 /* PBXTextBookmark */;
 			DAC1EB3C1611E101009D3289 /* PBXTextBookmark */ = DAC1EB3C1611E101009D3289 /* PBXTextBookmark */;
 			DAC1EC9E1611E2BB009D3289 /* PBXTextBookmark */ = DAC1EC9E1611E2BB009D3289 /* PBXTextBookmark */;
 			DAC1EC9F1611E2BB009D3289 /* PBXTextBookmark */ = DAC1EC9F1611E2BB009D3289 /* PBXTextBookmark */;
 			DAC1ECA01611E2BB009D3289 /* PBXTextBookmark */ = DAC1ECA01611E2BB009D3289 /* PBXTextBookmark */;
-			DAC1EDB61611FB88009D3289 /* PBXTextBookmark */ = DAC1EDB61611FB88009D3289 /* PBXTextBookmark */;
-			DAC1EDC31611FC2D009D3289 /* PBXTextBookmark */ = DAC1EDC31611FC2D009D3289 /* PBXTextBookmark */;
-			DADC70F81613175D0063C5B0 /* PBXTextBookmark */ = DADC70F81613175D0063C5B0 /* PBXTextBookmark */;
-			DADC70FD1613175D0063C5B0 /* PBXTextBookmark */ = DADC70FD1613175D0063C5B0 /* PBXTextBookmark */;
 		};
 		sourceControlManager = DA496B86160C2DF4007ED082 /* Source Control */;
 		userBuildSettings = {
@@ -421,21 +316,6 @@
 			sepNavIntBoundsRect = "{{0, 0}, {954, 551}}";
 			sepNavSelRange = "{220, 0}";
 			sepNavVisRange = "{0, 414}";
-		};
-	};
-	E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 2977}}";
-			sepNavSelRange = "{3512, 0}";
-			sepNavVisRange = "{2907, 1055}";
-			sepNavWindowFrame = "{{19, 60}, {1058, 713}}";
-		};
-	};
-	E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 780}}";
-			sepNavSelRange = "{630, 0}";
-			sepNavVisRange = "{82, 1111}";
 		};
 	};
 	E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {

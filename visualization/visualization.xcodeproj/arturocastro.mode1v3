@@ -229,6 +229,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -264,21 +266,12 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>E4B69B4A0A3A1720003C02F2</string>
-								<string>E4B69E1C0A3A1BDC003C02F2</string>
-								<string>E4EEC9E9138DF44700A80321</string>
-								<string>E4328143138ABC890047C5CB</string>
-								<string>BB4B014C10F69532006C3DED</string>
-								<string>DAA56B001603E296004C6857</string>
-								<string>DAA56B011603E296004C6857</string>
-								<string>DAA56B131603E296004C6857</string>
-								<string>DAA56B191603E296004C6857</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>11</integer>
-									<integer>4</integer>
+									<integer>5</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -313,8 +306,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -329,13 +320,8 @@
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
 										<string>Wall.cpp</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>DA84982A1613174D003432DE</string>
 										<key>history</key>
 										<array>
-											<string>DAA56B341603E2E8004C6857</string>
 											<string>DAF2C2751603E9E500A3D6B2</string>
 											<string>DAF2C2761603E9E500A3D6B2</string>
 											<string>DA05D8651603EF4700602CAD</string>
@@ -346,14 +332,8 @@
 											<string>DA61175F160754B300E04F11</string>
 											<string>DA00B566160C096A008E3B3B</string>
 											<string>DA00B567160C096A008E3B3B</string>
-											<string>DA00B56A160C096A008E3B3B</string>
-											<string>DA496C52160FCA06007ED082</string>
-											<string>DAC1E65C1610C0B1009D3289</string>
 											<string>DAC1E6901610C5B5009D3289</string>
 											<string>DAC1E6921610C5B5009D3289</string>
-											<string>DA84981B16121051003432DE</string>
-											<string>DA849827161211CF003432DE</string>
-											<string>DA84981C16121051003432DE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -411,9 +391,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>DA84981F16121051003432DE</string>
+				<string>DAEE8B8D1614EF2600933BD1</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>DA84982016121051003432DE</string>
+				<string>DAEE8B8E1614EF2600933BD1</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -551,10 +531,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>DA84982116121051003432DE</string>
-		<string>DA84982216121051003432DE</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>DAA5695E1603E24A004C6857</string>
 		<string>/Users/arturocastro/Desktop/openFrameworks/apps/RedLeaf/visualization/visualization.xcodeproj</string>
 	</array>
@@ -575,14 +551,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Wall.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -638,7 +612,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>DAA5695E1603E24A004C6857</string>
-				<string>DA8498131612104F003432DE</string>
+				<string>DAEE8B8F1614EF2600933BD1</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
