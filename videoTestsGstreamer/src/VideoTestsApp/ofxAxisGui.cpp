@@ -97,14 +97,13 @@ void ofxAxisGui::draw(float x, float y, float _w, float _h){
 		ofNoFill();
 		ofSetColor(0,255,0);
 		ofRect(scaledWindow);
-		cout << focusWindow.x << "," << focusWindow.y << "," << focusWindow.width << "," << focusWindow.height << endl;
-		cout << scaledWindow.x << "," << scaledWindow.y << "," << scaledWindow.width << "," << scaledWindow.height << endl;
 		ofFill();
 	}
 	ofPushMatrix();
 	ofTranslate(position);
 	ofEnableAlphaBlending();
 	ofSetColor(0,180);
+	ofFill();
 	ofRect(0,0,w,20);
 	ofSetColor(255);
 	string cameraStr = cameraName + ": " + (string)address + " " + ofToString((int)axis->fps) + "fps";
