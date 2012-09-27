@@ -13,6 +13,7 @@ ofxAxisGui::ofxAxisGui() {
 	axis = ofPtr<ofxAxisGrabber>(new ofxAxisGrabber);
 	settingFocusWindow = false;
 	bDrawGui = false;
+	w=640, h=480;
 }
 
 void ofxAxisGui::setDrawGui(bool _bDrawGui){
@@ -39,8 +40,6 @@ void ofxAxisGui::setup(string cameraAddress,string _cameraName,int x, int y){
 	gui.setup(cameraName,"settings.xml",x+650,y);
 	gui.add(addressLabel.setup("ip:",address));
 	gui.add(changeIp.setup("changeIp"));
-	gui.add(axis->cameraConnected);
-	gui.add(axis->cameraAuth);
 	gui.add(resolution.set("resolution",1,0,3));
 
 	gui.add(showFocusWindow.set("showFocusWindow",false));
@@ -107,7 +106,10 @@ void ofxAxisGui::draw(float x, float y, float _w, float _h){
 	ofRect(0,0,w,20);
 	ofSetColor(255);
 	string cameraStr = cameraName + ": " + (string)address + " " + ofToString((int)axis->fps) + "fps";
-	if(!axis->cameraAuth){
+	if(!axis->cameraConnected){
+		cameraStr += " not connected";
+		ofSetColor(255,0,0);
+	}else if(!axis->cameraAuth){
 		cameraStr += " wrong passwd";
 		ofSetColor(255,0,0);
 	}
