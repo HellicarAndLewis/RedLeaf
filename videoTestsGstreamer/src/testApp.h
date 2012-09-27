@@ -27,14 +27,13 @@ class testApp : public ofBaseApp{
 		void usePlayerChanged(bool & usePlayer);
 		void playerPositionChanged(float & position);
 		void playerPausedChanged(bool & paused);
+		void drawCameraChanged(int & drawCamera);
 
 		vector<ofxAxisGui*> axisCameras;
 		vector<ComputerVision*> cvModules;
 
 		ofxPanel gui;
 
-		ofParameter<bool> cv;
-		ofParameterGroup cvParameters;
 
 		ofVideoPlayer player;
 		ofParameter<int> record;

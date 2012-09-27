@@ -95,7 +95,7 @@ bool ofxAxisGrabber::initGrabber(int w, int h){
 			"&maxframesize=0";
 
 	stringstream pipeline;
-	pipeline << "rtspsrc location=\"" << url.str() << "\" latency=0 ! decodebin2 ! ffmpegcolorspace ";
+	pipeline << "rtspsrc location=\"" << url.str() << "\" latency=0 ! decodebin2 ! ffmpegcolorspace ! queue ";
 
 	ofLogNotice("ofxAxisGrabber") << "pipeline: ";
 	ofLogNotice("ofxAxisGrabber") << pipeline.str();

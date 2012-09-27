@@ -11,26 +11,59 @@
 #include "ofxCv.h"
 #include "ofConstants.h"
 #include "ofPixels.h"
+#include "Warping.h"
+#include <list>
 
 class ComputerVision {
 public:
 	ComputerVision();
 
-	void newFrame(ofPixels & pixels);
-
 	void update();
-	void draw(float x, float y, float w, float h);
+	void draw();
 
+	void setPosition(float x, float y);
+	void setSize(float w, float h);
+
+	struct Trigger{
+		Trigger(float distance, u_long time):distance(distance),time(time){}
+		float distance;
+		u_long time;
+	};
+	bool isFrameNew() const;
+	const vector<float> & getTriggers() const;
+
+	static ofParameter<bool> showGui;
+	static ofParameter<bool> showImages;
+	static ofParameter<bool> showContours;
 	static ofParameter<int> thresholdLevel;
+	static ofParameter<int> minTimeTrigger;
+	static ofParameter<float> distanceSameTrigger;
+	static ofParameterGroup parameters;
 
+	void newFrame(ofPixels & pixels);
 
 private:
 	ofPixels gray, prevFrame, diffFrameBack, diffFrameFront, diffFrameDraw;
-	vector<cv::Rect> contoursBBs, contoursBBsDraw;
-	ofTexture tex;
+	vector<cv::Rect> contoursBBsBack, contoursBBsFront, contoursBBsDraw;
 	ofxCv::ContourFinder contourFinder;
+	ofVec2f topHalfBack, bottomHalfBack, topHalfFront, bottomHalfFront, topHalfDraw, bottomHalfDraw;
+	vector<ofVec2f> crossPointsBack,crossPointsFront,crossPointsDraw;
+	vector<float> distancesBack;
+	vector<float> triggersBack,triggersFront,triggersDraw;
+	list<Trigger> triggersHistoric;
+
+	ofTexture tex;
+
+	//vector<ofPoint> featuresBack, featuresDraw;
+	//vector<ofVec2f> motionBack, motionDraw;
+	//ofxCv::FlowPyrLK flow;
+
 	ofMutex mutex;
 	bool newFrameBack,newFrameFront;
+
+	gui::Warping warp;
+	ofVec2f position;
+	float w,h;
 };
 
 #endif /* COMPUTERVISION_H_ */
