@@ -1,5 +1,6 @@
 #include "testApp.h"
 #include "ofxXmlSettings.h"
+#include "ofGstVideoPlayer.h"
 
 
 //--------------------------------------------------------------
