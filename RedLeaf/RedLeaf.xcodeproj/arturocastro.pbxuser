@@ -135,7 +135,7 @@
 		path = /Users/arturocastro/Desktop/openFrameworks/apps/RedLeaf/videoTestsGstreamer/bin/data/settings.xml;
 		sourceTree = "<absolute>";
 	};
-	DA496B5E160C2DD5007ED082 /* videoTestsGstreamer */ = {
+	DA496B5E160C2DD5007ED082 /* RedLeaf */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -158,7 +158,7 @@
 		executableSystemSymbolLevel = 0;
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
-		name = videoTestsGstreamer;
+		name = RedLeaf;
 		savedGlobals = {
 		};
 		showTypeColumn = 0;
@@ -232,16 +232,6 @@
 		vrLen = 1078;
 		vrLoc = 0;
 	};
-	DAC1EC9F1611E2BB009D3289 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
-		name = "Project.xcconfig: 9";
-		rLen = 0;
-		rLoc = 429;
-		rType = 0;
-		vrLen = 439;
-		vrLoc = 0;
-	};
 	DAC1ECA01611E2BB009D3289 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = DA4156F516107C1900CF692E /* settings.xml */;
@@ -254,14 +244,14 @@
 	};
 	E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 		activeBuildConfigurationName = Release;
-		activeExecutable = DA496B5E160C2DD5007ED082 /* videoTestsGstreamer */;
-		activeTarget = E4B69B5A0A3A1756003C02F2 /* videoTestsGstreamer */;
+		activeExecutable = DA496B5E160C2DD5007ED082 /* RedLeaf */;
+		activeTarget = E4B69B5A0A3A1756003C02F2 /* RedLeaf */;
 		addToTargets = (
-			E4B69B5A0A3A1756003C02F2 /* videoTestsGstreamer */,
+			E4B69B5A0A3A1756003C02F2 /* RedLeaf */,
 		);
 		codeSenseManager = DA496B87160C2DF4007ED082 /* Code sense */;
 		executables = (
-			DA496B5E160C2DD5007ED082 /* videoTestsGstreamer */,
+			DA496B5E160C2DD5007ED082 /* RedLeaf */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
@@ -286,36 +276,57 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 370470704;
-			PBXWorkspaceStateSaveDate = 370470704;
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					736,
+					60,
+					20,
+					48.16259765625,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 370470839;
+			PBXWorkspaceStateSaveDate = 370470839;
 		};
 		perUserProjectItems = {
-			DA41554F160FD96100CF692E /* PBXTextBookmark */ = DA41554F160FD96100CF692E /* PBXTextBookmark */;
-			DA415550160FD96100CF692E /* PBXTextBookmark */ = DA415550160FD96100CF692E /* PBXTextBookmark */;
-			DA415607160FF35C00CF692E /* PBXTextBookmark */ = DA415607160FF35C00CF692E /* PBXTextBookmark */;
-			DA4156A51610028D00CF692E /* PBXTextBookmark */ = DA4156A51610028D00CF692E /* PBXTextBookmark */;
-			DA4156EE16107C1900CF692E /* PBXTextBookmark */ = DA4156EE16107C1900CF692E /* PBXTextBookmark */;
-			DAC1EB3B1611E101009D3289 /* PBXTextBookmark */ = DAC1EB3B1611E101009D3289 /* PBXTextBookmark */;
-			DAC1EB3C1611E101009D3289 /* PBXTextBookmark */ = DAC1EB3C1611E101009D3289 /* PBXTextBookmark */;
-			DAC1EC9E1611E2BB009D3289 /* PBXTextBookmark */ = DAC1EC9E1611E2BB009D3289 /* PBXTextBookmark */;
-			DAC1EC9F1611E2BB009D3289 /* PBXTextBookmark */ = DAC1EC9F1611E2BB009D3289 /* PBXTextBookmark */;
-			DAC1ECA01611E2BB009D3289 /* PBXTextBookmark */ = DAC1ECA01611E2BB009D3289 /* PBXTextBookmark */;
+			DA41554F160FD96100CF692E = DA41554F160FD96100CF692E /* PBXTextBookmark */;
+			DA415550160FD96100CF692E = DA415550160FD96100CF692E /* PBXTextBookmark */;
+			DA415607160FF35C00CF692E = DA415607160FF35C00CF692E /* PBXTextBookmark */;
+			DA4156A51610028D00CF692E = DA4156A51610028D00CF692E /* PBXTextBookmark */;
+			DA4156EE16107C1900CF692E = DA4156EE16107C1900CF692E /* PBXTextBookmark */;
+			DAC1EB3B1611E101009D3289 = DAC1EB3B1611E101009D3289 /* PBXTextBookmark */;
+			DAC1EB3C1611E101009D3289 = DAC1EB3C1611E101009D3289 /* PBXTextBookmark */;
+			DAC1EC9E1611E2BB009D3289 = DAC1EC9E1611E2BB009D3289 /* PBXTextBookmark */;
+			DAC1ECA01611E2BB009D3289 = DAC1ECA01611E2BB009D3289 /* PBXTextBookmark */;
 		};
 		sourceControlManager = DA496B86160C2DF4007ED082 /* Source Control */;
 		userBuildSettings = {
 		};
 	};
-	E4B69B5A0A3A1756003C02F2 /* videoTestsGstreamer */ = {
+	E4B69B5A0A3A1756003C02F2 /* RedLeaf */ = {
 		activeExec = 0;
 		executables = (
-			DA496B5E160C2DD5007ED082 /* videoTestsGstreamer */,
+			DA496B5E160C2DD5007ED082 /* RedLeaf */,
 		);
 	};
 	E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 551}}";
+			sepNavIntBoundsRect = "{{0, 0}, {954, 548}}";
 			sepNavSelRange = "{220, 0}";
-			sepNavVisRange = "{0, 414}";
+			sepNavVisRange = "{0, 482}";
 		};
 	};
 	E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {

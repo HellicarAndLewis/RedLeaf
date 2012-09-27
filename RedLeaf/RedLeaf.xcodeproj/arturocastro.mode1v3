@@ -266,13 +266,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>E4B69B4A0A3A1720003C02F2</string>
+								<string>BB4B014C10F69532006C3DED</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>5</integer>
-									<integer>0</integer>
+									<integer>12</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -330,7 +330,6 @@
 											<string>DAC1EB3B1611E101009D3289</string>
 											<string>DAC1EB3C1611E101009D3289</string>
 											<string>DAC1EC9E1611E2BB009D3289</string>
-											<string>DAC1EC9F1611E2BB009D3289</string>
 											<string>DAC1ECA01611E2BB009D3289</string>
 										</array>
 									</dict>
@@ -343,14 +342,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1015, 586}}</string>
+								<string>{{0, 0}, {1015, 580}}</string>
 								<key>RubberWindowFrame</key>
 								<string>4 65 1276 713 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>586pt</string>
+							<string>580pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -363,14 +362,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 591}, {1015, 81}}</string>
+								<string>{{0, 585}, {1015, 87}}</string>
 								<key>RubberWindowFrame</key>
 								<string>4 65 1276 713 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>81pt</string>
+							<string>87pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -389,9 +388,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>DAE1B2A71614EF8B008F04FD</string>
+				<string>DA1665961614EFD300C5C1B7</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>DAE1B2A81614EF8B008F04FD</string>
+				<string>DA1665971614EFD300C5C1B7</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -529,12 +528,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>DAE1B2B11614EF8B008F04FD</string>
-		<string>DAE1B2B21614EF8B008F04FD</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>DA496B8A160C2E7B007ED082</string>
-		<string>/Users/arturocastro/Desktop/openFrameworks/apps/RedLeaf/videoTestsGstreamer/videoTestsGstreamer.xcodeproj</string>
+		<string>/Users/arturocastro/Desktop/openFrameworks/apps/RedLeaf/RedLeaf/RedLeaf.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>4 65 1276 713 0 0 1280 778 </string>
@@ -614,7 +609,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>DA496B8A160C2E7B007ED082</string>
-				<string>DAE1B2A91614EF8B008F04FD</string>
+				<string>DA1665981614EFD300C5C1B7</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
