@@ -115,6 +115,9 @@ void Wall::setup(){
 	
 	font.loadFont("verdana.ttf",40,true,false);
 
+	glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
+	glEnable(GL_POINT_SMOOTH);
+
 	reset();
 }
 

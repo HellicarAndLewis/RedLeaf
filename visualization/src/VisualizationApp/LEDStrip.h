@@ -12,6 +12,7 @@
 #include "ofParameter.h"
 #include "ofParameterGroup.h"
 #include "ofAppRunner.h"
+#include "ofVboMesh.h"
 
 class LEDStrip {
 public:
@@ -36,6 +37,7 @@ private:
 	u_int h;
 	u_long triggerTime;
 	bool testMode;
+	ofVboMesh stripMesh;
 };
 
 #endif /* LEDSTRIP_H_ */

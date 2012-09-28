@@ -26,6 +26,11 @@ void LEDStrip::setup(u_int _h, float _position,float _radius){
 	triggerColor = color;
 	triggerTime = 0;
 	testMode = false;
+	stripMesh.getVertices().resize(h);
+	for(int i=0;i<stripMesh.getNumVertices();i++){
+		stripMesh.getVertices()[i].set(0,i);
+	}
+	stripMesh.setMode(OF_PRIMITIVE_POINTS);
 }
 
 void LEDStrip::trigger(const ofColor & rgb, u_long now){
@@ -53,9 +58,12 @@ void LEDStrip::draw(float x, float radiusScale, float renderW, float renderH){
 	ofColor c = ofGetStyle().color;
 	ofSetColor(color);
 	float sep = renderH/float(h+1);
-	for(u_int y=0; y<h; y++){
-		ofCircle(x*renderW,(y+1)*sep,radius*renderH*radiusScale);
-	}
+	glPointSize(2*radius*renderH*radiusScale);
+	ofPushMatrix();
+	ofTranslate(x*renderW,sep);
+	ofScale(1,sep);
+	stripMesh.draw();
+	ofPopMatrix();
 	ofSetColor(c);
 }
 
