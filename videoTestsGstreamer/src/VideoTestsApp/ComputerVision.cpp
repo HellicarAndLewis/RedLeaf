@@ -195,3 +195,12 @@ void ComputerVision::draw(){
 const vector<float> & ComputerVision::getTriggers() const{
 	return triggersFront;
 }
+
+
+vector<ofPoint> ComputerVision::getQuad(){
+	return warp.getQuad(ofVec2f(0,0),ofVec2f(1,1)).getVertices();
+}
+
+void ComputerVision::setQuad(const vector<ofPoint> & quad){
+	warp.setInitialQuad(quad,position,ofVec2f(w,h));
+}

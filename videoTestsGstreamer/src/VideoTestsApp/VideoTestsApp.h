@@ -29,6 +29,8 @@ class VideoTestsApp : public ofBaseApp{
 		void playerPositionChanged(float & position);
 		void playerPausedChanged(bool & paused);
 		void drawCameraChanged(int & drawCamera);
+		void loadPressed(bool & pressed);
+		void savePressed(bool & pressed);
 
 		vector<ofxAxisGui*> axisCameras;
 		vector<ComputerVision*> cvModules;

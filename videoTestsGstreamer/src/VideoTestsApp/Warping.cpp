@@ -36,6 +36,7 @@ void Warping::draw(){
 	ofPushStyle();
 	ofSetColor(0,255,0);
 	quad.draw();
+	ofFill();
 	for(int i=0; i<4; ++i){
 		if(selectedPoint==i) ofSetColor(255,0,0);
 		else ofSetColor(0,255,0);

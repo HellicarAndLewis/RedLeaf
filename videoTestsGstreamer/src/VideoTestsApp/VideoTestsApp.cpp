@@ -47,9 +47,12 @@ void VideoTestsApp::setup(){
 		gui.add(&axisCameras[i]->gui);
 	}
 
-	gui.getGroup("video").getIntSlider("record").setUpdateOnReleaseOnly(true);
+	gui.getGroup("Video").getIntSlider("record").setUpdateOnReleaseOnly(true);
 	gui.loadFromFile("settings.xml");
 	gui.minimizeAll();
+
+	ofAddListener(gui.savePressedE,this,&VideoTestsApp::savePressed);
+	ofAddListener(gui.loadPressedE,this,&VideoTestsApp::loadPressed);
 
 	record.addListener(this,&VideoTestsApp::recordChanged);
 	usePlayer.addListener(this,&VideoTestsApp::usePlayerChanged);
@@ -59,6 +62,40 @@ void VideoTestsApp::setup(){
 
 	int activeCamera = drawCamera;
 	drawCameraChanged(activeCamera);
+}
+
+void VideoTestsApp::loadPressed(bool & pressed){
+	ofxXmlSettings xml("settings.xml");
+	ofVec3f defaultQuad[4] = {
+			ofVec3f(0.1,0.1),
+			ofVec3f(0.9,0.1),
+			ofVec3f(0.9,0.9),
+			ofVec3f(0.1,0.9),
+	};
+	for(u_int i=0;i<cvModules.size();i++){
+		vector<ofPoint> quad(4);
+		for(u_int j=0;j<quad.size();j++){
+			stringstream strpt;
+			strpt << defaultQuad[j];
+			stringstream ptstr;
+			ptstr << xml.getValue("Settings:Camera"+ofToString(i+1)+":Quad:Pt"+ofToString(j),strpt.str());
+			ptstr >> quad[j];
+		}
+		cvModules[i]->setQuad(quad);
+	}
+}
+
+void VideoTestsApp::savePressed(bool & pressed){
+	ofxXmlSettings xml("settings.xml");
+	for(u_int i=0;i<cvModules.size();i++){
+		const vector<ofPoint> & quad = cvModules[i]->getQuad();
+		for(u_int j=0;j<quad.size();j++){
+			stringstream strpt;
+			strpt << quad[j];
+			xml.setValue("Settings:Camera"+ofToString(i+1)+":Quad:Pt"+ofToString(j),strpt.str());
+		}
+	}
+	xml.saveFile();
 }
 
 void VideoTestsApp::playerPausedChanged(bool & paused){
@@ -77,9 +114,6 @@ void VideoTestsApp::usePlayerChanged(bool & usePlayer){
 			ofAddListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
 			ofAddListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
 		}else{
-			ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
-			ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
-			ofAddListener(axisCameras[0]->axis->getGstUtils().bufferEvent,cvModules[0],&ComputerVision::newFrame);
 			usePlayer = false;
 		}
 	}else{

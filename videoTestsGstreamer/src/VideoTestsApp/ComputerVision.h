@@ -32,6 +32,9 @@ public:
 	bool isFrameNew() const;
 	const vector<float> & getTriggers() const;
 
+	vector<ofPoint> getQuad();
+	void setQuad(const vector<ofPoint> & quad);
+
 	static ofParameter<bool> showGui;
 	static ofParameter<bool> showImages;
 	static ofParameter<bool> showContours;

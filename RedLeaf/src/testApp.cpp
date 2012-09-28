@@ -30,6 +30,11 @@ void RedLeafApp::setup(){
 
 	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
 
+	ofAddListener(gui.savePressedE,&videoApp,&VideoTestsApp::savePressed);
+	ofAddListener(gui.loadPressedE,&videoApp,&VideoTestsApp::loadPressed);
+
+	bool yes=true;
+	videoApp.loadPressed(yes);
 
 	gui.minimizeAll();
 }

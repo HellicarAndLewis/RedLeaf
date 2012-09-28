@@ -50,5 +50,10 @@
 			<type>2</type>
 			<location>/home/arturo/Desktop/openFrameworks/addons/ofxTwitter</location>
 		</link>
+		<link>
+			<name>ofxXmlSettings</name>
+			<type>2</type>
+			<location>/home/arturo/Desktop/openFrameworks/addons/ofxXmlSettings</location>
+		</link>
 	</linkedResources>
 </projectDescription>

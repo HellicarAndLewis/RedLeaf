@@ -3,7 +3,7 @@
         <record>0</record>
         <usePlayer>0</usePlayer>
         <playerPaused>0</playerPaused>
-        <playerPosition>0.468249</playerPosition>
+        <playerPosition>0</playerPosition>
         <drawCamera>5</drawCamera>
     </Player>
     <CV>
@@ -23,10 +23,14 @@
         <showFocusWindow>0</showFocusWindow>
         <focus>228</focus>
         <manualIris>1</manualIris>
-        <fps>39.7156</fps>
-        <exposure>50</exposure>
-        <irFilterCut>0</irFilterCut>
-        <compression>49</compression>
+        <irFilterCut>2</irFilterCut>
+        <compression>20</compression>
+        <Quad>
+            <Pt0>0.0999756, 0.1, 0</Pt0>
+            <Pt1>0.900024, 0.1, 0</Pt1>
+            <Pt2>0.900024, 0.9, 0</Pt2>
+            <Pt3>0.0999756, 0.9, 0</Pt3>
+        </Quad>
     </Camera1>
     <Camera2>
         <address>192.168.1.40</address>
@@ -36,9 +40,14 @@
         <showFocusWindow>0</showFocusWindow>
         <focus>228</focus>
         <manualIris>1</manualIris>
-        <exposure>50</exposure>
-        <irFilterCut>0</irFilterCut>
-        <compression>49</compression>
+        <irFilterCut>2</irFilterCut>
+        <compression>20</compression>
+        <Quad>
+            <Pt0>0.0999756, 0.1, 0</Pt0>
+            <Pt1>0.900024, 0.1, 0</Pt1>
+            <Pt2>0.900024, 0.9, 0</Pt2>
+            <Pt3>0.0999756, 0.9, 0</Pt3>
+        </Quad>
     </Camera2>
     <Camera3>
         <address>192.168.1.41</address>
@@ -48,9 +57,14 @@
         <showFocusWindow>0</showFocusWindow>
         <focus>228</focus>
         <manualIris>1</manualIris>
-        <exposure>50</exposure>
-        <irFilterCut>0</irFilterCut>
-        <compression>49</compression>
+        <irFilterCut>2</irFilterCut>
+        <compression>20</compression>
+        <Quad>
+            <Pt0>0.100006, 0.100006, 0</Pt0>
+            <Pt1>0.899994, 0.100006, 0</Pt1>
+            <Pt2>0.899994, 0.899994, 0</Pt2>
+            <Pt3>0.100006, 0.899994, 0</Pt3>
+        </Quad>
     </Camera3>
     <Camera4>
         <address>192.168.1.42</address>
@@ -60,9 +74,14 @@
         <showFocusWindow>0</showFocusWindow>
         <focus>228</focus>
         <manualIris>1</manualIris>
-        <exposure>50</exposure>
-        <irFilterCut>0</irFilterCut>
-        <compression>49</compression>
+        <irFilterCut>2</irFilterCut>
+        <compression>20</compression>
+        <Quad>
+            <Pt0>0.0999756, 0.100006, 0</Pt0>
+            <Pt1>0.900024, 0.100006, 0</Pt1>
+            <Pt2>0.900024, 0.899994, 0</Pt2>
+            <Pt3>0.0999756, 0.899994, 0</Pt3>
+        </Quad>
     </Camera4>
     <LEDStrip>
         <fadeTime>440</fadeTime>
@@ -77,6 +96,8 @@
     <checkEvery>1000</checkEvery>
     <Twitter>
         <checkEvery>1000</checkEvery>
+        <hashtag>#RedLeaf</hashtag>
+        <UnknownName>0</UnknownName>
     </Twitter>
     <Wall>
         <w>180</w>
@@ -92,18 +113,20 @@
         <secondScreenX>1280</secondScreenX>
         <testStateMillis>1000</testStateMillis>
         <muted>0</muted>
+        <secondScreenPos>1280, 0</secondScreenPos>
+        <showTweets>0</showTweets>
+        <UnknownName>0</UnknownName>
     </Wall>
     <hashtag>#RedLeaf</hashtag>
     <Audio>
-        <audioInAmp>0.000567835</audioInAmp>
+        <audioInAmp>0.000780368</audioInAmp>
         <cutDown>0</cutDown>
         <cutUp>1</cutUp>
-        <mappedAudioIn>0.000567835</mappedAudioIn>
-        <smoothedAudioIn>0.0086417</smoothedAudioIn>
+        <mappedAudioIn>0.000780368</mappedAudioIn>
+        <smoothedAudioIn>0.0029228</smoothedAudioIn>
         <smoothFactor>0.9</smoothFactor>
         <fineSmoothFactor>0.0289971</fineSmoothFactor>
         <audioEnabled>0</audioEnabled>
         <audioTest>0</audioTest>
     </Audio>
 </Settings>
-
