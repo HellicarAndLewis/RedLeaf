@@ -1,4 +1,4 @@
-<parameters>
+<Settings>
     <LEDStrip>
         <fadeTime>440</fadeTime>
     </LEDStrip>
@@ -40,4 +40,4 @@
         <audioEnabled>0</audioEnabled>
         <audioTest>0</audioTest>
     </Audio>
-</parameters>
+</Settings>
