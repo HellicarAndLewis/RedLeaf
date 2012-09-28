@@ -100,7 +100,8 @@ private:
 
 	queue<TweetText> tweets;
 	ofFbo outputFBO;
-	ofPixels outputBuffer;
+	ofFloatPixels outputBuffer;
+	vector<ofFloatColor> colorsFromTweets;
 };
 
 #endif /* WALL_H_ */

@@ -158,6 +158,7 @@ void Wall::reset(){
 
 	outputFBO.allocate(w,h,GL_RGBA);
 	outputBuffer.allocate(w,h,4);
+	colorsFromTweets.resize(h);
 
 
 	ofFbo::Settings settings;
@@ -373,11 +374,12 @@ void Wall::draw(){
 		outputFBO.end();
 		outputFBO.readToPixels(outputBuffer);
 		for(u_int i=0;i<strips.size();i++){
-			vector<ofFloatColor> colors(h);
-			for(u_int j=0;j<colors.size();j++){
-				colors[j] = outputBuffer.getColor(i,j);
+			int index = i*4;
+			for(u_int j=0;j<colorsFromTweets.size();j++){
+				index+=w*4;
+				colorsFromTweets[j] = *((ofFloatColor*)&outputBuffer[index]);
 			}
-			strips[i].setColorCoords(colors);
+			strips[i].setColorCoords(colorsFromTweets);
 		}
 	}
 	switch (renderMode){
