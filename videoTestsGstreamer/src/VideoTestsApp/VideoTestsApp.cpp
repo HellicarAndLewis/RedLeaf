@@ -16,8 +16,8 @@ void VideoTestsApp::setup(){
 	for(u_int i=0;i<4;i++){
 		axisCameras.push_back(new ofxAxisGui());
 		axisCameras[i]->setDrawGui(false);
-		axisCameras[i]->setAuth(xml.getValue("settings:camera"+ofToString(i+1)+":user",""),xml.getValue("settings:camera"+ofToString(i+1)+":pwd",""));
-		axisCameras[i]->setup(xml.getValue("settings:camera"+ofToString(i+1)+":address",""),"Camera"+ofToString(i+1),220,10);
+		axisCameras[i]->setAuth(xml.getValue("Settings:Camera"+ofToString(i+1)+":user",""),xml.getValue("Settings:Camera"+ofToString(i+1)+":pwd",""));
+		axisCameras[i]->setup(xml.getValue("Settings:Camera"+ofToString(i+1)+":address",""),"Camera"+ofToString(i+1),220,10);
 		cvModules.push_back(new ComputerVision);
 		ofAddListener(axisCameras[i]->axis->getGstUtils().bufferEvent,cvModules[i],&ComputerVision::newFrame);
 	}
