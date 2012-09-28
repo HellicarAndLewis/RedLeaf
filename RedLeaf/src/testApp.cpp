@@ -27,6 +27,7 @@ void RedLeafApp::setup(){
 		gui.add(&videoApp.axisCameras[i]->gui);
 	}
 	gui.loadFromFile("settings.xml");
+	gui.getGroup("Player").getIntSlider("record").setUpdateOnReleaseOnly(true);
 
 	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
 

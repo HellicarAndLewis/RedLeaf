@@ -47,7 +47,7 @@ void VideoTestsApp::setup(){
 		gui.add(&axisCameras[i]->gui);
 	}
 
-	gui.getGroup("Video").getIntSlider("record").setUpdateOnReleaseOnly(true);
+	gui.getGroup("Player").getIntSlider("record").setUpdateOnReleaseOnly(true);
 	gui.loadFromFile("settings.xml");
 	gui.minimizeAll();
 
