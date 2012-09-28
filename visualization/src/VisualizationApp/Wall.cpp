@@ -143,6 +143,12 @@ void Wall::showTweetsChanged(bool & showTweets){
 		for(u_int i=0;i<strips.size();i++){
 			strips[i].clearColorCoords();
 		}
+	}else{
+		colorsFromTweets.assign(h,ofFloatColor(0));
+		bursts.clear();
+		for(u_int i=0;i<strips.size();i++){
+			strips[i].setColorCoords(colorsFromTweets);
+		}
 	}
 }
 
