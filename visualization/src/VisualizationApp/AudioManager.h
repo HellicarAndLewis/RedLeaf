@@ -13,6 +13,7 @@
 #include "ofParameter.h"
 #include "ofParameterGroup.h"
 #include "LEDStrip.h"
+#include "TweetText.h"
 
 
 class AudioManager: public ofBaseSoundInput {
@@ -25,6 +26,7 @@ public:
 	void audioIn(float * in,int bufferSize,int nChannels,int deviceID,unsigned long long tickCount);
 	void audioTestChanged(bool & enabled);
 	void setLeds(vector<LEDStrip> & leds);
+	void setCurrentTweet(TweetText * tweet);
 
 	ofParameter<float> vumeter;
 	ofParameter<float> cutDown,cutUp;
@@ -41,6 +43,7 @@ private:
 	ofSoundStream sound;
 	ofSoundBuffer soundBuffer;
 	vector<LEDStrip> * leds;
+	TweetText * tweet;
 };
 
 #endif /* AUDIOMANAGER_H_ */

@@ -33,6 +33,17 @@ void LEDStrip::setup(u_int _h, float _position,float _radius){
 	stripMesh.setMode(OF_PRIMITIVE_POINTS);
 }
 
+
+void LEDStrip::setColorCoords(vector<ofFloatColor> & colors){
+	stripMesh.getColors() = colors;
+	stripMesh.enableColors();
+}
+
+void LEDStrip::clearColorCoords(){
+	stripMesh.getColors().clear();
+	stripMesh.disableColors();
+}
+
 void LEDStrip::trigger(const ofColor & rgb, u_long now){
 	if(testMode){
 		color = rgb;
@@ -56,7 +67,8 @@ void LEDStrip::update(u_long now){
 
 void LEDStrip::draw(float x, float radiusScale, float renderW, float renderH){
 	ofColor c = ofGetStyle().color;
-	ofSetColor(color);
+	if(stripMesh.getNumColors()==0) ofSetColor(color);
+	else ofSetColor(255);
 	float sep = renderH/float(h+1);
 	glPointSize(2*radius*renderH*radiusScale);
 	ofPushMatrix();

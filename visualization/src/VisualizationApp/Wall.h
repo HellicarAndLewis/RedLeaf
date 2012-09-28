@@ -9,6 +9,7 @@
 #define WALL_H_
 
 #include <list>
+#include <queue>
 #include "ofConstants.h"
 #include "ofParameterGroup.h"
 #include "ofFbo.h"
@@ -18,6 +19,7 @@
 #include "EnergyBurst.h"
 #include "AudioManager.h"
 #include "ofTrueTypeFont.h"
+#include "TweetText.h"
 
 class Wall {
 public:
@@ -60,6 +62,7 @@ private:
 	void mouseDragged(ofMouseEventArgs & mouse);
 	void mousePressed(ofMouseEventArgs & mouse);
 	void sizeChanged(int & size);
+	void showTweetsChanged(bool & showTweets);
 	void reset();
 	vector<LEDStrip> strips;
 	list<EnergyBurst> bursts;
@@ -68,7 +71,6 @@ private:
 	ofVec2f startRotation3D;
 	ofVboMesh building;
 	ofVboMesh buildingWireframe;
-	ofImage outputBuffer;
 	AudioManager * audio;
 
 	enum TestState{
@@ -95,6 +97,10 @@ private:
 	int prevStripOn;
 	u_long prevTestEndTime;
 	ofTrueTypeFont font;
+
+	queue<TweetText> tweets;
+	ofFbo outputFBO;
+	ofPixels outputBuffer;
 };
 
 #endif /* WALL_H_ */

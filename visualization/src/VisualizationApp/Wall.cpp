@@ -108,6 +108,7 @@ void Wall::setup(){
 	w.addListener(this,&Wall::sizeChanged);
 	h.addListener(this,&Wall::sizeChanged);
 	renderMode.addListener(this,&Wall::sizeChanged);
+	showTweets.addListener(this,&Wall::showTweetsChanged);
 
 	enableMouseEvents();
 
@@ -136,6 +137,15 @@ void Wall::sizeChanged(int & size){
 	reset();
 }
 
+void Wall::showTweetsChanged(bool & showTweets){
+	if(!showTweets){
+		while(!tweets.empty()) tweets.pop();
+		for(u_int i=0;i<strips.size();i++){
+			strips[i].clearColorCoords();
+		}
+	}
+}
+
 void Wall::reset(){
 	strips.resize(w);
 	float stripRadius = 1./(float((strips.size()+1)*2.));
@@ -146,7 +156,8 @@ void Wall::reset(){
 	building = generateBuilding(renderW,renderH,renderW,true);
 	buildingWireframe = generateBuilding(renderW+3,renderH+3,renderW+3,false);
 
-	outputBuffer.allocate(w,1,OF_IMAGE_COLOR_ALPHA);
+	outputFBO.allocate(w,h,GL_RGBA);
+	outputBuffer.allocate(w,h,4);
 
 
 	ofFbo::Settings settings;
@@ -314,37 +325,61 @@ void Wall::update(){
 			break;
 		}
 	}else if(!audio->audioTest){
-		vector<list<EnergyBurst>::iterator > toDelete;
-		list<EnergyBurst>::iterator it;
-		for(it = bursts.begin(); it!=bursts.end(); ++it){
-			EnergyBurst & burst = *it;
-			burst.update(now);
-			if(!burst.alive){
-				toDelete.push_back(it);
-			}else{
-				for(u_int i=0;i<strips.size();++i){
-					if(!burst.triggeredAlready(strips[i])){
-						if((strips[i].getPosition()<burst.currentPositionR.x && strips[i].getPosition()>=burst.startPosition.x) ||
-							(burst.rightHasCycled() && strips[i].getPosition()<burst.currentPositionR.x))
-							burst.trigger(strips[i]);
-						if((strips[i].getPosition()>burst.currentPositionL.x && strips[i].getPosition()<=burst.startPosition.x) ||
-							(burst.leftHasCycled() && strips[i].getPosition()>burst.currentPositionL.x))
-							burst.trigger(strips[i]);
+		if(!showTweets){
+			vector<list<EnergyBurst>::iterator > toDelete;
+			list<EnergyBurst>::iterator it;
+			for(it = bursts.begin(); it!=bursts.end(); ++it){
+				EnergyBurst & burst = *it;
+				burst.update(now);
+				if(!burst.alive){
+					toDelete.push_back(it);
+				}else{
+					for(u_int i=0;i<strips.size();++i){
+						if(!burst.triggeredAlready(strips[i])){
+							if((strips[i].getPosition()<burst.currentPositionR.x && strips[i].getPosition()>=burst.startPosition.x) ||
+								(burst.rightHasCycled() && strips[i].getPosition()<burst.currentPositionR.x))
+								burst.trigger(strips[i]);
+							if((strips[i].getPosition()>burst.currentPositionL.x && strips[i].getPosition()<=burst.startPosition.x) ||
+								(burst.leftHasCycled() && strips[i].getPosition()>burst.currentPositionL.x))
+								burst.trigger(strips[i]);
+						}
 					}
 				}
 			}
-		}
-		for(u_int i=0;i<toDelete.size();++i){
-			bursts.erase(toDelete[i]);
-		}
+			for(u_int i=0;i<toDelete.size();++i){
+				bursts.erase(toDelete[i]);
+			}
 
-		for(u_int i=0;i<strips.size();++i){
-			strips[i].update(now);
+			for(u_int i=0;i<strips.size();++i){
+				strips[i].update(now);
+			}
+		}else{
+			if(!tweets.empty()){
+				if(!tweets.front().isAlive()) tweets.pop();
+				audio->setCurrentTweet(&tweets.front());
+				tweets.front().update();
+			}else{
+				audio->setCurrentTweet(NULL);
+			}
 		}
 	}
 }
 
 void Wall::draw(){
+	if(showTweets && !tweets.empty()){
+		outputFBO.begin();
+		ofClear(0,255);
+		tweets.front().draw();
+		outputFBO.end();
+		outputFBO.readToPixels(outputBuffer);
+		for(u_int i=0;i<strips.size();i++){
+			vector<ofFloatColor> colors(h);
+			for(u_int j=0;j<colors.size();j++){
+				colors[j] = outputBuffer.getColor(i,j);
+			}
+			strips[i].setColorCoords(colors);
+		}
+	}
 	switch (renderMode){
 	case Continuous:{
 		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
@@ -520,14 +555,20 @@ void Wall::drawOutput(){
 	if(!muted){
 		ofPushMatrix();
 		ofTranslate((ofVec2f)secondScreenPos);
-		/*for(int i=0;i<w;i++){
-			outputBuffer.getPixelsRef().setColor(i,0,strips[i].getColor());
-		}
-		outputBuffer.update();
-		outputBuffer.draw(0,0);*/
-		for(int i=0;i<w;i++){
-			ofSetColor(strips[i].getColor());
-			ofLine(i,0,i,h);
+
+		if(!showTweets){
+			for(int i=0;i<w;i++){
+				ofSetColor(strips[i].getColor());
+				ofLine(i,0,i,h);
+			}
+		}else{
+			if(!tweets.empty()){
+				ofPushView();
+				ofViewport(secondScreenPos->x,secondScreenPos->y,w,h);
+				ofSetupScreenPerspective(w,h);
+				tweets.front().draw();
+				ofPopView();
+			}
 		}
 		ofPopMatrix();
 
@@ -587,7 +628,13 @@ void Wall::energyBurst(float x, float y){
 
 void Wall::newTweet(string text){
 	if(!runningTest && !audio->audioTest){
-		energyBurst(ofRandom(1),.5);
+		if(showTweets){
+			u_long now = ofGetElapsedTimeMillis();
+			tweets.push(TweetText(text,useColors ? niceRandomColor() : ofColor::white,now,w));
+		}else{
+			energyBurst(ofRandom(1),.5);
+		}
+
 	}
 }
 

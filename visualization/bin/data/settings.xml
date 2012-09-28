@@ -1,42 +1,42 @@
 <Settings>
+    <hashtag>#RedLeaf</hashtag>
     <LEDStrip>
-        <fadeTime>440</fadeTime>
+        <fadeTime>200</fadeTime>
     </LEDStrip>
     <EnergyBurst>
-        <decayPct>0.605</decayPct>
+        <decayPct>0.8</decayPct>
         <minLifeTime>500</minLifeTime>
         <maxLifeTime>2000</maxLifeTime>
-        <minSpeed>0.14365</minSpeed>
-        <maxSpeed>0.2674</maxSpeed>
+        <minSpeed>0.08</minSpeed>
+        <maxSpeed>0.2</maxSpeed>
     </EnergyBurst>
-    <checkEvery>1000</checkEvery>
     <Twitter>
         <checkEvery>1000</checkEvery>
+        <UnknownName>0</UnknownName>
+        <speedPixelsPerSec>50</speedPixelsPerSec>
+        <y>34</y>
+        <fontSize>14</fontSize>
     </Twitter>
     <Wall>
         <w>180</w>
-        <h>54</h>
-        <radiusScale>2.1445</radiusScale>
-        <vizX>250</vizX>
-        <renderW>1024</renderW>
-        <renderH>512</renderH>
-        <renderMode>2</renderMode>
-        <rotation3D>232.123</rotation3D>
-        <z>1.01</z>
+        <h>50</h>
         <useColors>0</useColors>
-        <secondScreenX>1280</secondScreenX>
+        <radiusScale>2.4635</radiusScale>
+        <z>0.7</z>
+        <secondScreenPos>1280, 0</secondScreenPos>
+        <renderMode>2</renderMode>
         <testStateMillis>1000</testStateMillis>
         <muted>0</muted>
+        <showTweets>0</showTweets>
     </Wall>
-    <hashtag>#RedLeaf</hashtag>
     <Audio>
-        <audioInAmp>0.000567835</audioInAmp>
+        <audioInAmp>0.000995428</audioInAmp>
         <cutDown>0</cutDown>
         <cutUp>1</cutUp>
-        <mappedAudioIn>0.000567835</mappedAudioIn>
-        <smoothedAudioIn>0.0086417</smoothedAudioIn>
+        <mappedAudioIn>0.000995428</mappedAudioIn>
+        <smoothedAudioIn>0.00603632</smoothedAudioIn>
         <smoothFactor>0.9</smoothFactor>
-        <fineSmoothFactor>0.0289971</fineSmoothFactor>
+        <fineSmoothFactor>0.0444955</fineSmoothFactor>
         <audioEnabled>0</audioEnabled>
         <audioTest>0</audioTest>
     </Audio>

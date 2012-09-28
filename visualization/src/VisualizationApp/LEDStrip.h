@@ -29,6 +29,9 @@ public:
 	const ofColor & getColor() const;
 	void setAmplitude(float amp);
 
+	void setColorCoords(vector<ofFloatColor> & colors);
+	void clearColorCoords();
+
 	static ofParameter<int> fadeTime;
 	static ofParameterGroup parameters;
 private:

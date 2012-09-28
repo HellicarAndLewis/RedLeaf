@@ -26,11 +26,14 @@ class VisualizationApp : public ofBaseApp{
 		void newTweet(const Tweet & tweet);
 		void changeHashTag(bool & pressed);
 		void startTestPressed(bool & pressed);
+		void tweetFontSizeChanged(int & fontSize);
+		void changeFontPressed(bool & pressed);
 
 		ofColor niceRandomColor();
 
 		ofxPanel gui;
 		ofxButton changeTag;
+		ofxButton changeTweetFont;
 		ofxButton startTest;
 		ofxLabel currentTag;
 		bool cursorHidden;

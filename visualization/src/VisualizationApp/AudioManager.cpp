@@ -8,7 +8,8 @@
 #include "AudioManager.h"
 
 AudioManager::AudioManager() {
-	// TODO Auto-generated constructor stub
+	tweet = NULL;
+	leds = NULL;
 
 }
 
@@ -47,6 +48,10 @@ void AudioManager::setLeds(vector<LEDStrip> & _leds){
 	leds = &_leds;
 }
 
+void AudioManager::setCurrentTweet(TweetText * _tweet){
+	tweet = _tweet;
+}
+
 void AudioManager::update(){
 	u_long now = ofGetElapsedTimeMillis();
 	if(!audioEnabled) return;
@@ -58,6 +63,7 @@ void AudioManager::update(){
 		for(u_int i=0;i<leds->size();i++){
 			leds->at(i).setAmplitude(smoothedVumeter);
 		}
+		if(tweet) tweet->setAmplitude(smoothedVumeter);
 	}
 }
 

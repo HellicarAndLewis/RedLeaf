@@ -2,6 +2,7 @@
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/DateTimeFormat.h"
 #include "Poco/DateTime.h"
+#include "TweetText.h"
 
 //--------------------------------------------------------------
 void RedLeafApp::setup(){
@@ -26,8 +27,16 @@ void RedLeafApp::setup(){
 	for(u_int i=0;i<videoApp.axisCameras.size();i++){
 		gui.add(&videoApp.axisCameras[i]->gui);
 	}
+
+	gui.getGroup("Twitter").add(&visualizationApp.changeTweetFont);
+	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
+	gui.getGroup("Twitter").add(TweetText::y);
+	gui.getGroup("Twitter").add(TweetText::fontSize);
+
 	gui.loadFromFile("settings.xml");
+
 	gui.getGroup("Player").getIntSlider("record").setUpdateOnReleaseOnly(true);
+	gui.getGroup("Twitter").getIntSlider("fontSize").setUpdateOnReleaseOnly(true);
 
 	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
 

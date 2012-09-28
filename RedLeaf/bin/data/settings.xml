@@ -24,13 +24,15 @@
         <focus>228</focus>
         <manualIris>1</manualIris>
         <irFilterCut>2</irFilterCut>
-        <compression>20</compression>
+        <compression>0</compression>
         <Quad>
             <Pt0>0.0999756, 0.1, 0</Pt0>
             <Pt1>0.900024, 0.1, 0</Pt1>
             <Pt2>0.900024, 0.9, 0</Pt2>
             <Pt3>0.0999756, 0.9, 0</Pt3>
         </Quad>
+        <UnknownName>0</UnknownName>
+        <exposure>0</exposure>
     </Camera1>
     <Camera2>
         <address>192.168.1.40</address>
@@ -41,13 +43,15 @@
         <focus>228</focus>
         <manualIris>1</manualIris>
         <irFilterCut>2</irFilterCut>
-        <compression>20</compression>
+        <compression>0</compression>
         <Quad>
             <Pt0>0.0999756, 0.1, 0</Pt0>
             <Pt1>0.900024, 0.1, 0</Pt1>
             <Pt2>0.900024, 0.9, 0</Pt2>
             <Pt3>0.0999756, 0.9, 0</Pt3>
         </Quad>
+        <UnknownName>0</UnknownName>
+        <exposure>0</exposure>
     </Camera2>
     <Camera3>
         <address>192.168.1.41</address>
@@ -58,13 +62,15 @@
         <focus>228</focus>
         <manualIris>1</manualIris>
         <irFilterCut>2</irFilterCut>
-        <compression>20</compression>
+        <compression>0</compression>
         <Quad>
             <Pt0>0.100006, 0.100006, 0</Pt0>
             <Pt1>0.899994, 0.100006, 0</Pt1>
             <Pt2>0.899994, 0.899994, 0</Pt2>
             <Pt3>0.100006, 0.899994, 0</Pt3>
         </Quad>
+        <UnknownName>0</UnknownName>
+        <exposure>0</exposure>
     </Camera3>
     <Camera4>
         <address>192.168.1.42</address>
@@ -82,6 +88,8 @@
             <Pt2>0.900024, 0.899994, 0</Pt2>
             <Pt3>0.0999756, 0.899994, 0</Pt3>
         </Quad>
+        <UnknownName>0</UnknownName>
+        <exposure>0</exposure>
     </Camera4>
     <LEDStrip>
         <fadeTime>440</fadeTime>
@@ -98,10 +106,14 @@
         <checkEvery>1000</checkEvery>
         <hashtag>#RedLeaf</hashtag>
         <UnknownName>0</UnknownName>
+        <speedPixelsPerSec>50</speedPixelsPerSec>
+        <y>31</y>
+        <limitScreenX>0</limitScreenX>
+        <fontSize>14</fontSize>
     </Twitter>
     <Wall>
         <w>180</w>
-        <h>54</h>
+        <h>50</h>
         <radiusScale>2.1445</radiusScale>
         <vizX>250</vizX>
         <renderW>1024</renderW>
@@ -109,7 +121,7 @@
         <renderMode>2</renderMode>
         <rotation3D>232.123</rotation3D>
         <z>1.01</z>
-        <useColors>0</useColors>
+        <useColors>1</useColors>
         <secondScreenX>1280</secondScreenX>
         <testStateMillis>1000</testStateMillis>
         <muted>0</muted>
@@ -117,13 +129,12 @@
         <showTweets>0</showTweets>
         <UnknownName>0</UnknownName>
     </Wall>
-    <hashtag>#RedLeaf</hashtag>
     <Audio>
-        <audioInAmp>0.000780368</audioInAmp>
+        <audioInAmp>0.00143818</audioInAmp>
         <cutDown>0</cutDown>
         <cutUp>1</cutUp>
-        <mappedAudioIn>0.000780368</mappedAudioIn>
-        <smoothedAudioIn>0.0029228</smoothedAudioIn>
+        <mappedAudioIn>0.00143818</mappedAudioIn>
+        <smoothedAudioIn>0.00630999</smoothedAudioIn>
         <smoothFactor>0.9</smoothFactor>
         <fineSmoothFactor>0.0289971</fineSmoothFactor>
         <audioEnabled>0</audioEnabled>

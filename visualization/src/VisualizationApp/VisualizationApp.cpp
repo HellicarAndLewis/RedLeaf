@@ -21,7 +21,7 @@ void VisualizationApp::setup(){
 
 
 
-	gui.setup("settings");
+	gui.setup("Settings");
 	gui.add(currentTag.setup("",twitterListener.hashtag));
 	gui.add(changeTag.setup("changeHashtag"));
 	gui.add(startTest.setup("startTest"));
@@ -30,18 +30,40 @@ void VisualizationApp::setup(){
 	gui.add(twitterListener.parameters);
 	gui.add(wall.parameters);
 	gui.add(audio.parameters);
+
+	gui.getGroup("Twitter").add(changeTweetFont.setup("changeFont"));
+	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
+	gui.getGroup("Twitter").add(TweetText::y);
+	gui.getGroup("Twitter").add(TweetText::fontSize);
+
 	gui.loadFromFile("settings.xml");
 
 	gui.minimizeAll();
 
-	//twitterListener.hashtag = "#RedLeaf";
+
+	TweetText::font.loadFont(TweetText::fontName,TweetText::fontSize,true,true);
+
+	gui.getGroup("Twitter").getIntSlider("fontSize").setUpdateOnReleaseOnly(true);
+
 	changeTag.addListener(this,&VisualizationApp::changeHashTag);
 	startTest.addListener(this,&VisualizationApp::startTestPressed);
+	TweetText::fontSize.addListener(this,&VisualizationApp::tweetFontSizeChanged);
+	changeTweetFont.addListener(this,&VisualizationApp::changeFontPressed);
 
 	cursorHidden = false;
 
 	ofAddListener(twitterListener.newTweetE,this,&VisualizationApp::newTweet);
 	twitterListener.start();
+}
+
+void VisualizationApp::changeFontPressed(bool & pressed){
+	if(!pressed){
+		ofFileDialogResult result = ofSystemLoadDialog("choose font",false);
+		if(result.bSuccess){
+			TweetText::fontName = result.filePath;
+			TweetText::font.loadFont(TweetText::fontName,TweetText::fontSize,true,true);
+		}
+	}
 }
 
 void VisualizationApp::changeHashTag(bool & pressed){
@@ -50,6 +72,11 @@ void VisualizationApp::changeHashTag(bool & pressed){
 
 void VisualizationApp::startTestPressed(bool & pressed){
 	if(!pressed) wall.startTest();
+}
+
+
+void VisualizationApp::tweetFontSizeChanged(int & fontSize){
+	TweetText::font.loadFont(TweetText::fontName,TweetText::fontSize,true,true);
 }
 
 //--------------------------------------------------------------
