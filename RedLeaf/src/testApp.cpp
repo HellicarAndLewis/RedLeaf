@@ -1,10 +1,37 @@
 #include "testApp.h"
+#include "Poco/DateTimeFormatter.h"
+#include "Poco/DateTimeFormat.h"
+#include "Poco/DateTime.h"
 
 //--------------------------------------------------------------
 void RedLeafApp::setup(){
 	videoApp.setup();
 	visualizationApp.setup();
-	activeApp = &visualizationApp;
+	activeApp=&visualizationApp;
+
+	gui.setup("Settings");
+
+	gui.add(videoVisualization.set("Video/Viz",true));
+	gui.add(LEDStrip::parameters);
+	gui.add(EnergyBurst::parameters);
+	gui.add(visualizationApp.twitterListener.parameters);
+	gui.getGroup("Twitter").add(&visualizationApp.currentTag);
+	gui.getGroup("Twitter").add(&visualizationApp.changeTag);
+	gui.add(visualizationApp.wall.parameters);
+	gui.getGroup("Wall").add(&visualizationApp.startTest);
+	gui.add(visualizationApp.audio.parameters);
+
+	gui.add(videoApp.videoParameters);
+	gui.add(ComputerVision::parameters);
+	for(u_int i=0;i<videoApp.axisCameras.size();i++){
+		gui.add(&videoApp.axisCameras[i]->gui);
+	}
+	gui.loadFromFile("settings.xml");
+
+	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
+
+
+	gui.minimizeAll();
 }
 
 //--------------------------------------------------------------
@@ -14,7 +41,7 @@ void RedLeafApp::update(){
 	for(u_int i=0;i<videoApp.cvModules.size();i++){
 		if(videoApp.cvModules[i]->isFrameNew()){
 			for(u_int j=0;j<videoApp.cvModules[i]->getTriggers().size();j++){
-				visualizationApp.wall.energyBurst(ofMap(videoApp.cvModules[i]->getTriggers()[j],0,1,i*0.25,(i+1)*0.25),.5,ofColor::white);
+				visualizationApp.wall.energyBurst(ofMap(videoApp.cvModules[i]->getTriggers()[j],0,1,i*0.25,(i+1)*0.25),.5);
 			}
 		}
 	}
@@ -22,17 +49,39 @@ void RedLeafApp::update(){
 
 //--------------------------------------------------------------
 void RedLeafApp::draw(){
-	activeApp->draw();
-	/*visualizationApp.draw();
-	for(int i=0;i<videoApp.axisCameras.size();i++){
-		videoApp.axisCameras[i]->draw(visualizationApp.wall.vizX+visualizationApp.wall.renderW-320,i*250+50,320,240);
-	}*/
+	gui.draw();
+	if(!videoVisualization){
+		visualizationApp.wall.drawActiveArea(Wall::ThreeD);
+		visualizationApp.wall.drawOutput();
+		videoApp.drawCameras();
+	}else{
+		visualizationApp.wall.draw();
+	}
+
+	float textX = visualizationApp.wall.vizX+visualizationApp.wall.renderW-210;
+	Poco::LocalDateTime date;
+	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),textX,20);
+	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),textX,40);
+}
+
+void RedLeafApp::activeAppChanged(bool & videoVisualization){
+	if(videoVisualization){
+		activeApp=&visualizationApp;
+		visualizationApp.wall.enableMouseEvents();
+	}else{
+		activeApp=&videoApp;
+		visualizationApp.wall.disableMouseEvents();
+	}
 }
 
 //--------------------------------------------------------------
 void RedLeafApp::keyPressed(int key){
-	if(key=='l') activeApp=&visualizationApp;
-	if(key=='v') activeApp=&videoApp;
+	if(key=='l'){
+		videoVisualization = true;
+	}
+	if(key=='v'){
+		videoVisualization = false;
+	}
 	activeApp->keyPressed(key);
 }
 

@@ -26,9 +26,22 @@ public:
 	void update();
 	void draw();
 
-	void energyBurst(float x, float y, const ofColor & c);
+	enum RenderMode{
+		Continuous,
+		Separate,
+		ThreeD,
+		NumModes
+	};
+	void drawActiveArea(RenderMode renderMode);
+	void drawOutput();
+
+	void energyBurst(float x, float y);
+	void newTweet(string text);
 	void startTest();
 	ofColor niceRandomColor();
+
+	void enableMouseEvents();
+	void disableMouseEvents();
 
 	ofParameter<int> w,h;
 	ofParameter<int> vizX;
@@ -41,13 +54,8 @@ public:
 	ofParameter<float> testStateMillis;
 	ofParameter<bool> useColors;
 	ofParameter<bool> muted;
+	ofParameter<bool> showTweets;
 	ofParameterGroup parameters;
-	enum RenderMode{
-		Continuous,
-		Separate,
-		ThreeD,
-		NumModes
-	};
 private:
 	void mouseDragged(ofMouseEventArgs & mouse);
 	void mousePressed(ofMouseEventArgs & mouse);

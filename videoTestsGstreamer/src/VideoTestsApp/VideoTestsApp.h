@@ -12,6 +12,7 @@ class VideoTestsApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		void drawCameras();
 
 		void keyPressed  (int key);
 		void keyReleased(int key);

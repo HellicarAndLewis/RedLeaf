@@ -95,25 +95,38 @@ void Wall::setup(){
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
 	parameters.add(z.set("z",.7,.5,2));
 	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1280,0),ofVec2f(-2560,0),ofVec2f(2560,768)));
+	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
+	parameters.add(testStateMillis.set("testStateMillis",1000,100,10000));
+	parameters.add(muted.set("muted",false));
+	parameters.add(showTweets.set("showTweets",false));
+
+	rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180));
 	vizX.set("vizX",250,0,300);
 	renderW.set("renderW",1024,256,2048);
 	renderH.set("renderH",512,256,2048);
-	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
-	parameters.add(testStateMillis.set("testStateMillis",1000,100,10000));
-	rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180));
-	parameters.add(muted.set("muted",false));
+
 	w.addListener(this,&Wall::sizeChanged);
 	h.addListener(this,&Wall::sizeChanged);
 	renderMode.addListener(this,&Wall::sizeChanged);
 
-	ofAddListener(ofEvents().mousePressed,this,&Wall::mousePressed);
-	ofAddListener(ofEvents().mouseDragged,this,&Wall::mouseDragged);
+	enableMouseEvents();
 
 	runningTest = false;
 	
 	font.loadFont("verdana.ttf",40,true,false);
 
 	reset();
+}
+
+
+void Wall::enableMouseEvents(){
+	ofAddListener(ofEvents().mousePressed,this,&Wall::mousePressed);
+	ofAddListener(ofEvents().mouseDragged,this,&Wall::mouseDragged);
+}
+
+void Wall::disableMouseEvents(){
+	ofRemoveListener(ofEvents().mousePressed,this,&Wall::mousePressed);
+	ofRemoveListener(ofEvents().mouseDragged,this,&Wall::mouseDragged);
 }
 
 void Wall::sizeChanged(int & size){
@@ -127,13 +140,11 @@ void Wall::reset(){
 	for(u_int i=0;i<strips.size();i++){
 		strips[i].setup(h,(i+1)*stripSize,stripRadius);
 	}
-	//.load("building.ply");
 	building = generateBuilding(renderW,renderH,renderW,true);
 	buildingWireframe = generateBuilding(renderW+3,renderH+3,renderW+3,false);
 
 	outputBuffer.allocate(w,1,OF_IMAGE_COLOR_ALPHA);
 
-	//building.save("building.ply");
 
 	ofFbo::Settings settings;
 	settings.width = renderW*2;
@@ -331,7 +342,6 @@ void Wall::update(){
 }
 
 void Wall::draw(){
-
 	switch (renderMode){
 	case Continuous:{
 		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
@@ -349,21 +359,7 @@ void Wall::draw(){
 		ofPopView();
 	}break;
 	case Separate:{
-		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
-		ofPushView();
-		ofViewport(viewport);
-		list<EnergyBurst>::iterator it;
-		for(it = bursts.begin(); it!=bursts.end(); ++it){
-			it->draw();
-		}
-		for(int i=0;i<5;i++){
-			float x = ofGetWidth()*.25*i;
-			ofLine(x,ofGetHeight()*.5-10,x,ofGetHeight()*.5+10);
-		}
-		ofPopView();
-
-
-		viewport.set(vizX,float(ofGetHeight()-renderH)/3.,renderW*.5,renderH*.5);
+		ofRectangle viewport(vizX,float(ofGetHeight()-renderH)/3.,renderW*.5,renderH*.5);
 		ofNoFill();
 		ofSetColor(200);
 		ofRect(viewport);
@@ -430,21 +426,6 @@ void Wall::draw(){
 		ofPopView();
 	}break;
 	case ThreeD:{
-		ofRectangle viewport(vizX,0,renderW,ofGetHeight());
-		ofPushView();
-		ofViewport(viewport);
-		ofTranslate(0,ofGetHeight()*.5-40);
-		list<EnergyBurst>::iterator it;
-		for(it = bursts.begin(); it!=bursts.end(); ++it){
-			it->draw();
-		}
-		for(int i=0;i<5;i++){
-			float x = ofGetWidth()*.25*i;
-			ofLine(x,ofGetHeight()*.5-10,x,ofGetHeight()*.5+10);
-		}
-		ofPopView();
-
-
 		renderFbo.begin();
 		ofClear(0,255);
 
@@ -463,7 +444,7 @@ void Wall::draw(){
 
 		glEnable(GL_DEPTH_TEST);
 		ofPushView();
-		viewport.set(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
+		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
 		//ofTranslate(vizX,(ofGetHeight()-renderH)*.5);
 		ofViewport(viewport);
 		ofSetupScreenPerspective(viewport.width, viewport.height);
@@ -481,9 +462,57 @@ void Wall::draw(){
 		}break;
 	}
 	
+	drawActiveArea((RenderMode)(int)renderMode);
+	drawOutput();
+
+	if(muted){
+		ofPushStyle();
+		ofSetColor(255,0,0);
+		font.drawString("Muted",vizX+20,80);
+		ofPopStyle();
+	}
+	//renderFbo.draw(vizX,20,renderFbo.getWidth()*.25,renderFbo.getHeight()*.25);
+}
+
+void Wall::drawActiveArea(RenderMode renderMode){
+	switch(renderMode){
+		case Separate:{
+			ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
+			ofPushView();
+			ofViewport(viewport);
+			list<EnergyBurst>::iterator it;
+			for(it = bursts.begin(); it!=bursts.end(); ++it){
+				it->draw();
+			}
+			for(int i=0;i<5;i++){
+				float x = ofGetWidth()*.25*i;
+				ofLine(x,ofGetHeight()*.5-10,x,ofGetHeight()*.5+10);
+			}
+			ofPopView();
+		}break;
+		case ThreeD:{
+			ofRectangle viewport(vizX,0,renderW,ofGetHeight());
+			ofPushView();
+			ofViewport(viewport);
+			ofTranslate(0,ofGetHeight()*.5-40);
+			list<EnergyBurst>::iterator it;
+			for(it = bursts.begin(); it!=bursts.end(); ++it){
+				it->draw();
+			}
+			for(int i=0;i<5;i++){
+				float x = ofGetWidth()*.25*i;
+				ofLine(x,ofGetHeight()*.5-10,x,ofGetHeight()*.5+10);
+			}
+			ofPopView();
+		}break;
+
+	}
+}
+
+void Wall::drawOutput(){
 	ofSetColor(0);
 	ofRect(secondScreenPos->x,0,ofGetWidth()-secondScreenPos->x,ofGetHeight());
-	
+
 	ofSetColor(255);
 	if(!muted){
 		ofPushMatrix();
@@ -498,15 +527,9 @@ void Wall::draw(){
 			ofLine(i,0,i,h);
 		}
 		ofPopMatrix();
-		
+
 		ofSetColor(255);
-	}else{
-		ofPushStyle();
-		ofSetColor(255,0,0);
-		font.drawString("Muted",vizX+20,80);
-		ofPopStyle();
 	}
-	//renderFbo.draw(vizX,20,renderFbo.getWidth()*.25,renderFbo.getHeight()*.25);
 }
 
 
@@ -522,9 +545,13 @@ ofColor Wall::niceRandomColor(){
 void Wall::mousePressed(ofMouseEventArgs & mouse){
 	switch(renderMode){
 	case Continuous:
+		if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH).inside(mouse.x,mouse.y)){
+			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()));
+		}
+		break;
 	case Separate:
 		if(ofRectangle(vizX,ofGetHeight()*.5-15,renderW,30).inside(mouse.x,mouse.y)){
-			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
+			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()));
 		}
 		break;
 	case ThreeD:
@@ -533,7 +560,7 @@ void Wall::mousePressed(ofMouseEventArgs & mouse){
 			startRotation3D = rotation3D;
 		}
 		if(ofRectangle(vizX,ofGetHeight()-50,renderW,50).inside(mouse.x,mouse.y)){
-			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()), useColors ? niceRandomColor() : ofColor::white);
+			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()));
 		}
 		break;
 
@@ -548,8 +575,17 @@ void Wall::mouseDragged(ofMouseEventArgs & mouse){
 	}
 }
 
-void Wall::energyBurst(float x, float y, const ofColor & c){
-	if(!runningTest) bursts.push_back(EnergyBurst(ofVec2f(x,.5),c));
+void Wall::energyBurst(float x, float y){
+	if(!runningTest && !audio->audioTest){
+		bursts.push_back(EnergyBurst(ofVec2f(x,.5),useColors ? niceRandomColor() : ofColor::white));
+	}
+}
+
+
+void Wall::newTweet(string text){
+	if(!runningTest && !audio->audioTest){
+		energyBurst(ofRandom(1),.5);
+	}
 }
 
 void Wall::startTest(){

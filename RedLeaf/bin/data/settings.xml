@@ -1,13 +1,13 @@
 
-<settings>
-    <video>
+<Settings>
+    <Player>
         <record>0</record>
         <usePlayer>0</usePlayer>
         <playerPaused>0</playerPaused>
         <playerPosition>0.468249</playerPosition>
         <drawCamera>5</drawCamera>
-    </video>
-    <cv>
+    </Player>
+    <CV>
         <showCV>0</showCV>
         <thresholdLevel>51</thresholdLevel>
         <showGui>0</showGui>
@@ -15,8 +15,8 @@
         <showContours>0</showContours>
         <minTimeTrigger>620</minTimeTrigger>
         <distanceSameTrigger>0.1725</distanceSameTrigger>
-    </cv>
-    <camera1>
+    </CV>
+    <Camera1>
         <address>192.168.1.39</address>
         <user>root</user>
         <pwd>password</pwd>
@@ -28,8 +28,8 @@
         <exposure>50</exposure>
         <irFilterCut>0</irFilterCut>
         <compression>49</compression>
-    </camera1>
-    <camera2>
+    </Camera1>
+    <Camera2>
         <address>192.168.1.40</address>
         <user>root</user>
         <pwd>password</pwd>
@@ -40,8 +40,8 @@
         <exposure>50</exposure>
         <irFilterCut>0</irFilterCut>
         <compression>49</compression>
-    </camera2>
-    <camera3>
+    </Camera2>
+    <Camera3>
         <address>192.168.1.41</address>
         <user>root</user>
         <pwd>password</pwd>
@@ -52,8 +52,8 @@
         <exposure>50</exposure>
         <irFilterCut>0</irFilterCut>
         <compression>49</compression>
-    </camera3>
-    <camera4>
+    </Camera3>
+    <Camera4>
         <address>192.168.1.42</address>
         <user>root</user>
         <pwd>password</pwd>
@@ -64,9 +64,7 @@
         <exposure>50</exposure>
         <irFilterCut>0</irFilterCut>
         <compression>49</compression>
-    </camera4>
-</settings>
-<parameters>
+    </Camera4>
     <LEDStrip>
         <fadeTime>440</fadeTime>
     </LEDStrip>
@@ -108,5 +106,5 @@
         <audioEnabled>0</audioEnabled>
         <audioTest>0</audioTest>
     </Audio>
-</parameters>
+</Settings>
 

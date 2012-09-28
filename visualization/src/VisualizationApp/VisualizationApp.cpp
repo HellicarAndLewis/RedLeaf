@@ -21,7 +21,7 @@ void VisualizationApp::setup(){
 
 
 
-	gui.setup("parameters");
+	gui.setup("settings");
 	gui.add(currentTag.setup("",twitterListener.hashtag));
 	gui.add(changeTag.setup("changeHashtag"));
 	gui.add(startTest.setup("startTest"));
@@ -60,15 +60,15 @@ void VisualizationApp::update(){
 
 //--------------------------------------------------------------
 void VisualizationApp::draw(){
-	wall.draw();
 	gui.draw();
+	wall.draw();
 	Poco::LocalDateTime date;
 	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),wall.vizX+wall.renderW-210,20);
 	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),wall.vizX+wall.renderW-210,40);
 }
 
 void VisualizationApp::newTweet(const Tweet & tweet){
-	wall.energyBurst(ofRandom(1),.5,wall.useColors ? wall.niceRandomColor() : ofColor::white);
+	wall.newTweet(tweet.title);
 }
 
 //--------------------------------------------------------------

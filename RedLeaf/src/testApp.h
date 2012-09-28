@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "VideoTestsApp.h"
 #include "VisualizationApp.h"
+#include "ofxGui.h"
 
 class RedLeafApp : public ofBaseApp{
 
@@ -21,8 +22,12 @@ class RedLeafApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+		void activeAppChanged(bool & videoVisualization);
+
 
 		VideoTestsApp videoApp;
 		VisualizationApp visualizationApp;
 		ofBaseApp * activeApp;
+		ofxPanel gui;
+		ofParameter<bool> videoVisualization;
 };

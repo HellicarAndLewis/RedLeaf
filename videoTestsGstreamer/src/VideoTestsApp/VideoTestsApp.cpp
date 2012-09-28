@@ -1,6 +1,9 @@
 #include "VideoTestsApp.h"
 #include "ofxXmlSettings.h"
 #include "ofGstVideoPlayer.h"
+#include "Poco/DateTimeFormatter.h"
+#include "Poco/DateTimeFormat.h"
+#include "Poco/DateTime.h"
 
 
 //--------------------------------------------------------------
@@ -14,14 +17,14 @@ void VideoTestsApp::setup(){
 		axisCameras.push_back(new ofxAxisGui());
 		axisCameras[i]->setDrawGui(false);
 		axisCameras[i]->setAuth(xml.getValue("settings:camera"+ofToString(i+1)+":user",""),xml.getValue("settings:camera"+ofToString(i+1)+":pwd",""));
-		axisCameras[i]->setup(xml.getValue("settings:camera"+ofToString(i+1)+":address",""),"camera"+ofToString(i+1),220,10);
+		axisCameras[i]->setup(xml.getValue("settings:camera"+ofToString(i+1)+":address",""),"Camera"+ofToString(i+1),220,10);
 		cvModules.push_back(new ComputerVision);
 		ofAddListener(axisCameras[i]->axis->getGstUtils().bufferEvent,cvModules[i],&ComputerVision::newFrame);
 	}
 
-	gui.setup("settings","settings.xml");
+	gui.setup("Settings","settings.xml");
 
-	videoParameters.setName("video");
+	videoParameters.setName("Player");
 	videoParameters.add(record.set("record",0,0,axisCameras.size()+1));
 	videoParameters.add(usePlayer.set("usePlayer",false));
 	videoParameters.add(playerPaused.set("playerPaused",false));
@@ -30,7 +33,7 @@ void VideoTestsApp::setup(){
 	gui.add(videoParameters);
 
 
-	ComputerVision::parameters.setName("cv");
+	ComputerVision::parameters.setName("CV");
 	ComputerVision::parameters.add(ComputerVision::thresholdLevel);
 	ComputerVision::parameters.add(ComputerVision::showGui);
 	ComputerVision::parameters.add(ComputerVision::showImages);
@@ -80,8 +83,10 @@ void VideoTestsApp::usePlayerChanged(bool & usePlayer){
 			usePlayer = false;
 		}
 	}else{
-		ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
-		ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
+		if(player.getPlayer()){
+			ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->bufferEvent,cvModules[0],&ComputerVision::newFrame);
+			ofRemoveListener(((ofGstVideoPlayer*)player.getPlayer().get())->getGstVideoUtils()->prerollEvent,cvModules[0],&ComputerVision::newFrame);
+		}
 		ofAddListener(axisCameras[0]->axis->getGstUtils().bufferEvent,cvModules[0],&ComputerVision::newFrame);
 	}
 }
@@ -140,6 +145,14 @@ void VideoTestsApp::update(){
 //--------------------------------------------------------------
 void VideoTestsApp::draw(){
 	gui.draw();
+	drawCameras();
+	Poco::LocalDateTime date;
+	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),ofGetWidth()-110,20);
+	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),ofGetWidth()-110,40);
+}
+
+
+void VideoTestsApp::drawCameras(){
 	if(drawCamera<=(int)axisCameras.size()){
 		axisCameras[drawCamera-1]->draw(220,10,640,480);
 	}else{
@@ -160,15 +173,12 @@ void VideoTestsApp::draw(){
 		}
 	}
 
-	ofLine(250,ofGetHeight()-30,850,ofGetHeight()-30);
+	/*ofLine(250,ofGetHeight()-30,850,ofGetHeight()-30);
 	for(u_int i=0;i<cvModules.size();i++){
 		for(u_int j=0;j<cvModules[i]->getTriggers().size();j++){
 			ofCircle(ofMap(cvModules[i]->getTriggers()[j],0,1,0.25*i,0.25*(i+1))*600+250,ofGetHeight()-30,3);
 		}
-	}
-	/*Poco::LocalDateTime date;
-	ofDrawBitmapString(Poco::DateTimeFormatter::format(date,Poco::DateTimeFormat::ASCTIME_FORMAT ),wall.vizX+wall.renderW-210,20);
-	ofDrawBitmapString("app fps: " + ofToString((int)ofGetFrameRate()),ofGetWidth()-110,40);*/
+	}*/
 }
 
 //--------------------------------------------------------------
