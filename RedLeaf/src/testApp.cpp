@@ -14,13 +14,21 @@ void RedLeafApp::setup(){
 	gui.setup("Settings");
 
 	gui.add(videoVisualization.set("Video/Viz",true));
+	gui.add(verticalSync.set("vsync",false));
 	gui.add(LEDStrip::parameters);
 	gui.add(EnergyBurst::parameters);
+
 	gui.add(visualizationApp.twitterListener.parameters);
 	gui.getGroup("Twitter").add(&visualizationApp.currentTag);
 	gui.getGroup("Twitter").add(&visualizationApp.changeTag);
+	gui.getGroup("Twitter").add(&visualizationApp.changeTweetFont);
+	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
+	gui.getGroup("Twitter").add(TweetText::y);
+	gui.getGroup("Twitter").add(TweetText::fontSize);
+
 	gui.add(visualizationApp.wall.parameters);
 	gui.getGroup("Wall").add(&visualizationApp.startTest);
+
 	gui.add(visualizationApp.audio.parameters);
 
 	gui.add(videoApp.videoParameters);
@@ -29,17 +37,13 @@ void RedLeafApp::setup(){
 		gui.add(&videoApp.axisCameras[i]->gui);
 	}
 
-	gui.getGroup("Twitter").add(&visualizationApp.changeTweetFont);
-	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
-	gui.getGroup("Twitter").add(TweetText::y);
-	gui.getGroup("Twitter").add(TweetText::fontSize);
-
 	gui.loadFromFile("settings.xml");
 
 	gui.getGroup("Player").getIntSlider("record").setUpdateOnReleaseOnly(true);
 	gui.getGroup("Twitter").getIntSlider("fontSize").setUpdateOnReleaseOnly(true);
 
 	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
+	verticalSync.addListener(this,&RedLeafApp::verticalSyncChanged);
 
 	ofAddListener(gui.savePressedE,&videoApp,&VideoTestsApp::savePressed);
 	ofAddListener(gui.loadPressedE,&videoApp,&VideoTestsApp::loadPressed);
@@ -92,6 +96,10 @@ void RedLeafApp::activeAppChanged(bool & videoVisualization){
 		activeApp=&videoApp;
 		visualizationApp.wall.disableMouseEvents();
 	}
+}
+
+void RedLeafApp::verticalSyncChanged(bool & vsync){
+	ofSetVerticalSync(vsync);
 }
 
 //--------------------------------------------------------------
