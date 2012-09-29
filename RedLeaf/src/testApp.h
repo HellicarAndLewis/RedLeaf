@@ -30,4 +30,5 @@ class RedLeafApp : public ofBaseApp{
 		ofBaseApp * activeApp;
 		ofxPanel gui;
 		ofParameter<bool> videoVisualization;
+		bool showGui;
 };

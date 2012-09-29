@@ -9,6 +9,7 @@ void RedLeafApp::setup(){
 	videoApp.setup();
 	visualizationApp.setup();
 	activeApp=&visualizationApp;
+	showGui = true;
 
 	gui.setup("Settings");
 
@@ -64,13 +65,17 @@ void RedLeafApp::update(){
 
 //--------------------------------------------------------------
 void RedLeafApp::draw(){
-	gui.draw();
-	if(!videoVisualization){
-		visualizationApp.wall.drawActiveArea(Wall::ThreeD);
-		visualizationApp.wall.drawOutput();
-		videoApp.drawCameras();
+	if(showGui){
+		gui.draw();
+		if(!videoVisualization){
+			visualizationApp.wall.drawActiveArea(Wall::ThreeD);
+			visualizationApp.wall.drawOutput();
+			videoApp.drawCameras();
+		}else{
+			visualizationApp.wall.draw();
+		}
 	}else{
-		visualizationApp.wall.draw();
+		visualizationApp.wall.drawOutput();
 	}
 
 	float textX = visualizationApp.wall.vizX+visualizationApp.wall.renderW-210;
@@ -91,11 +96,11 @@ void RedLeafApp::activeAppChanged(bool & videoVisualization){
 
 //--------------------------------------------------------------
 void RedLeafApp::keyPressed(int key){
-	if(key=='l'){
-		videoVisualization = true;
-	}
 	if(key=='v'){
-		videoVisualization = false;
+		videoVisualization = !videoVisualization;
+	}
+	if(key=='h'){
+		showGui=!showGui;
 	}
 	activeApp->keyPressed(key);
 }
