@@ -13,6 +13,9 @@ void RedLeafApp::setup(){
 
 	gui.setup("Settings");
 
+	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
+	verticalSync.addListener(this,&RedLeafApp::verticalSyncChanged);
+
 	gui.add(videoVisualization.set("Video/Viz",true));
 	gui.add(verticalSync.set("vsync",false));
 	gui.add(LEDStrip::parameters);
@@ -42,8 +45,6 @@ void RedLeafApp::setup(){
 	gui.getGroup("Player").getIntSlider("record").setUpdateOnReleaseOnly(true);
 	gui.getGroup("Twitter").getIntSlider("fontSize").setUpdateOnReleaseOnly(true);
 
-	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
-	verticalSync.addListener(this,&RedLeafApp::verticalSyncChanged);
 
 	ofAddListener(gui.savePressedE,&videoApp,&VideoTestsApp::savePressed);
 	ofAddListener(gui.loadPressedE,&videoApp,&VideoTestsApp::loadPressed);
