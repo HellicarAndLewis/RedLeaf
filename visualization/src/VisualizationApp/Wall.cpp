@@ -144,7 +144,7 @@ void Wall::showTweetsChanged(bool & showTweets){
 			strips[i].clearColorCoords();
 		}
 	}else{
-		colorsFromTweets.assign(h,ofFloatColor(0));
+		colorsFromTweets.assign(h,ofFloatColor(0,0,0,255));
 		bursts.clear();
 		for(u_int i=0;i<strips.size();i++){
 			strips[i].setColorCoords(colorsFromTweets);
@@ -235,7 +235,7 @@ void Wall::update(){
 			break;
 		case RedOneByOne:
 			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=w){
+			if(nextStripOn>=(u_int)w){
 				testState++;
 				prevStripOn = -1;
 				nextStripOn = 0;
@@ -247,7 +247,7 @@ void Wall::update(){
 			break;
 		case GreenOneByOne:
 			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=w){
+			if(nextStripOn>=(u_int)w){
 				testState++;
 				prevStripOn = -1;
 				nextStripOn = 0;
@@ -259,7 +259,7 @@ void Wall::update(){
 			break;
 		case BlueOneByOne:
 			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=w){
+			if(nextStripOn>=(u_int)w){
 				testState++;
 				prevStripOn = -1;
 				nextStripOn = 0;
@@ -271,7 +271,7 @@ void Wall::update(){
 			break;
 		case WhiteOneByOne:
 			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=w){
+			if(nextStripOn>=(u_int)w){
 				testState++;
 				prevStripOn = -1;
 				nextStripOn = 0;
@@ -283,7 +283,7 @@ void Wall::update(){
 			}
 			break;
 		case ProgressiveRed:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
 				strips[i].trigger(ofColor::red,now);
 			}
 			lastStripTestOn = min((int)nextStripOn,(int)w);
@@ -294,7 +294,7 @@ void Wall::update(){
 			}
 			break;
 		case ProgressiveGreen:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
 				strips[i].trigger(ofColor::green,now);
 			}
 			lastStripTestOn = min((int)nextStripOn,(int)w);
@@ -305,7 +305,7 @@ void Wall::update(){
 			}
 			break;
 		case ProgressiveBlue:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
 				strips[i].trigger(ofColor::blue,now);
 			}
 			lastStripTestOn = min((int)nextStripOn,(int)w);
@@ -316,7 +316,7 @@ void Wall::update(){
 			}
 			break;
 		case ProgressiveWhite:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<w;i++){
+			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
 				strips[i].trigger(ofColor::white,now);
 			}
 			lastStripTestOn = min((int)nextStripOn,(int)w);
@@ -379,11 +379,12 @@ void Wall::draw(){
 		tweets.front().draw();
 		outputFBO.end();
 		outputFBO.readToPixels(outputBuffer);
-		for(u_int i=0;i<strips.size();i++){
+		int stride = w*4;
+		for(int i=0;i<w;i++){
 			int index = i*4;
-			for(u_int j=0;j<colorsFromTweets.size();j++){
-				index+=w*4;
+			for(int j=0;j<h;j++){
 				colorsFromTweets[j] = *((ofFloatColor*)&outputBuffer[index]);
+				index+=stride;
 			}
 			strips[i].setColorCoords(colorsFromTweets);
 		}
@@ -517,7 +518,6 @@ void Wall::draw(){
 		font.drawString("Muted",vizX+20,80);
 		ofPopStyle();
 	}
-	//renderFbo.draw(vizX,20,renderFbo.getWidth()*.25,renderFbo.getHeight()*.25);
 }
 
 void Wall::drawActiveArea(RenderMode renderMode){

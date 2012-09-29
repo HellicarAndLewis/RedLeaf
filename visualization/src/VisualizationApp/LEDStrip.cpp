@@ -40,7 +40,6 @@ void LEDStrip::setColorCoords(vector<ofFloatColor> & colors){
 }
 
 void LEDStrip::clearColorCoords(){
-	stripMesh.getColors().clear();
 	stripMesh.disableColors();
 }
 
@@ -67,7 +66,7 @@ void LEDStrip::update(u_long now){
 
 void LEDStrip::draw(float x, float radiusScale, float renderW, float renderH){
 	ofColor c = ofGetStyle().color;
-	if(stripMesh.getNumColors()==0) ofSetColor(color);
+	if(!stripMesh.usingColors()) ofSetColor(color);
 	else ofSetColor(255);
 	float sep = renderH/float(h+1);
 	glPointSize(2*radius*renderH*radiusScale);
