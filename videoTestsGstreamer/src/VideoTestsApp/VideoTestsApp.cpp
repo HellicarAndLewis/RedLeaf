@@ -19,6 +19,7 @@ void VideoTestsApp::setup(){
 		axisCameras[i]->setAuth(xml.getValue("Settings:Camera"+ofToString(i+1)+":user",""),xml.getValue("Settings:Camera"+ofToString(i+1)+":pwd",""));
 		axisCameras[i]->setup(xml.getValue("Settings:Camera"+ofToString(i+1)+":address",""),"Camera"+ofToString(i+1),220,10);
 		cvModules.push_back(new ComputerVision);
+		cvModules.back()->setup("CV camera"+ofToString(i+1));
 		ofAddListener(axisCameras[i]->axis->getGstUtils().bufferEvent,cvModules[i],&ComputerVision::newFrame);
 	}
 
@@ -33,16 +34,18 @@ void VideoTestsApp::setup(){
 	gui.add(videoParameters);
 
 
-	ComputerVision::parameters.setName("CV");
-	ComputerVision::parameters.add(ComputerVision::thresholdLevel);
-	ComputerVision::parameters.add(ComputerVision::showGui);
-	ComputerVision::parameters.add(ComputerVision::showThreshold);
-	ComputerVision::parameters.add(ComputerVision::showContours);
-	ComputerVision::parameters.add(ComputerVision::minTimeTrigger);
-	ComputerVision::parameters.add(ComputerVision::distanceSameTrigger);
-	gui.add(ComputerVision::parameters);
+	ComputerVision::globalParameters.setName("Global CV");
+	ComputerVision::globalParameters.add(ComputerVision::thresholdLevel);
+	ComputerVision::globalParameters.add(ComputerVision::showGui);
+	ComputerVision::globalParameters.add(ComputerVision::showThreshold);
+	ComputerVision::globalParameters.add(ComputerVision::showContours);
+	ComputerVision::globalParameters.add(ComputerVision::minTimeTrigger);
+	ComputerVision::globalParameters.add(ComputerVision::distanceSameTrigger);
+	gui.add(ComputerVision::globalParameters);
 
-
+	for(u_int i=0;i<cvModules.size();i++){
+		gui.add(&cvModules[i]->gui);
+	}
 	for(u_int i=0;i<axisCameras.size();i++){
 		gui.add(&axisCameras[i]->gui);
 	}

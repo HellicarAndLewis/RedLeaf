@@ -113,6 +113,7 @@ void Wall::setup(){
 	enableMouseEvents();
 
 	runningTest = false;
+	calibrationMode = false;
 	
 	font.loadFont("verdana.ttf",40,true,false);
 
@@ -124,11 +125,14 @@ void Wall::setup(){
 
 
 void Wall::enableMouseEvents(){
+	ofAddListener(ofEvents().mouseReleased,this,&Wall::mouseReleased);
 	ofAddListener(ofEvents().mousePressed,this,&Wall::mousePressed);
 	ofAddListener(ofEvents().mouseDragged,this,&Wall::mouseDragged);
 }
 
 void Wall::disableMouseEvents(){
+	rotating = false;
+	ofRemoveListener(ofEvents().mouseReleased,this,&Wall::mouseReleased);
 	ofRemoveListener(ofEvents().mousePressed,this,&Wall::mousePressed);
 	ofRemoveListener(ofEvents().mouseDragged,this,&Wall::mouseDragged);
 }
@@ -176,7 +180,29 @@ void Wall::reset(){
 	ofEnableNormalizedTexCoords();
 }
 
+void Wall::turnOnForCalibration(float pct){
+	calibrationMode = true;
+	u_long now = ofGetElapsedTimeMillis();
+	for(u_int i=0;i<strips.size();++i){
+		strips[i].setTestMode(true);
+		if(u_int(w*pct)!=i){
+			strips[i].trigger(ofColor::black,now);
+		}else{
+			strips[i].trigger(ofColor::white,now);
+		}
+	}
+}
+
+
+void Wall::turnOffCalibration(){
+	calibrationMode = false;
+	for(u_int i=0;i<strips.size();++i){
+		strips[i].setTestMode(false);
+	}
+}
+
 void Wall::update(){
+	if(calibrationMode) return;
 	u_long now = ofGetElapsedTimeMillis();
 	if(runningTest){
 		u_long msStripOn = double(testStateMillis)/double(w);
@@ -610,6 +636,7 @@ void Wall::mousePressed(ofMouseEventArgs & mouse){
 		if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH-50).inside(mouse.x,mouse.y)){
 			dragStart.set(mouse.x,mouse.y);
 			startRotation3D = rotation3D;
+			rotating = true;
 		}
 		if(ofRectangle(vizX,ofGetHeight()-50,renderW,50).inside(mouse.x,mouse.y)){
 			energyBurst(float(mouse.x-vizX)/float(renderW), float(mouse.y)/float(ofGetHeight()));
@@ -621,21 +648,26 @@ void Wall::mousePressed(ofMouseEventArgs & mouse){
 }
 
 void Wall::mouseDragged(ofMouseEventArgs & mouse){
-	if(ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH-50).inside(mouse.x,mouse.y) && renderMode==ThreeD){
+	if(rotating && ofRectangle(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH-50).inside(mouse.x,mouse.y) && renderMode==ThreeD){
 		ofVec2f delta = ofVec2f(mouse.x,mouse.y)-dragStart;
 		rotation3D = startRotation3D + ofVec2f(ofMap(delta.x,-(ofGetWidth()-vizX), ofGetWidth()-vizX, -180, 180),ofMap(delta.y,-ofGetHeight(), ofGetHeight(), 180, -180));
 	}
 }
 
+
+void Wall::mouseReleased(ofMouseEventArgs & mouse){
+	rotating = false;
+}
+
 void Wall::energyBurst(float x, float y){
-	if(!runningTest && !audio->audioTest){
+	if(!runningTest && !calibrationMode && !showTweets && !audio->audioTest){
 		bursts.push_back(EnergyBurst(ofVec2f(x,.5),useColors ? niceRandomColor() : ofColor::white));
 	}
 }
 
 
 void Wall::newTweet(string text){
-	if(!runningTest && !audio->audioTest){
+	if(!runningTest  && !calibrationMode && !audio->audioTest){
 		if(showTweets){
 			u_long now = ofGetElapsedTimeMillis();
 			tweets.push(TweetText(text,useColors ? niceRandomColor() : ofColor::white,now,w));

@@ -35,7 +35,12 @@ void RedLeafApp::setup(){
 	gui.add(visualizationApp.audio.parameters);
 
 	gui.add(videoApp.videoParameters);
-	gui.add(ComputerVision::parameters);
+	gui.add(ComputerVision::globalParameters);
+	for(u_int i=0;i<videoApp.cvModules.size();i++){
+		gui.add(&videoApp.cvModules[i]->gui);
+		ofAddListener(videoApp.cvModules[i]->calibrationPoint,this,&RedLeafApp::calibrationPointTriggered);
+		videoApp.cvModules[i]->calibrationMode.addListener(this,&RedLeafApp::calibrationModeChanged);
+	}
 	for(u_int i=0;i<videoApp.axisCameras.size();i++){
 		gui.add(&videoApp.axisCameras[i]->gui);
 	}
@@ -53,6 +58,24 @@ void RedLeafApp::setup(){
 	videoApp.loadPressed(yes);
 
 	gui.minimizeAll();
+}
+
+void RedLeafApp::calibrationPointTriggered(const void * sender, float & distance){
+	for(u_int i=0;i<videoApp.cvModules.size();i++){
+		if(videoApp.cvModules[i]==sender){
+			float wallDistance = distance*.25+.25*i;
+			visualizationApp.wall.turnOnForCalibration(wallDistance);
+			break;
+		}
+	}
+}
+
+void RedLeafApp::calibrationModeChanged(const void * sender, bool & calibrationMode){
+	bool calibrationModeAll = false;
+	for(u_int i=0;i<videoApp.cvModules.size();i++){
+		calibrationModeAll |= videoApp.cvModules[i]->calibrationMode;
+	}
+	if(!calibrationModeAll) visualizationApp.wall.turnOffCalibration();
 }
 
 //--------------------------------------------------------------

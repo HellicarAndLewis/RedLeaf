@@ -12,11 +12,14 @@
 #include "ofConstants.h"
 #include "ofPixels.h"
 #include "Warping.h"
+#include "ofxGui.h"
 #include <list>
 
 class ComputerVision {
 public:
 	ComputerVision();
+
+	void setup(string name);
 
 	void update();
 	void draw();
@@ -41,11 +44,29 @@ public:
 	static ofParameter<int> thresholdLevel;
 	static ofParameter<int> minTimeTrigger;
 	static ofParameter<float> distanceSameTrigger;
-	static ofParameterGroup parameters;
+	static ofParameterGroup globalParameters;
+
+	ofParameter<bool> calibrationMode;
+	ofParameter<int> currentPoint;
+	ofxButton resetCalibration;
+	ofxGuiGroup gui;
 
 	void newFrame(ofPixels & pixels);
 
+	ofEvent<float> calibrationPoint;
+
 private:
+	void calibrationModeChanged(bool & calibrationMode);
+	void currentPointChanged(int & currentPoint);
+	void resetCalibrationPressed(bool & pressed);
+
+	void solveEquation();
+	float calibratedDistance(float x);
+	ofVec2f getCrossPoint(const ofVec2f & p);
+
+	void mousePressed(ofMouseEventArgs & mouse);
+
+	// frame diff buffers (triple buffering)
 	ofPixels gray, prevFrame, diffFrameBack, diffFrameFront, diffFrameDraw;
 	vector<cv::Rect> contoursBBsBack, contoursBBsFront, contoursBBsDraw;
 	ofxCv::ContourFinder contourFinder;
@@ -55,18 +76,21 @@ private:
 	vector<float> triggersBack,triggersFront,triggersDraw;
 	list<Trigger> triggersHistoric;
 
+	// threholded image tex
 	ofTexture tex;
-
-	//vector<ofPoint> featuresBack, featuresDraw;
-	//vector<ofVec2f> motionBack, motionDraw;
-	//ofxCv::FlowPyrLK flow;
 
 	ofMutex mutex;
 	bool newFrameBack,newFrameFront;
 
+	// warping
 	gui::Warping warp;
 	ofVec2f position;
 	float w,h;
+
+	// calibration
+	vector<float> srcPoints;
+	vector<float> realPoints;
+	float a,b,c,d;
 };
 
 #endif /* COMPUTERVISION_H_ */

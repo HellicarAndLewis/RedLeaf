@@ -37,6 +37,9 @@ public:
 	void drawActiveArea(RenderMode renderMode);
 	void drawOutput();
 
+	void turnOnForCalibration(float pct);
+	void turnOffCalibration();
+
 	void energyBurst(float x, float y);
 	void newTweet(string text);
 	void startTest();
@@ -61,6 +64,7 @@ public:
 private:
 	void mouseDragged(ofMouseEventArgs & mouse);
 	void mousePressed(ofMouseEventArgs & mouse);
+	void mouseReleased(ofMouseEventArgs & mouse);
 	void sizeChanged(int & size);
 	void showTweetsChanged(bool & showTweets);
 	void reset();
@@ -69,6 +73,7 @@ private:
 	ofFbo renderFbo;
 	ofPoint dragStart;
 	ofVec2f startRotation3D;
+	bool rotating;
 	ofVboMesh building;
 	ofVboMesh buildingWireframe;
 	AudioManager * audio;
@@ -102,6 +107,8 @@ private:
 	ofFbo outputFBO;
 	ofFloatPixels outputBuffer;
 	vector<ofFloatColor> colorsFromTweets;
+
+	bool calibrationMode;
 };
 
 #endif /* WALL_H_ */

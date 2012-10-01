@@ -24,6 +24,8 @@ class RedLeafApp : public ofBaseApp{
 		
 		void activeAppChanged(bool & videoVisualization);
 		void verticalSyncChanged(bool & vsync);
+		void calibrationPointTriggered(const void * sender, float & distance);
+		void calibrationModeChanged(const void * sender, bool & calibrationMode);
 
 
 		VideoTestsApp videoApp;
