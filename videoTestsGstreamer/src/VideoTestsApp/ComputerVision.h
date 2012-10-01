@@ -36,7 +36,7 @@ public:
 	void setQuad(const vector<ofPoint> & quad);
 
 	static ofParameter<bool> showGui;
-	static ofParameter<bool> showImages;
+	static ofParameter<bool> showThreshold;
 	static ofParameter<bool> showContours;
 	static ofParameter<int> thresholdLevel;
 	static ofParameter<int> minTimeTrigger;

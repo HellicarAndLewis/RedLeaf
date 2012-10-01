@@ -36,7 +36,7 @@ void VideoTestsApp::setup(){
 	ComputerVision::parameters.setName("CV");
 	ComputerVision::parameters.add(ComputerVision::thresholdLevel);
 	ComputerVision::parameters.add(ComputerVision::showGui);
-	ComputerVision::parameters.add(ComputerVision::showImages);
+	ComputerVision::parameters.add(ComputerVision::showThreshold);
 	ComputerVision::parameters.add(ComputerVision::showContours);
 	ComputerVision::parameters.add(ComputerVision::minTimeTrigger);
 	ComputerVision::parameters.add(ComputerVision::distanceSameTrigger);

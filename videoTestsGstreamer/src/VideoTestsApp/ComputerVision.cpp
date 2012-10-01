@@ -10,7 +10,7 @@ using namespace ofxCv;
 
 ofParameter<int> ComputerVision::thresholdLevel("thresholdLevel",30,0,255);
 ofParameter<bool> ComputerVision::showGui("showGui",false);
-ofParameter<bool> ComputerVision::showImages("showImages",false);
+ofParameter<bool> ComputerVision::showThreshold("showThreshold",false);
 ofParameter<bool> ComputerVision::showContours("showContours",false);
 ofParameter<int> ComputerVision::minTimeTrigger("minTimeTrigger",300,0,2000);
 ofParameter<float> ComputerVision::distanceSameTrigger("distanceSameTrigger",.1,0,.5);
@@ -150,7 +150,7 @@ void ComputerVision::setSize(float _w, float _h){
 
 void ComputerVision::draw(){
 	ofPushStyle();
-	if(showImages){
+	if(showThreshold){
 		if(newFrameFront && diffFrameDraw.size()!=0){
 			if(!tex.isAllocated() || tex.getWidth()!=diffFrameDraw.getWidth() || tex.getHeight()!=diffFrameDraw.getHeight()){
 				tex.allocate(diffFrameDraw);
@@ -158,13 +158,13 @@ void ComputerVision::draw(){
 			tex.loadData(diffFrameDraw);
 		}
 	}
-	if(showImages || showContours){
+	if(showThreshold || showContours){
 		ofPushMatrix();
 		ofTranslate(position);
 		ofScale(w/diffFrameDraw.getWidth(),h/diffFrameDraw.getHeight());
 		ofPushStyle();
 		ofSetColor(255);
-		if(showImages) tex.draw(0,0);
+		if(showThreshold) tex.draw(0,0);
 		if(showContours){
 			ofNoFill();
 			ofSetColor(0,255,0);
