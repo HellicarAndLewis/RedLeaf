@@ -14,6 +14,8 @@ ofParameter<float> EnergyBurst::minLifeTime("minLifeTime",500,0,2000);
 ofParameter<float> EnergyBurst::maxLifeTime("maxLifeTime",2000,500,4000);
 ofParameter<float> EnergyBurst::minSpeed("minSpeed",.08,0.01,1);
 ofParameter<float> EnergyBurst::maxSpeed("maxSpeed",.2,0.01,1);
+ofParameter<float> EnergyBurst::alpha("alpha",1,0,1);
+ofParameter<bool> EnergyBurst::useColor("useColor",false);
 ofParameterGroup EnergyBurst::parameters;
 
 void EnergyBurst::initClassParameters(){
@@ -23,6 +25,8 @@ void EnergyBurst::initClassParameters(){
 	parameters.add(maxLifeTime);
 	parameters.add(minSpeed);
 	parameters.add(maxSpeed);
+	parameters.add(useColor);
+	parameters.add(alpha);
 }
 
 void EnergyBurst::update(u_long nowMS){
@@ -41,6 +45,8 @@ void EnergyBurst::update(u_long nowMS){
 		rCycle=true;
 		currentPositionR.x-=1;
 	}
+
+	color.a = 255. * alpha;
 }
 
 

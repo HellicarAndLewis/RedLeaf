@@ -7,8 +7,6 @@
 void VisualizationApp::setup(){
 	ofEnableAlphaBlending();
 	ofBackground(0);
-	//ofSetVerticalSync(true);
-
 
 	LEDStrip::initClassParameters();
 	EnergyBurst::initClassParameters();
@@ -35,6 +33,8 @@ void VisualizationApp::setup(){
 	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
 	gui.getGroup("Twitter").add(TweetText::y);
 	gui.getGroup("Twitter").add(TweetText::fontSize);
+	gui.getGroup("Twitter").add(TweetText::useColors);
+	gui.getGroup("Twitter").add(TweetText::alpha);
 
 	gui.loadFromFile("settings.xml");
 

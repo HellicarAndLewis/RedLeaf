@@ -91,14 +91,15 @@ void Wall::setup(){
 	parameters.setName("Wall");
 	parameters.add(w.set("w",180,0,200));
 	parameters.add(h.set("h",100,0,200));
-	parameters.add(useColors.set("useColors",false));
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
 	parameters.add(z.set("z",.7,.5,2));
 	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1280,0),ofVec2f(-2560,0),ofVec2f(2560,768)));
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
 	parameters.add(testStateMillis.set("testStateMillis",1000,100,10000));
 	parameters.add(muted.set("muted",false));
-	parameters.add(showTweets.set("showTweets",false));
+	parameters.add(showTweets.set("showTweets",true));
+	parameters.add(showBursts.set("showBursts",true));
+	parameters.add(showBurstsFromTweets.set("showBurstsFromTweets",true));
 
 	rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180));
 	vizX.set("vizX",250,0,300);
@@ -201,164 +202,169 @@ void Wall::turnOffCalibration(){
 	}
 }
 
+
+void Wall::updateTestState(u_long now){
+	u_long msStripOn = double(testStateMillis)/double(w);
+	u_long currentTestEndTime = prevTestEndTime+testStateMillis;
+	if(testState>=9){
+		nextStripOn = double(now-prevTestEndTime)/double(testStateMillis)*w;
+	}else{
+		if(now-lastTimeStripChangedTest>=msStripOn){
+			prevStripOn = nextStripOn;
+			nextStripOn++;
+			lastTimeStripChangedTest = now;
+		}
+	}
+	switch(testState){
+	case AllRed:
+		for(u_int i=0;i<strips.size();++i){
+			strips[i].trigger(ofColor::red,now);
+		}
+		if(now>=currentTestEndTime){
+			testState++;
+			prevTestEndTime = now;
+		}
+		break;
+	case AllGreen:
+		for(u_int i=0;i<strips.size();++i){
+			strips[i].trigger(ofColor::green,now);
+		}
+		if(now>=currentTestEndTime){
+			testState++;
+			prevTestEndTime = now;
+		}
+		break;
+	case AllBlue:
+		for(u_int i=0;i<strips.size();++i){
+			strips[i].trigger(ofColor::blue,now);
+		}
+		if(now>=currentTestEndTime){
+			testState++;
+			prevTestEndTime = now;
+		}
+		break;
+	case AllWhite:
+		for(u_int i=0;i<strips.size();++i){
+			strips[i].trigger(ofColor::white,now);
+		}
+		if(now>=currentTestEndTime){
+			testState++;
+			prevStripOn = -1;
+			nextStripOn = 0;
+			lastTimeStripChangedTest = now + msStripOn;
+			for(u_int i=0;i<strips.size();++i){
+				strips[i].trigger(ofColor::black,now);
+			}
+			prevTestEndTime = now;
+		}
+		break;
+	case RedOneByOne:
+		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+		if(nextStripOn>=(u_int)w){
+			testState++;
+			prevStripOn = -1;
+			nextStripOn = 0;
+			lastTimeStripChangedTest = now + msStripOn;
+			prevTestEndTime = now;
+		}else{
+			strips[nextStripOn].trigger(ofColor::red,now);
+		}
+		break;
+	case GreenOneByOne:
+		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+		if(nextStripOn>=(u_int)w){
+			testState++;
+			prevStripOn = -1;
+			nextStripOn = 0;
+			lastTimeStripChangedTest = now + msStripOn;
+			prevTestEndTime = now;
+		}else{
+			strips[nextStripOn].trigger(ofColor::green,now);
+		}
+		break;
+	case BlueOneByOne:
+		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+		if(nextStripOn>=(u_int)w){
+			testState++;
+			prevStripOn = -1;
+			nextStripOn = 0;
+			lastTimeStripChangedTest = now + msStripOn;
+			prevTestEndTime = now;
+		}else{
+			strips[nextStripOn].trigger(ofColor::blue,now);
+		}
+		break;
+	case WhiteOneByOne:
+		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+		if(nextStripOn>=(u_int)w){
+			testState++;
+			prevStripOn = -1;
+			nextStripOn = 0;
+			lastTimeStripChangedTest = now + msStripOn;
+			lastStripTestOn = 0;
+			prevTestEndTime = now;
+		}else{
+			strips[nextStripOn].trigger(ofColor::white,now);
+		}
+		break;
+	case ProgressiveRed:
+		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+			strips[i].trigger(ofColor::red,now);
+		}
+		lastStripTestOn = min((int)nextStripOn,(int)w);
+		if(now>=currentTestEndTime){
+			testState++;
+			lastStripTestOn = 0;
+			prevTestEndTime = now;
+		}
+		break;
+	case ProgressiveGreen:
+		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+			strips[i].trigger(ofColor::green,now);
+		}
+		lastStripTestOn = min((int)nextStripOn,(int)w);
+		if(now>=currentTestEndTime){
+			testState++;
+			lastStripTestOn = 0;
+			prevTestEndTime = now;
+		}
+		break;
+	case ProgressiveBlue:
+		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+			strips[i].trigger(ofColor::blue,now);
+		}
+		lastStripTestOn = min((int)nextStripOn,(int)w);
+		if(now>=currentTestEndTime){
+			testState++;
+			lastStripTestOn = 0;
+			prevTestEndTime = now;
+		}
+		break;
+	case ProgressiveWhite:
+		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+			strips[i].trigger(ofColor::white,now);
+		}
+		lastStripTestOn = min((int)nextStripOn,(int)w);
+		if(now>=currentTestEndTime){
+			testState=0;
+			lastStripTestOn = 0;
+			runningTest = false;
+			for(u_int i=0;i<strips.size();++i){
+				strips[i].setTestMode(false);
+			}
+		}
+		break;
+		break;
+	}
+}
+
 void Wall::update(){
 	if(calibrationMode) return;
 	u_long now = ofGetElapsedTimeMillis();
 	if(runningTest){
-		u_long msStripOn = double(testStateMillis)/double(w);
-		u_long currentTestEndTime = prevTestEndTime+testStateMillis;
-		if(testState>=9){
-			nextStripOn = double(now-prevTestEndTime)/double(testStateMillis)*w;
-		}else{
-			if(now-lastTimeStripChangedTest>=msStripOn){
-				prevStripOn = nextStripOn;
-				nextStripOn++;
-				lastTimeStripChangedTest = now;
-			}
-		}
-		switch(testState){
-		case AllRed:
-			for(u_int i=0;i<strips.size();++i){
-				strips[i].trigger(ofColor::red,now);
-			}
-			if(now>=currentTestEndTime){
-				testState++;
-				prevTestEndTime = now;
-			}
-			break;
-		case AllGreen:
-			for(u_int i=0;i<strips.size();++i){
-				strips[i].trigger(ofColor::green,now);
-			}
-			if(now>=currentTestEndTime){
-				testState++;
-				prevTestEndTime = now;
-			}
-			break;
-		case AllBlue:
-			for(u_int i=0;i<strips.size();++i){
-				strips[i].trigger(ofColor::blue,now);
-			}
-			if(now>=currentTestEndTime){
-				testState++;
-				prevTestEndTime = now;
-			}
-			break;
-		case AllWhite:
-			for(u_int i=0;i<strips.size();++i){
-				strips[i].trigger(ofColor::white,now);
-			}
-			if(now>=currentTestEndTime){
-				testState++;
-				prevStripOn = -1;
-				nextStripOn = 0;
-				lastTimeStripChangedTest = now + msStripOn;
-				for(u_int i=0;i<strips.size();++i){
-					strips[i].trigger(ofColor::black,now);
-				}
-				prevTestEndTime = now;
-			}
-			break;
-		case RedOneByOne:
-			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=(u_int)w){
-				testState++;
-				prevStripOn = -1;
-				nextStripOn = 0;
-				lastTimeStripChangedTest = now + msStripOn;
-				prevTestEndTime = now;
-			}else{
-				strips[nextStripOn].trigger(ofColor::red,now);
-			}
-			break;
-		case GreenOneByOne:
-			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=(u_int)w){
-				testState++;
-				prevStripOn = -1;
-				nextStripOn = 0;
-				lastTimeStripChangedTest = now + msStripOn;
-				prevTestEndTime = now;
-			}else{
-				strips[nextStripOn].trigger(ofColor::green,now);
-			}
-			break;
-		case BlueOneByOne:
-			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=(u_int)w){
-				testState++;
-				prevStripOn = -1;
-				nextStripOn = 0;
-				lastTimeStripChangedTest = now + msStripOn;
-				prevTestEndTime = now;
-			}else{
-				strips[nextStripOn].trigger(ofColor::blue,now);
-			}
-			break;
-		case WhiteOneByOne:
-			if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-			if(nextStripOn>=(u_int)w){
-				testState++;
-				prevStripOn = -1;
-				nextStripOn = 0;
-				lastTimeStripChangedTest = now + msStripOn;
-				lastStripTestOn = 0;
-				prevTestEndTime = now;
-			}else{
-				strips[nextStripOn].trigger(ofColor::white,now);
-			}
-			break;
-		case ProgressiveRed:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-				strips[i].trigger(ofColor::red,now);
-			}
-			lastStripTestOn = min((int)nextStripOn,(int)w);
-			if(now>=currentTestEndTime){
-				testState++;
-				lastStripTestOn = 0;
-				prevTestEndTime = now;
-			}
-			break;
-		case ProgressiveGreen:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-				strips[i].trigger(ofColor::green,now);
-			}
-			lastStripTestOn = min((int)nextStripOn,(int)w);
-			if(now>=currentTestEndTime){
-				testState++;
-				lastStripTestOn = 0;
-				prevTestEndTime = now;
-			}
-			break;
-		case ProgressiveBlue:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-				strips[i].trigger(ofColor::blue,now);
-			}
-			lastStripTestOn = min((int)nextStripOn,(int)w);
-			if(now>=currentTestEndTime){
-				testState++;
-				lastStripTestOn = 0;
-				prevTestEndTime = now;
-			}
-			break;
-		case ProgressiveWhite:
-			for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-				strips[i].trigger(ofColor::white,now);
-			}
-			lastStripTestOn = min((int)nextStripOn,(int)w);
-			if(now>=currentTestEndTime){
-				testState=0;
-				lastStripTestOn = 0;
-				runningTest = false;
-				for(u_int i=0;i<strips.size();++i){
-					strips[i].setTestMode(false);
-				}
-			}
-			break;
-			break;
-		}
+		updateTestState(now);
 	}else if(!audio->audioTest){
-		if(!showTweets){
+		if(showBursts || showBurstsFromTweets){
 			vector<list<EnergyBurst>::iterator > toDelete;
 			list<EnergyBurst>::iterator it;
 			for(it = bursts.begin(); it!=bursts.end(); ++it){
@@ -386,7 +392,9 @@ void Wall::update(){
 			for(u_int i=0;i<strips.size();++i){
 				strips[i].update(now);
 			}
-		}else{
+		}
+
+		if(showTweets){
 			if(!tweets.empty()){
 				if(!tweets.front().isAlive()) tweets.pop();
 				audio->setCurrentTweet(&tweets.front());
@@ -399,11 +407,18 @@ void Wall::update(){
 }
 
 void Wall::draw(){
-	if(showTweets && !tweets.empty()){
+	if(showTweets){
 		outputFBO.begin();
 		ofClear(0,255);
-		tweets.front().draw();
+		if(showBursts || showBurstsFromTweets){
+			for(int i=0;i<w;i++){
+				ofSetColor(strips[i].getColor());
+				ofLine(i,0,i,h);
+			}
+		}
+		if(!tweets.empty()) tweets.front().draw();
 		outputFBO.end();
+
 		outputFBO.readToPixels(outputBuffer);
 		int stride = w*4;
 		for(int i=0;i<w;i++){
@@ -415,124 +430,17 @@ void Wall::draw(){
 			strips[i].setColorCoords(colorsFromTweets);
 		}
 	}
+
 	switch (renderMode){
-	case Continuous:{
-		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
-		ofNoFill();
-		ofSetColor(200);
-		ofRect(viewport);
-
-		ofFill();
-		ofSetColor(255);
-		ofPushView();
-		ofViewport(viewport);
-		for(u_int i=0;i<strips.size();i++){
-			strips[i].draw(strips[i].getPosition(),1,ofGetWidth(),ofGetHeight());
-		}
-		ofPopView();
-	}break;
-	case Separate:{
-		ofRectangle viewport(vizX,float(ofGetHeight()-renderH)/3.,renderW*.5,renderH*.5);
-		ofNoFill();
-		ofSetColor(200);
-		ofRect(viewport);
-
-		ofFill();
-		ofSetColor(255);
-		ofPushView();
-		ofViewport(viewport);
-		for(u_int i=0;i<strips.size()*.25;i++){
-			strips[i].draw(strips[i].getPosition()*4,radiusScale);
-		}
-		ofPopView();
-
-
-		viewport.x += renderW*.5+20;
-		ofNoFill();
-		ofSetColor(200);
-		ofRect(viewport);
-
-		ofFill();
-		ofSetColor(255);
-		ofPushView();
-		ofViewport(viewport);
-		ofPushMatrix();
-		for(u_int i=strips.size()*.25;i<strips.size()*.5;i++){
-			strips[i].draw((strips[i].getPosition()-.25)*4,radiusScale);
-		}
-		ofPopMatrix();
-		ofPopView();
-
-
-		viewport.x -= renderW*.5+20;
-		viewport.y += float(ofGetHeight()-renderH)/3. + renderH*.5;
-		ofNoFill();
-		ofSetColor(200);
-		ofRect(viewport);
-
-		ofFill();
-		ofSetColor(255);
-		ofPushView();
-		ofViewport(viewport);
-		ofPushMatrix();
-		for(u_int i=strips.size()*.5;i<strips.size()*.75;i++){
-			strips[i].draw((strips[i].getPosition()-.5)*4,radiusScale);
-		}
-		ofPopMatrix();
-		ofPopView();
-
-
-		viewport.x += renderW*.5+20;
-		ofNoFill();
-		ofSetColor(200);
-		ofRect(viewport);
-
-		ofFill();
-		ofSetColor(255);
-		ofPushView();
-		ofViewport(viewport);
-		ofPushMatrix();
-		for(u_int i=strips.size()*.75;i<strips.size();i++){
-			strips[i].draw((strips[i].getPosition()-.75)*4,radiusScale);
-		}
-		ofPopMatrix();
-		ofPopView();
-	}break;
-	case ThreeD:{
-		renderFbo.begin();
-		ofClear(0,255);
-
-		ofFill();
-		ofSetColor(255);
-		for(u_int i=0;i<strips.size();i++){
-			strips[i].draw(strips[i].getPosition(),radiusScale,renderFbo.getWidth(),renderFbo.getHeight());
-		}
-
-		ofDrawBitmapString("0",20,20);
-		ofDrawBitmapString("1",renderFbo.getWidth()*.25+20,20);
-		ofDrawBitmapString("2",renderFbo.getWidth()*.5+20,20);
-		ofDrawBitmapString("3",renderFbo.getWidth()*.75+20,20);
-
-		renderFbo.end();
-
-		glEnable(GL_DEPTH_TEST);
-		ofPushView();
-		ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
-		//ofTranslate(vizX,(ofGetHeight()-renderH)*.5);
-		ofViewport(viewport);
-		ofSetupScreenPerspective(viewport.width, viewport.height);
-		ofTranslate(ofPoint(renderW*.5,viewport.height*.5,-renderW*z));
-		ofRotateX(rotation3D->y);
-		ofRotateY(rotation3D->x);
-		ofFill();
-		renderFbo.getTextureReference().bind();
-		building.draw();
-		renderFbo.getTextureReference().unbind();
-		ofNoFill();
-		buildingWireframe.draw();
-		ofPopView();
-		glDisable(GL_DEPTH_TEST);
-		}break;
+	case Continuous:
+		drawContinuous();
+	break;
+	case Separate:
+		drawSeparate();
+	break;
+	case ThreeD:
+		draw3D();
+	break;
 	}
 	
 	drawActiveArea((RenderMode)(int)renderMode);
@@ -544,6 +452,127 @@ void Wall::draw(){
 		font.drawString("Muted",vizX+20,80);
 		ofPopStyle();
 	}
+}
+
+
+void Wall::drawContinuous(){
+	ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
+	ofNoFill();
+	ofSetColor(200);
+	ofRect(viewport);
+
+	ofFill();
+	ofSetColor(255);
+	ofPushView();
+	ofViewport(viewport);
+	for(u_int i=0;i<strips.size();i++){
+		strips[i].draw(strips[i].getPosition(),1,ofGetWidth(),ofGetHeight());
+	}
+	ofPopView();
+}
+
+void Wall::drawSeparate(){
+	ofRectangle viewport(vizX,float(ofGetHeight()-renderH)/3.,renderW*.5,renderH*.5);
+	ofNoFill();
+	ofSetColor(200);
+	ofRect(viewport);
+
+	ofFill();
+	ofSetColor(255);
+	ofPushView();
+	ofViewport(viewport);
+	for(u_int i=0;i<strips.size()*.25;i++){
+		strips[i].draw(strips[i].getPosition()*4,radiusScale);
+	}
+	ofPopView();
+
+
+	viewport.x += renderW*.5+20;
+	ofNoFill();
+	ofSetColor(200);
+	ofRect(viewport);
+
+	ofFill();
+	ofSetColor(255);
+	ofPushView();
+	ofViewport(viewport);
+	ofPushMatrix();
+	for(u_int i=strips.size()*.25;i<strips.size()*.5;i++){
+		strips[i].draw((strips[i].getPosition()-.25)*4,radiusScale);
+	}
+	ofPopMatrix();
+	ofPopView();
+
+
+	viewport.x -= renderW*.5+20;
+	viewport.y += float(ofGetHeight()-renderH)/3. + renderH*.5;
+	ofNoFill();
+	ofSetColor(200);
+	ofRect(viewport);
+
+	ofFill();
+	ofSetColor(255);
+	ofPushView();
+	ofViewport(viewport);
+	ofPushMatrix();
+	for(u_int i=strips.size()*.5;i<strips.size()*.75;i++){
+		strips[i].draw((strips[i].getPosition()-.5)*4,radiusScale);
+	}
+	ofPopMatrix();
+	ofPopView();
+
+
+	viewport.x += renderW*.5+20;
+	ofNoFill();
+	ofSetColor(200);
+	ofRect(viewport);
+
+	ofFill();
+	ofSetColor(255);
+	ofPushView();
+	ofViewport(viewport);
+	ofPushMatrix();
+	for(u_int i=strips.size()*.75;i<strips.size();i++){
+		strips[i].draw((strips[i].getPosition()-.75)*4,radiusScale);
+	}
+	ofPopMatrix();
+	ofPopView();
+}
+
+void Wall::draw3D(){
+	renderFbo.begin();
+	ofClear(0,255);
+
+	ofFill();
+	ofSetColor(255);
+	for(u_int i=0;i<strips.size();i++){
+		strips[i].draw(strips[i].getPosition(),radiusScale,renderFbo.getWidth(),renderFbo.getHeight());
+	}
+
+	ofDrawBitmapString("0",20,20);
+	ofDrawBitmapString("1",renderFbo.getWidth()*.25+20,20);
+	ofDrawBitmapString("2",renderFbo.getWidth()*.5+20,20);
+	ofDrawBitmapString("3",renderFbo.getWidth()*.75+20,20);
+
+	renderFbo.end();
+
+	glEnable(GL_DEPTH_TEST);
+	ofPushView();
+	ofRectangle viewport(vizX,(ofGetHeight()-renderH)*.5,renderW,renderH);
+	//ofTranslate(vizX,(ofGetHeight()-renderH)*.5);
+	ofViewport(viewport);
+	ofSetupScreenPerspective(viewport.width, viewport.height);
+	ofTranslate(ofPoint(renderW*.5,viewport.height*.5,-renderW*z));
+	ofRotateX(rotation3D->y);
+	ofRotateY(rotation3D->x);
+	ofFill();
+	renderFbo.getTextureReference().bind();
+	building.draw();
+	renderFbo.getTextureReference().unbind();
+	ofNoFill();
+	buildingWireframe.draw();
+	ofPopView();
+	glDisable(GL_DEPTH_TEST);
 }
 
 void Wall::drawActiveArea(RenderMode renderMode){
@@ -590,26 +619,25 @@ void Wall::drawOutput(){
 		ofPushMatrix();
 		ofTranslate((ofVec2f)secondScreenPos);
 
-		if(!showTweets){
+		if(showBursts || showBurstsFromTweets){
 			for(int i=0;i<w;i++){
 				ofSetColor(strips[i].getColor());
 				ofLine(i,0,i,h);
 			}
-		}else{
-			if(!tweets.empty()){
-				ofPushView();
-				ofViewport(secondScreenPos->x,secondScreenPos->y,w,h);
-				ofSetupScreenPerspective(w,h);
-				tweets.front().draw();
-				ofPopView();
-			}
+		}
+
+		if(showTweets && !tweets.empty()){
+			ofPushView();
+			ofViewport(secondScreenPos->x,secondScreenPos->y,w,h);
+			ofSetupScreenPerspective(w,h);
+			tweets.front().draw();
+			ofPopView();
 		}
 		ofPopMatrix();
 
 		ofSetColor(255);
 	}
 }
-
 
 ofColor Wall::niceRandomColor(){
 	ofColor c;
@@ -660,8 +688,8 @@ void Wall::mouseReleased(ofMouseEventArgs & mouse){
 }
 
 void Wall::energyBurst(float x, float y){
-	if(!runningTest && !calibrationMode && !showTweets && !audio->audioTest){
-		bursts.push_back(EnergyBurst(ofVec2f(x,.5),useColors ? niceRandomColor() : ofColor::white));
+	if(!runningTest && !calibrationMode && !audio->audioTest && showBursts){
+		bursts.push_back(EnergyBurst(ofVec2f(x,.5),EnergyBurst::useColor ? niceRandomColor() : ofColor::white));
 	}
 }
 
@@ -670,9 +698,10 @@ void Wall::newTweet(string text){
 	if(!runningTest  && !calibrationMode && !audio->audioTest){
 		if(showTweets){
 			u_long now = ofGetElapsedTimeMillis();
-			tweets.push(TweetText(text,useColors ? niceRandomColor() : ofColor::white,now,w));
-		}else{
-			energyBurst(ofRandom(1),.5);
+			tweets.push(TweetText(text, TweetText::useColors ? niceRandomColor() : ofColor::white,now,w));
+		}
+		if(showBurstsFromTweets){
+			bursts.push_back(EnergyBurst(ofVec2f(ofRandom(1),.5),EnergyBurst::useColor ? niceRandomColor() : ofColor::white));
 		}
 
 	}

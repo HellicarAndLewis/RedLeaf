@@ -57,9 +57,10 @@ public:
 	ofParameter<float> z;
 	ofParameter<ofVec2f> secondScreenPos;
 	ofParameter<float> testStateMillis;
-	ofParameter<bool> useColors;
 	ofParameter<bool> muted;
 	ofParameter<bool> showTweets;
+	ofParameter<bool> showBursts;
+	ofParameter<bool> showBurstsFromTweets;
 	ofParameterGroup parameters;
 private:
 	void mouseDragged(ofMouseEventArgs & mouse);
@@ -68,6 +69,13 @@ private:
 	void sizeChanged(int & size);
 	void showTweetsChanged(bool & showTweets);
 	void reset();
+
+	void updateTestState(u_long now);
+
+	void drawContinuous();
+	void drawSeparate();
+	void draw3D();
+
 	vector<LEDStrip> strips;
 	list<EnergyBurst> bursts;
 	ofFbo renderFbo;

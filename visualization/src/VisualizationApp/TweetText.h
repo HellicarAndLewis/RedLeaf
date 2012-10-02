@@ -32,6 +32,8 @@ public:
 	static ofParameter<int> y;
 	static ofParameter<int> limitScreenX;
 	static ofParameter<int> fontSize;
+	static ofParameter<bool> useColors;
+	static ofParameter<float> alpha;
 	static ofTrueTypeFont font;
 	static string fontName;
 

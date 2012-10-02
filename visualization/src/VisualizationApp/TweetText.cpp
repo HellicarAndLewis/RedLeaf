@@ -13,6 +13,8 @@ ofParameter<float> TweetText::speedPixelsPerSec("speedPixelsPerSec",50,1,1000);
 ofParameter<int> TweetText::y("y",50,0,200);
 ofParameter<int> TweetText::limitScreenX("limitScreenX",0,0,200);
 ofParameter<int> TweetText::fontSize("fontSize",20,10,100);
+ofParameter<bool> TweetText::useColors("useColors",true);
+ofParameter<float> TweetText::alpha("alpha",1,0,1);
 string TweetText::fontName("Anonymous.ttf");
 ofTrueTypeFont TweetText::font;
 
@@ -27,6 +29,7 @@ TweetText::TweetText(const string & tweet, const ofColor & color, u_long now, in
 void TweetText::update(){
 	position.x-=ofGetLastFrameTime()*speedPixelsPerSec;
 	position.y = y;
+	triggerColor.a = 255.*alpha;
 	color = triggerColor;
 }
 

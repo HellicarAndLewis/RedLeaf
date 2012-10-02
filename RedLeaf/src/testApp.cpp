@@ -28,6 +28,8 @@ void RedLeafApp::setup(){
 	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
 	gui.getGroup("Twitter").add(TweetText::y);
 	gui.getGroup("Twitter").add(TweetText::fontSize);
+	gui.getGroup("Twitter").add(TweetText::useColors);
+	gui.getGroup("Twitter").add(TweetText::alpha);
 
 	gui.add(visualizationApp.wall.parameters);
 	gui.getGroup("Wall").add(&visualizationApp.startTest);

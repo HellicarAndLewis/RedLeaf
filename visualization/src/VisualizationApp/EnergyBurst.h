@@ -63,6 +63,8 @@ public:
 	static ofParameter<float> maxLifeTime;
 	static ofParameter<float> minSpeed;
 	static ofParameter<float> maxSpeed;
+	static ofParameter<float> alpha;
+	static ofParameter<bool> useColor;
 	static ofParameterGroup parameters;
 
 private:
