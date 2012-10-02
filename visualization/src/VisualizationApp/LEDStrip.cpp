@@ -94,5 +94,5 @@ void LEDStrip::setTestMode(bool _testMode){
 }
 
 void LEDStrip::setAmplitude(float amp){
-	color *= amp;
+	color.a *= amp;
 }

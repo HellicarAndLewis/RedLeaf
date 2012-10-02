@@ -34,7 +34,8 @@ public:
 	ofParameter<float> smoothedVumeter;
 	ofParameter<float> smoothFactor;
 	ofParameter<float> fineSmoothFactor;
-	ofParameter<bool> audioEnabled;
+	ofParameter<bool> audioEnabledForBursts;
+	ofParameter<bool> audioEnabledForText;
 	ofParameter<bool> audioTest;
 
 	ofParameterGroup parameters;

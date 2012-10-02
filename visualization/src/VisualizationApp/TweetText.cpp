@@ -34,7 +34,7 @@ void TweetText::update(){
 }
 
 void TweetText::setAmplitude(float amp){
-	color *= amp;
+	color.a *= amp;
 }
 
 void TweetText::draw(){

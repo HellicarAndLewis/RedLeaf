@@ -28,7 +28,8 @@ void AudioManager::setup(){
 	parameters.add(smoothedVumeter.set("smoothedAudioIn",0,0,1));
 	parameters.add(smoothFactor.set("smoothFactor",0.9,0,0.9));
 	parameters.add(fineSmoothFactor.set("fineSmoothFactor",0,0,0.09999));
-	parameters.add(audioEnabled.set("audioEnabled",true));
+	parameters.add(audioEnabledForBursts.set("audioEnabledForBursts",false));
+	parameters.add(audioEnabledForText.set("audioEnabledForText",false));
 	parameters.add(audioTest.set("audioTest",false));
 
 	soundBuffer.resize(256,0);
@@ -54,16 +55,20 @@ void AudioManager::setCurrentTweet(TweetText * _tweet){
 
 void AudioManager::update(){
 	u_long now = ofGetElapsedTimeMillis();
-	if(!audioEnabled) return;
 	if(audioTest){
 		for(u_int i=0;i<leds->size();i++){
 			leds->at(i).trigger(ofColor::white*smoothedVumeter,now);
 		}
 	}else{
-		for(u_int i=0;i<leds->size();i++){
-			leds->at(i).setAmplitude(smoothedVumeter);
+		if(audioEnabledForBursts){
+			for(u_int i=0;i<leds->size();i++){
+				leds->at(i).setAmplitude(smoothedVumeter);
+			}
 		}
-		if(tweet) tweet->setAmplitude(smoothedVumeter);
+
+		if(tweet && audioEnabledForText){
+			tweet->setAmplitude(smoothedVumeter);
+		}
 	}
 }
 
