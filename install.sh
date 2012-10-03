@@ -8,8 +8,8 @@ git checkout arturodevelop
 cd apps
 git clone https://github.com/HellicarAndLewis/RedLeaf.git
 cd RedLeaf
-cd addons
 git submodule update
+cd addons
 cd ofxHttpUtils
 git checkout experimental
 cd $OF_ROOT
