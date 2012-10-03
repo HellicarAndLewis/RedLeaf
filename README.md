@@ -32,6 +32,17 @@ cd OF_ROOT/addons
 git clone https://github.com/arturoc/ofxCv
 
 
+download gstreamer SDK from:
+
+http://docs.gstreamer.com/display/GstSDK/Installing+on+Mac+OS+X
+
+the development package is needed to compile the application. then go into:
+
+/Library/Frameworks/GStreamer.framework/Headers
+
+and delete assert.h which is clashing with the standard header from gcc
+
+
 
 User manual
 ===========
