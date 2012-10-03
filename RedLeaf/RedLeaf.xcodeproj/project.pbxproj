@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0946F93E161C880900A29AB8 /* TweetText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0946F93C161C880900A29AB8 /* TweetText.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		DA16666C1614EFDF00C5C1B7 /* ofxEasing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA1665D51614EFDE00C5C1B7 /* ofxEasing.cpp */; };
 		DA16666D1614EFDF00C5C1B7 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA1665D71614EFDE00C5C1B7 /* ofxEasingBack.cpp */; };
@@ -169,7 +170,7 @@
 		DAC1EC8C1611E120009D3289 /* libopencv_ts231.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC1EC1E1611E11F009D3289 /* libopencv_ts231.a */; };
 		DAC1EC8D1611E120009D3289 /* libopencv_video231.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC1EC1F1611E11F009D3289 /* libopencv_video231.a */; };
 		DAC1EC8E1611E120009D3289 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC1EC211611E11F009D3289 /* libzlib.a */; };
-		E4328149138ABC9F0047C5CB /* openFrameworks.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworks.a */; };
+		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
 		E45BE97D0E8CC7DD009D7055 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9730E8CC7DD009D7055 /* AudioToolbox.framework */; };
@@ -220,6 +221,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0946F93C161C880900A29AB8 /* TweetText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TweetText.cpp; sourceTree = "<group>"; };
+		0946F93D161C880900A29AB8 /* TweetText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetText.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		DA1665D01614EFDE00C5C1B7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DA1665D11614EFDE00C5C1B7 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -541,7 +544,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* RedLeaf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedLeaf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* RedLeafDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedLeafDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4C2424410CC5A17004149E2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -562,7 +565,7 @@
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
 				E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */,
-				E4328149138ABC9F0047C5CB /* openFrameworks.a in Frameworks */,
+				E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */,
 				E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */,
 				E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */,
 				E45BE97D0E8CC7DD009D7055 /* AudioToolbox.framework in Frameworks */,
@@ -835,6 +838,8 @@
 		DA1666A11614F00300C5C1B7 /* VisualizationApp */ = {
 			isa = PBXGroup;
 			children = (
+				0946F93C161C880900A29AB8 /* TweetText.cpp */,
+				0946F93D161C880900A29AB8 /* TweetText.h */,
 				DA1666A21614F00300C5C1B7 /* AudioManager.cpp */,
 				DA1666A31614F00300C5C1B7 /* AudioManager.h */,
 				DA1666A41614F00300C5C1B7 /* EnergyBurst.cpp */,
@@ -1431,7 +1436,7 @@
 		E4328144138ABC890047C5CB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E4328148138ABC890047C5CB /* openFrameworks.a */,
+				E4328148138ABC890047C5CB /* openFrameworksDebug.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1454,7 +1459,7 @@
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* RedLeaf.app */,
+				E4B69B5B0A3A1756003C02F2 /* RedLeafDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1498,7 +1503,7 @@
 			);
 			name = RedLeaf;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* RedLeaf.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* RedLeafDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1508,6 +1513,7 @@
 			isa = PBXProject;
 			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "RedLeaf" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				English,
@@ -1532,10 +1538,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E4328148138ABC890047C5CB /* openFrameworks.a */ = {
+		E4328148138ABC890047C5CB /* openFrameworksDebug.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = openFrameworks.a;
+			path = openFrameworksDebug.a;
 			remoteRef = E4328147138ABC890047C5CB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1614,6 +1620,7 @@
 				DA1666B21614F00300C5C1B7 /* VisualizationApp.cpp in Sources */,
 				DA1666B31614F00300C5C1B7 /* Wall.cpp in Sources */,
 				DA1666B91614F05100C5C1B7 /* testApp.cpp in Sources */,
+				0946F93E161C880900A29AB8 /* TweetText.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
