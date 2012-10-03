@@ -7,6 +7,7 @@ cd OF_ROOT
 git checkout arturodevelop
 cd apps
 git clone https://github.com/HellicarAndLewis/RedLeaf.git
+cd RedLeaf
 cd addons
 git submodule update
 cd ofxHttpUtils
