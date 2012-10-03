@@ -2,7 +2,7 @@ OF_CONTAINER=$1
 OF_ROOT=$OF_CONTAINER/openFrameworks
 
 cd $OF_CONTAINER
-git clone https://githu.com/arturoc/openFrameworks
+git clone https://github.com/arturoc/openFrameworks
 cd $OF_ROOT
 git checkout arturodevelop
 cd apps
