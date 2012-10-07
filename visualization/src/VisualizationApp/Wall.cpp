@@ -578,7 +578,7 @@ void Wall::update(){
 		}
 		if(showLogos){
 			if(logos.empty() || (logos.back().position.x+Logo::logo.getWidth())*Logo::xScale<w-Logo::separation){
-				logos.push_back(Logo(now,w/Logo::xScale));
+				logos.push_back(Logo(now,(w+Logo::logo.getWidth())/Logo::xScale));
 			}
 			if(!logos.empty() && !logos.front().isAlive()){
 				logos.erase(logos.begin());
