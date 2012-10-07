@@ -94,7 +94,7 @@ void Wall::setup(){
 	parameters.add(radiusScale.set("radiusScale",1,0.1,3));
 	parameters.add(z.set("z",.7,.5,2));
 	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1280,0),ofVec2f(-2560,0),ofVec2f(2560,768)));
-	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1024,768),ofVec2f(1,1),ofVec2f(2560,1280)));
+	parameters.add(secondScreenSize.set("secondScreenSize",ofVec2f(1024,768),ofVec2f(1,1),ofVec2f(2560,1280)));
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
 	parameters.add(testStateMillis.set("testStateMillis",1000,1000,10000));
 	parameters.add(muted.set("muted",false));
