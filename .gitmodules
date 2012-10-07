@@ -1,13 +1,9 @@
-[submodule "ofxHttpUtils"]
-        path = addons/ofxHttpUtils
-        url = git://github.com/arturoc/ofxHttpUtils.git
-        
-[submodule "ofxTwitter"]
-        path = addons/ofxTwitter
-        url = git://github.com/arturoc/ofxTwitter.git
-        
-[submodule "ofxTween"]
-        path = addons/ofxTween
-        url = git://github.com/arturoc/ofxTween.git
-
-
+[submodule "addons/ofxHttpUtils"]
+	path = addons/ofxHttpUtils
+	url = https://github.com/arturoc/ofxHttpUtils
+[submodule "addons/ofxTwitter"]
+	path = addons/ofxTwitter
+	url = https://github.com/arturoc/ofxTwitter
+[submodule "addons/ofxTween"]
+	path = addons/ofxTween
+	url = https://github.com/arturoc/ofxTween
