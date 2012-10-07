@@ -56,6 +56,7 @@ public:
 	ofParameter<float> radiusScale;
 	ofParameter<float> z;
 	ofParameter<ofVec2f> secondScreenPos;
+	ofParameter<ofVec2f> secondScreenSize;
 	ofParameter<float> testStateMillis;
 	ofParameter<bool> muted;
 	ofParameter<bool> showTweets;
