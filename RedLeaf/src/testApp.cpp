@@ -30,6 +30,7 @@ void RedLeafApp::setup(){
 	gui.getGroup("Twitter").add(TweetText::fontSize);
 	gui.getGroup("Twitter").add(TweetText::useColors);
 	gui.getGroup("Twitter").add(TweetText::alpha);
+	gui.getGroup("Twitter").add(visualizationApp.testTweetActivated);
 
 	gui.add(visualizationApp.wall.parameters);
 	gui.getGroup("Wall").add(&visualizationApp.startTest);
