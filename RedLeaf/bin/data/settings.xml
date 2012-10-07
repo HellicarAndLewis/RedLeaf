@@ -126,7 +126,6 @@
         <rotation3D>232.123</rotation3D>
         <z>1.01</z>
         <useColors>1</useColors>
-        <secondScreenX>1280</secondScreenX>
         <testStateMillis>1000</testStateMillis>
         <muted>0</muted>
         <secondScreenPos>1440, 0</secondScreenPos>
@@ -134,13 +133,14 @@
         <UnknownName>0</UnknownName>
         <showBursts>1</showBursts>
         <showBurstsFromTweets>1</showBurstsFromTweets>
+        <secondScreenSize>1280, 1024</secondScreenSize>
     </Wall>
     <Audio>
-        <audioInAmp>0.00328069</audioInAmp>
+        <audioInAmp>0.00459108</audioInAmp>
         <cutDown>1</cutDown>
         <cutUp>0</cutUp>
-        <mappedAudioIn>0.996719</mappedAudioIn>
-        <smoothedAudioIn>0.997117</smoothedAudioIn>
+        <mappedAudioIn>0.995409</mappedAudioIn>
+        <smoothedAudioIn>0.995409</smoothedAudioIn>
         <smoothFactor>0.9</smoothFactor>
         <fineSmoothFactor>0.0289971</fineSmoothFactor>
         <audioEnabled>0</audioEnabled>
@@ -148,48 +148,4 @@
         <audioEnabledForBursts>0</audioEnabledForBursts>
         <audioEnabledForText>0</audioEnabledForText>
     </Audio>
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
-    <Video />
 </Settings>
