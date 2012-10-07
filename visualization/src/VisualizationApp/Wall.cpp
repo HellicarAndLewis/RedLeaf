@@ -568,18 +568,17 @@ void Wall::update(){
 }
 
 void Wall::draw(){
-	if(showTweets){
-		outputFBO.begin();
-		ofClear(0,255);
-		if(showBursts || showBurstsFromTweets){
-			for(int i=0;i<w;i++){
-				ofSetColor(strips[i].getColor());
-				ofLine(i,0,i,h);
-			}
+	outputFBO.begin();
+	ofClear(0,255);
+	if(showBursts || showBurstsFromTweets){
+		for(int i=0;i<w;i++){
+			ofSetColor(strips[i].getColor());
+			ofLine(i,0,i,h);
 		}
-		if(!tweets.empty()) tweets.front().draw();
-		outputFBO.end();
-
+	}
+	if(!tweets.empty()) tweets.front().draw();
+	outputFBO.end();
+	if(showTweets){
 		outputFBO.readToPixels(outputBuffer);
 		int stride = w*4;
 		for(int i=0;i<w;i++){
@@ -805,7 +804,7 @@ void Wall::drawActiveArea(RenderMode renderMode){
 //scaling to the whole screen
 
 void Wall::drawOutput(){
-	ofSetColor(0);
+	/*ofSetColor(0);
 	ofRect(secondScreenPos->x,0,ofGetWidth()-secondScreenPos->x,ofGetHeight());
     
     float widthOfStrip = (ofGetWidth()-secondScreenPos->x)/w;
@@ -834,6 +833,11 @@ void Wall::drawOutput(){
 		ofPopMatrix();
 
 		ofSetColor(255);
+	}*/
+	if(!muted){
+		ofPushMatrix();
+		outputFBO.draw(secondScreenPos->x,secondScreenPos->y,1024,768);
+		ofPopMatrix();
 	}
 }
 
