@@ -35,6 +35,7 @@ void VisualizationApp::setup(){
 	gui.getGroup("Twitter").add(TweetText::fontSize);
 	gui.getGroup("Twitter").add(TweetText::useColors);
 	gui.getGroup("Twitter").add(TweetText::alpha);
+	gui.getGroup("Twitter").add(testTweetActivated.set("testTweetActivated",false));
 
 	gui.loadFromFile("settings.xml");
 
@@ -49,9 +50,11 @@ void VisualizationApp::setup(){
 	startTest.addListener(this,&VisualizationApp::startTestPressed);
 	TweetText::fontSize.addListener(this,&VisualizationApp::tweetFontSizeChanged);
 	changeTweetFont.addListener(this,&VisualizationApp::changeFontPressed);
+	testTweetActivated.addListener(this,&VisualizationApp::testTweetActivatedChanged);
 
 	cursorHidden = false;
 
+	lastTestTweetTime = ofGetElapsedTimeMillis();
 	ofAddListener(twitterListener.newTweetE,this,&VisualizationApp::newTweet);
 	twitterListener.start();
 }
@@ -79,10 +82,24 @@ void VisualizationApp::tweetFontSizeChanged(int & fontSize){
 	TweetText::font.loadFont(TweetText::fontName,TweetText::fontSize,true,true);
 }
 
+void VisualizationApp::testTweetActivatedChanged(bool & testTweetActivated){
+	if(testTweetActivated){
+		testTweet = ofSystemTextBoxDialog("Enter test tweet","");
+		if(""==(string)testTweet) testTweetActivated=false;
+	}
+}
+
 //--------------------------------------------------------------
 void VisualizationApp::update(){
 	wall.update();
 	audio.update();
+	if(testTweetActivated && ofGetElapsedTimeMillis()-lastTestTweetTime>10000){
+		Tweet tweet;
+		tweet.title = testTweet;
+		newTweet(tweet);
+
+		lastTestTweetTime = ofGetElapsedTimeMillis();
+	}
 }
 
 //--------------------------------------------------------------

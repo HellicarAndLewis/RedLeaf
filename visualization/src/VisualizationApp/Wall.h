@@ -57,6 +57,7 @@ public:
 	ofParameter<float> z;
 	ofParameter<ofVec2f> secondScreenPos;
 	ofParameter<ofVec2f> secondScreenSize;
+	ofParameter<bool> outputSmoothing;
 	ofParameter<float> testStateMillis;
 	ofParameter<bool> muted;
 	ofParameter<bool> showTweets;
@@ -69,6 +70,7 @@ private:
 	void mouseReleased(ofMouseEventArgs & mouse);
 	void sizeChanged(int & size);
 	void showTweetsChanged(bool & showTweets);
+	void outputSmoothingChanged(bool & outputSmoothing);
 	void reset();
 
 	void updateTestState(u_long now);

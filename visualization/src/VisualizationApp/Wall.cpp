@@ -95,6 +95,7 @@ void Wall::setup(){
 	parameters.add(z.set("z",.7,.5,2));
 	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1280,0),ofVec2f(-2560,0),ofVec2f(2560,768)));
 	parameters.add(secondScreenSize.set("secondScreenSize",ofVec2f(1024,768),ofVec2f(1,1),ofVec2f(2560,1280)));
+	parameters.add(outputSmoothing.set("outputSmoothing",true));
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
 	parameters.add(testStateMillis.set("testStateMillis",1000,1000,10000));
 	parameters.add(muted.set("muted",false));
@@ -111,6 +112,7 @@ void Wall::setup(){
 	h.addListener(this,&Wall::sizeChanged);
 	renderMode.addListener(this,&Wall::sizeChanged);
 	showTweets.addListener(this,&Wall::showTweetsChanged);
+	outputSmoothing.addListener(this,&Wall::outputSmoothingChanged);
 
 	enableMouseEvents();
 
@@ -155,6 +157,14 @@ void Wall::showTweetsChanged(bool & showTweets){
 		for(u_int i=0;i<strips.size();i++){
 			strips[i].setColorCoords(colorsFromTweets);
 		}
+	}
+}
+
+void Wall::outputSmoothingChanged(bool & outputSmoothing){
+	if(outputSmoothing){
+		outputFBO.getTextureReference().setTextureMinMagFilter(GL_LINEAR,GL_LINEAR);
+	}else{
+		outputFBO.getTextureReference().setTextureMinMagFilter(GL_NEAREST,GL_NEAREST);
 	}
 }
 

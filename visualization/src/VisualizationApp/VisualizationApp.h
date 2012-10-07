@@ -28,6 +28,7 @@ class VisualizationApp : public ofBaseApp{
 		void startTestPressed(bool & pressed);
 		void tweetFontSizeChanged(int & fontSize);
 		void changeFontPressed(bool & pressed);
+		void testTweetActivatedChanged(bool & testTweetActivated);
 
 		ofColor niceRandomColor();
 
@@ -36,7 +37,10 @@ class VisualizationApp : public ofBaseApp{
 		ofxButton changeTweetFont;
 		ofxButton startTest;
 		ofxLabel currentTag;
+		ofParameter<string> testTweet;
+		ofParameter<bool> testTweetActivated;
 		bool cursorHidden;
+		u_long lastTestTweetTime;
 
 
 		Wall wall;
