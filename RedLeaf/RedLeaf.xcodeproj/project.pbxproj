@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0946F93E161C880900A29AB8 /* TweetText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0946F93C161C880900A29AB8 /* TweetText.cpp */; };
+		5D0A635E161DF33200B93CA4 /* GStreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D0A635D161DF33200B93CA4 /* GStreamer.framework */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		DA16666C1614EFDF00C5C1B7 /* ofxEasing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA1665D51614EFDE00C5C1B7 /* ofxEasing.cpp */; };
 		DA16666D1614EFDF00C5C1B7 /* ofxEasingBack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA1665D71614EFDE00C5C1B7 /* ofxEasingBack.cpp */; };
@@ -51,7 +52,6 @@
 		DA41539D160FCFED00CF692E /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA41538F160FCFED00CF692E /* tinyxmlparser.cpp */; };
 		DA41539E160FCFED00CF692E /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA415391160FCFED00CF692E /* ofxXmlSettings.cpp */; };
 		DA4154D5160FD08400CF692E /* ofxHttpUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA4154D1160FD08400CF692E /* ofxHttpUtils.cpp */; };
-		DA415548160FD8FE00CF692E /* GStreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA415547160FD8FE00CF692E /* GStreamer.framework */; };
 		DAC1EA5B1611E072009D3289 /* Calibration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAC1EA111611E072009D3289 /* Calibration.cpp */; };
 		DAC1EA5C1611E072009D3289 /* ContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAC1EA121611E072009D3289 /* ContourFinder.cpp */; };
 		DAC1EA5D1611E072009D3289 /* Distance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAC1EA131611E072009D3289 /* Distance.cpp */; };
@@ -223,6 +223,7 @@
 /* Begin PBXFileReference section */
 		0946F93C161C880900A29AB8 /* TweetText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TweetText.cpp; sourceTree = "<group>"; };
 		0946F93D161C880900A29AB8 /* TweetText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetText.h; sourceTree = "<group>"; };
+		5D0A635D161DF33200B93CA4 /* GStreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GStreamer.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks/GStreamer.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		DA1665D01614EFDE00C5C1B7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DA1665D11614EFDE00C5C1B7 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -313,7 +314,6 @@
 		DA4154D0160FD08400CF692E /* ofxHttpTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHttpTypes.h; sourceTree = "<group>"; };
 		DA4154D1160FD08400CF692E /* ofxHttpUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxHttpUtils.cpp; sourceTree = "<group>"; };
 		DA4154D2160FD08400CF692E /* ofxHttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHttpUtils.h; sourceTree = "<group>"; };
-		DA415547160FD8FE00CF692E /* GStreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GStreamer.framework; path = /Library/Frameworks/GStreamer.framework; sourceTree = "<absolute>"; };
 		DAC1EA021611E072009D3289 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DAC1EA061611E072009D3289 /* Calibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calibration.h; sourceTree = "<group>"; };
 		DAC1EA071611E072009D3289 /* ContourFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContourFinder.h; sourceTree = "<group>"; };
@@ -579,7 +579,6 @@
 				E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */,
 				E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */,
 				E7E077E515D3B63C0020DFD4 /* CoreVideo.framework in Frameworks */,
-				DA415548160FD8FE00CF692E /* GStreamer.framework in Frameworks */,
 				DAC1EC221611E11F009D3289 /* libopencv_androidcamera.a in Frameworks */,
 				DAC1EC231611E11F009D3289 /* libopencv_calib3d.a in Frameworks */,
 				DAC1EC241611E11F009D3289 /* libopencv_contrib.a in Frameworks */,
@@ -689,6 +688,7 @@
 				DAC1EC8C1611E120009D3289 /* libopencv_ts231.a in Frameworks */,
 				DAC1EC8D1611E120009D3289 /* libopencv_video231.a in Frameworks */,
 				DAC1EC8E1611E120009D3289 /* libzlib.a in Frameworks */,
+				5D0A635E161DF33200B93CA4 /* GStreamer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,8 +733,8 @@
 		BBAB23CA13894EDB00AA2426 /* 3rd party frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5D0A635D161DF33200B93CA4 /* GStreamer.framework */,
 				BBAB23BE13894E4700AA2426 /* GLUT.framework */,
-				DA415547160FD8FE00CF692E /* GStreamer.framework */,
 			);
 			name = "3rd party frameworks";
 			sourceTree = "<group>";
@@ -1699,8 +1699,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1781,6 +1783,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_6)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_7)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_8)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi-v7a\"";
@@ -1790,8 +1793,11 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/vs2010\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(LOCAL_LIBRARY_DIR)/Frameworks/GStreamer.framework/Versions/0.10\"";
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1803,8 +1809,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
@@ -1884,6 +1892,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_9)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi-v7a\"";
@@ -1893,8 +1902,11 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/osx\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/vs2010\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_9 = "\"$(LOCAL_LIBRARY_DIR)/Frameworks/GStreamer.framework/Versions/0.10\"";
+				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

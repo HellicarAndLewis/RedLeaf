@@ -1,0 +1,7 @@
+ofxGui
+ofxXmlSettings
+ofxHttpUtils
+ofxCv
+ofxOpenCv
+ofxTwitter
+ofxTween

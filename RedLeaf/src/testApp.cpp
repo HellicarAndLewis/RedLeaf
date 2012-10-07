@@ -60,6 +60,8 @@ void RedLeafApp::setup(){
 	videoApp.loadPressed(yes);
 
 	gui.minimizeAll();
+    
+    ofSetFrameRate(30); //added frame rate...
 }
 
 void RedLeafApp::calibrationPointTriggered(const void * sender, float & distance){

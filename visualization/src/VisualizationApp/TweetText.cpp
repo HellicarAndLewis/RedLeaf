@@ -15,7 +15,7 @@ ofParameter<int> TweetText::limitScreenX("limitScreenX",0,0,200);
 ofParameter<int> TweetText::fontSize("fontSize",20,10,100);
 ofParameter<bool> TweetText::useColors("useColors",true);
 ofParameter<float> TweetText::alpha("alpha",1,0,1);
-string TweetText::fontName("Anonymous.ttf");
+string TweetText::fontName("telegrama_render.otf");
 ofTrueTypeFont TweetText::font;
 
 TweetText::TweetText(const string & tweet, const ofColor & color, u_long now, int x)

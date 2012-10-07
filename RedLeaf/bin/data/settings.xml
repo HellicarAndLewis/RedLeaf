@@ -81,7 +81,7 @@
         <focus>228</focus>
         <manualIris>1</manualIris>
         <irFilterCut>2</irFilterCut>
-        <compression>20</compression>
+        <compression>0</compression>
         <Quad>
             <Pt0>0.0999756, 0.100006, 0</Pt0>
             <Pt1>0.900024, 0.100006, 0</Pt1>
@@ -100,44 +100,96 @@
         <maxLifeTime>2000</maxLifeTime>
         <minSpeed>0.14365</minSpeed>
         <maxSpeed>0.2674</maxSpeed>
+        <useColor>1</useColor>
+        <alpha>1</alpha>
     </EnergyBurst>
     <checkEvery>1000</checkEvery>
     <Twitter>
         <checkEvery>1000</checkEvery>
-        <hashtag>#RedLeaf</hashtag>
+        <hashtag>#thisweek</hashtag>
         <UnknownName>0</UnknownName>
-        <speedPixelsPerSec>50</speedPixelsPerSec>
+        <speedPixelsPerSec>20.98</speedPixelsPerSec>
         <y>31</y>
         <limitScreenX>0</limitScreenX>
-        <fontSize>14</fontSize>
+        <fontSize>13</fontSize>
+        <useColors>1</useColors>
+        <alpha>1</alpha>
     </Twitter>
     <Wall>
-        <w>180</w>
-        <h>50</h>
+        <w>144</w>
+        <h>112</h>
         <radiusScale>2.1445</radiusScale>
         <vizX>250</vizX>
         <renderW>1024</renderW>
         <renderH>512</renderH>
-        <renderMode>2</renderMode>
+        <renderMode>1</renderMode>
         <rotation3D>232.123</rotation3D>
         <z>1.01</z>
         <useColors>1</useColors>
         <secondScreenX>1280</secondScreenX>
         <testStateMillis>1000</testStateMillis>
         <muted>0</muted>
-        <secondScreenPos>1280, 0</secondScreenPos>
-        <showTweets>0</showTweets>
+        <secondScreenPos>1440, 0</secondScreenPos>
+        <showTweets>1</showTweets>
         <UnknownName>0</UnknownName>
+        <showBursts>1</showBursts>
+        <showBurstsFromTweets>1</showBurstsFromTweets>
     </Wall>
     <Audio>
-        <audioInAmp>0.00143818</audioInAmp>
-        <cutDown>0</cutDown>
-        <cutUp>1</cutUp>
-        <mappedAudioIn>0.00143818</mappedAudioIn>
-        <smoothedAudioIn>0.00630999</smoothedAudioIn>
+        <audioInAmp>0.00328069</audioInAmp>
+        <cutDown>1</cutDown>
+        <cutUp>0</cutUp>
+        <mappedAudioIn>0.996719</mappedAudioIn>
+        <smoothedAudioIn>0.997117</smoothedAudioIn>
         <smoothFactor>0.9</smoothFactor>
         <fineSmoothFactor>0.0289971</fineSmoothFactor>
         <audioEnabled>0</audioEnabled>
         <audioTest>0</audioTest>
+        <audioEnabledForBursts>0</audioEnabledForBursts>
+        <audioEnabledForText>0</audioEnabledForText>
     </Audio>
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
+    <Video />
 </Settings>

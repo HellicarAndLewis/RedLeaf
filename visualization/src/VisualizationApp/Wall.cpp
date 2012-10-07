@@ -95,7 +95,7 @@ void Wall::setup(){
 	parameters.add(z.set("z",.7,.5,2));
 	parameters.add(secondScreenPos.set("secondScreenPos",ofVec2f(1280,0),ofVec2f(-2560,0),ofVec2f(2560,768)));
 	parameters.add(renderMode.set("renderMode",Continuous,Continuous,NumModes-1));
-	parameters.add(testStateMillis.set("testStateMillis",1000,100,10000));
+	parameters.add(testStateMillis.set("testStateMillis",1000,1000,10000));
 	parameters.add(muted.set("muted",false));
 	parameters.add(showTweets.set("showTweets",true));
 	parameters.add(showBursts.set("showBursts",true));
@@ -202,8 +202,7 @@ void Wall::turnOffCalibration(){
 	}
 }
 
-
-void Wall::updateTestState(u_long now){
+void Wall::updateTestState(u_long now){ //JUST RED LINES.....
 	u_long msStripOn = double(testStateMillis)/double(w);
 	u_long currentTestEndTime = prevTestEndTime+testStateMillis;
 	if(testState>=9){
@@ -215,49 +214,56 @@ void Wall::updateTestState(u_long now){
 			lastTimeStripChangedTest = now;
 		}
 	}
+
 	switch(testState){
 	case AllRed:
-		for(u_int i=0;i<strips.size();++i){
-			strips[i].trigger(ofColor::red,now);
-		}
-		if(now>=currentTestEndTime){
-			testState++;
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case AllGreen:
-		for(u_int i=0;i<strips.size();++i){
-			strips[i].trigger(ofColor::green,now);
-		}
-		if(now>=currentTestEndTime){
-			testState++;
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case AllBlue:
-		for(u_int i=0;i<strips.size();++i){
-			strips[i].trigger(ofColor::blue,now);
-		}
-		if(now>=currentTestEndTime){
-			testState++;
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case AllWhite:
-		for(u_int i=0;i<strips.size();++i){
-			strips[i].trigger(ofColor::white,now);
-		}
-		if(now>=currentTestEndTime){
-			testState++;
-			prevStripOn = -1;
-			nextStripOn = 0;
-			lastTimeStripChangedTest = now + msStripOn;
-			for(u_int i=0;i<strips.size();++i){
-				strips[i].trigger(ofColor::black,now);
-			}
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case RedOneByOne:
 		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
 		if(nextStripOn>=(u_int)w){
@@ -271,92 +277,247 @@ void Wall::updateTestState(u_long now){
 		}
 		break;
 	case GreenOneByOne:
-		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-		if(nextStripOn>=(u_int)w){
-			testState++;
-			prevStripOn = -1;
-			nextStripOn = 0;
-			lastTimeStripChangedTest = now + msStripOn;
-			prevTestEndTime = now;
-		}else{
-			strips[nextStripOn].trigger(ofColor::green,now);
-		}
-		break;
+        if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+        if(nextStripOn>=(u_int)w){
+            testState++;
+            prevStripOn = -1;
+            nextStripOn = 0;
+            lastTimeStripChangedTest = now + msStripOn;
+            prevTestEndTime = now;
+        }else{
+            strips[nextStripOn].trigger(ofColor::red,now);
+        }
+        break;
 	case BlueOneByOne:
-		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-		if(nextStripOn>=(u_int)w){
-			testState++;
-			prevStripOn = -1;
-			nextStripOn = 0;
-			lastTimeStripChangedTest = now + msStripOn;
-			prevTestEndTime = now;
-		}else{
-			strips[nextStripOn].trigger(ofColor::blue,now);
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case WhiteOneByOne:
-		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
-		if(nextStripOn>=(u_int)w){
-			testState++;
-			prevStripOn = -1;
-			nextStripOn = 0;
-			lastTimeStripChangedTest = now + msStripOn;
-			lastStripTestOn = 0;
-			prevTestEndTime = now;
-		}else{
-			strips[nextStripOn].trigger(ofColor::white,now);
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case ProgressiveRed:
-		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-			strips[i].trigger(ofColor::red,now);
-		}
-		lastStripTestOn = min((int)nextStripOn,(int)w);
-		if(now>=currentTestEndTime){
-			testState++;
-			lastStripTestOn = 0;
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case ProgressiveGreen:
-		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-			strips[i].trigger(ofColor::green,now);
-		}
-		lastStripTestOn = min((int)nextStripOn,(int)w);
-		if(now>=currentTestEndTime){
-			testState++;
-			lastStripTestOn = 0;
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case ProgressiveBlue:
-		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-			strips[i].trigger(ofColor::blue,now);
-		}
-		lastStripTestOn = min((int)nextStripOn,(int)w);
-		if(now>=currentTestEndTime){
-			testState++;
-			lastStripTestOn = 0;
-			prevTestEndTime = now;
-		}
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	case ProgressiveWhite:
-		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
-			strips[i].trigger(ofColor::white,now);
-		}
-		lastStripTestOn = min((int)nextStripOn,(int)w);
-		if(now>=currentTestEndTime){
-			testState=0;
-			lastStripTestOn = 0;
-			runningTest = false;
-			for(u_int i=0;i<strips.size();++i){
-				strips[i].setTestMode(false);
-			}
-		}
-		break;
-		break;
+            if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+            if(nextStripOn>=(u_int)w){
+                testState++;
+                prevStripOn = -1;
+                nextStripOn = 0;
+                lastTimeStripChangedTest = now + msStripOn;
+                prevTestEndTime = now;
+            }else{
+                strips[nextStripOn].trigger(ofColor::red,now);
+            }
+            break;
 	}
 }
+
+//void Wall::updateTestState(u_long now){
+//	u_long msStripOn = double(testStateMillis)/double(w);
+//	u_long currentTestEndTime = prevTestEndTime+testStateMillis;
+//	if(testState>=9){
+//		nextStripOn = double(now-prevTestEndTime)/double(testStateMillis)*w;
+//	}else{
+//		if(now-lastTimeStripChangedTest>=msStripOn){
+//			prevStripOn = nextStripOn;
+//			nextStripOn++;
+//			lastTimeStripChangedTest = now;
+//		}
+//	}
+//    
+//	switch(testState){
+//	case AllRed:
+//		for(u_int i=0;i<strips.size();++i){
+//			strips[i].trigger(ofColor::red,now);
+//		}
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case AllGreen:
+//		for(u_int i=0;i<strips.size();++i){
+//			strips[i].trigger(ofColor::green,now);
+//		}
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case AllBlue:
+//		for(u_int i=0;i<strips.size();++i){
+//			strips[i].trigger(ofColor::blue,now);
+//		}
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case AllWhite:
+//		for(u_int i=0;i<strips.size();++i){
+//			strips[i].trigger(ofColor::white,now);
+//		}
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			prevStripOn = -1;
+//			nextStripOn = 0;
+//			lastTimeStripChangedTest = now + msStripOn;
+//			for(u_int i=0;i<strips.size();++i){
+//				strips[i].trigger(ofColor::black,now);
+//			}
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case RedOneByOne:
+//		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+//		if(nextStripOn>=(u_int)w){
+//			testState++;
+//			prevStripOn = -1;
+//			nextStripOn = 0;
+//			lastTimeStripChangedTest = now + msStripOn;
+//			prevTestEndTime = now;
+//		}else{
+//			strips[nextStripOn].trigger(ofColor::red,now);
+//		}
+//		break;
+//	case GreenOneByOne:
+//		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+//		if(nextStripOn>=(u_int)w){
+//			testState++;
+//			prevStripOn = -1;
+//			nextStripOn = 0;
+//			lastTimeStripChangedTest = now + msStripOn;
+//			prevTestEndTime = now;
+//		}else{
+//			strips[nextStripOn].trigger(ofColor::green,now);
+//		}
+//		break;
+//	case BlueOneByOne:
+//		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+//		if(nextStripOn>=(u_int)w){
+//			testState++;
+//			prevStripOn = -1;
+//			nextStripOn = 0;
+//			lastTimeStripChangedTest = now + msStripOn;
+//			prevTestEndTime = now;
+//		}else{
+//			strips[nextStripOn].trigger(ofColor::blue,now);
+//		}
+//		break;
+//	case WhiteOneByOne:
+//		if(prevStripOn>0) strips[prevStripOn].trigger(ofColor::black,now);
+//		if(nextStripOn>=(u_int)w){
+//			testState++;
+//			prevStripOn = -1;
+//			nextStripOn = 0;
+//			lastTimeStripChangedTest = now + msStripOn;
+//			lastStripTestOn = 0;
+//			prevTestEndTime = now;
+//		}else{
+//			strips[nextStripOn].trigger(ofColor::white,now);
+//		}
+//		break;
+//	case ProgressiveRed:
+//		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+//			strips[i].trigger(ofColor::red,now);
+//		}
+//		lastStripTestOn = min((int)nextStripOn,(int)w);
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			lastStripTestOn = 0;
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case ProgressiveGreen:
+//		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+//			strips[i].trigger(ofColor::green,now);
+//		}
+//		lastStripTestOn = min((int)nextStripOn,(int)w);
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			lastStripTestOn = 0;
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case ProgressiveBlue:
+//		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+//			strips[i].trigger(ofColor::blue,now);
+//		}
+//		lastStripTestOn = min((int)nextStripOn,(int)w);
+//		if(now>=currentTestEndTime){
+//			testState++;
+//			lastStripTestOn = 0;
+//			prevTestEndTime = now;
+//		}
+//		break;
+//	case ProgressiveWhite:
+//		for(u_int i=lastStripTestOn;i<nextStripOn && i<(u_int)w;i++){
+//			strips[i].trigger(ofColor::white,now);
+//		}
+//		lastStripTestOn = min((int)nextStripOn,(int)w);
+//		if(now>=currentTestEndTime){
+//			testState=0;
+//			lastStripTestOn = 0;
+//			runningTest = false;
+//			for(u_int i=0;i<strips.size();++i){
+//				strips[i].setTestMode(false);
+//			}
+//		}
+//		break;
+//		break;
+//	}
+//}
 
 void Wall::update(){
 	if(calibrationMode) return;
@@ -610,9 +771,45 @@ void Wall::drawActiveArea(RenderMode renderMode){
 	}
 }
 
+//pixel perfect...
+
+//void Wall::drawOutput(){
+//	ofSetColor(0);
+//	ofRect(secondScreenPos->x,0,ofGetWidth()-secondScreenPos->x,ofGetHeight());
+//    
+//	ofSetColor(255);
+//	if(!muted){
+//		ofPushMatrix();
+//		ofTranslate((ofVec2f)secondScreenPos);
+//        
+//		if(showBursts || showBurstsFromTweets){
+//			for(int i=0;i<w;i++){
+//				ofSetColor(strips[i].getColor());
+//				ofLine(i,0,i,h);
+//			}
+//		}
+//        
+//		if(showTweets && !tweets.empty()){
+//			ofPushView();
+//			ofViewport(secondScreenPos->x,secondScreenPos->y,w,h);
+//			ofSetupScreenPerspective(w,h);
+//			tweets.front().draw();
+//			ofPopView();
+//		}
+//		ofPopMatrix();
+//        
+//		ofSetColor(255);
+//	}
+//}
+
+//scaling to the whole screen
+
 void Wall::drawOutput(){
 	ofSetColor(0);
 	ofRect(secondScreenPos->x,0,ofGetWidth()-secondScreenPos->x,ofGetHeight());
+    
+    float widthOfStrip = (ofGetWidth()-secondScreenPos->x)/w;
+    float heightOfStrip = ofGetHeight();
 
 	ofSetColor(255);
 	if(!muted){
@@ -622,14 +819,15 @@ void Wall::drawOutput(){
 		if(showBursts || showBurstsFromTweets){
 			for(int i=0;i<w;i++){
 				ofSetColor(strips[i].getColor());
-				ofLine(i,0,i,h);
+                ofRect(i*widthOfStrip,0,widthOfStrip,heightOfStrip); //rects have width!
 			}
 		}
 
 		if(showTweets && !tweets.empty()){
 			ofPushView();
 			ofViewport(secondScreenPos->x,secondScreenPos->y,w,h);
-			ofSetupScreenPerspective(w,h);
+//			ofSetupScreenPerspective(w,h);
+            ofSetupScreenPerspective(w/(ofGetWidth()-secondScreenPos->x), h/ofGetHeight());
 			tweets.front().draw();
 			ofPopView();
 		}
