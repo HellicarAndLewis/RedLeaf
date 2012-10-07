@@ -16,6 +16,7 @@ void VisualizationApp::setup(){
 	audio.setup();
 
 	twitterListener.setup();
+	Logo::initParameters();
 
 
 
@@ -26,6 +27,7 @@ void VisualizationApp::setup(){
 	gui.add(LEDStrip::parameters);
 	gui.add(EnergyBurst::parameters);
 	gui.add(twitterListener.parameters);
+	gui.add(Logo::parameters);
 	gui.add(wall.parameters);
 	gui.add(audio.parameters);
 
@@ -37,6 +39,7 @@ void VisualizationApp::setup(){
 	gui.getGroup("Twitter").add(TweetText::useColors);
 	gui.getGroup("Twitter").add(TweetText::alpha);
 	gui.getGroup("Twitter").add(testTweetActivated.set("testTweetActivated",false));
+
 
 	gui.loadFromFile("settings.xml");
 

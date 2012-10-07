@@ -102,6 +102,7 @@ void Wall::setup(){
 	parameters.add(showTweets.set("showTweets",true));
 	parameters.add(showBursts.set("showBursts",true));
 	parameters.add(showBurstsFromTweets.set("showBurstsFromTweets",true));
+	parameters.add(showLogos.set("showLogos",false));
 
 	rotation3D.set("rotation3D",ofVec2f(0,0),ofVec2f(-180,-180),ofVec2f(180,180));
 	vizX.set("vizX",250,0,300);
@@ -575,6 +576,17 @@ void Wall::update(){
 				audio->setCurrentTweet(NULL);
 			}
 		}
+		if(showLogos){
+			if(logos.empty() || (logos.back().position.x+Logo::logo.getWidth())*Logo::xScale<w-Logo::separation){
+				logos.push_back(Logo(now,w/Logo::xScale));
+			}
+			if(!logos.empty() && !logos.front().isAlive()){
+				logos.erase(logos.begin());
+			}
+			for(u_int i=0;i<logos.size();i++){
+				logos[i].update();
+			}
+		}
 	}
 }
 
@@ -587,11 +599,16 @@ void Wall::draw(){
 			ofLine(i,0,i,h);
 		}
 	}
-	if(!tweets.empty()){
+	if(showTweets && !tweets.empty()){
 		tweets.front().draw();
 	}
+	if(showLogos){
+		for(u_int i=0;i<logos.size();i++){
+			logos[i].draw();
+		}
+	}
 	outputFBO.end();
-	if(showTweets){
+	if(showTweets || showLogos){
 		outputFBO.readToPixels(outputBuffer);
 		int stride = w*4;
 		for(int i=0;i<w;i++){
@@ -913,7 +930,7 @@ void Wall::newTweet(string text){
 	if(!runningTest  && !calibrationMode && !audio->audioTest){
 		if(showTweets){
 			u_long now = ofGetElapsedTimeMillis();
-			tweets.push(TweetText(text, TweetText::useColors ? niceRandomColor() : ofColor::white,now,w));
+			tweets.push(TweetText(text, TweetText::useColors ? niceRandomColor() : ofColor::white,now,w/TweetText::xScale));
 		}
 		if(showBurstsFromTweets){
 			bursts.push_back(EnergyBurst(ofVec2f(ofRandom(1),.5),EnergyBurst::useColor ? niceRandomColor() : ofColor::white));

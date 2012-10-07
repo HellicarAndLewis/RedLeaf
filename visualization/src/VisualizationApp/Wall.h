@@ -20,6 +20,7 @@
 #include "AudioManager.h"
 #include "ofTrueTypeFont.h"
 #include "TweetText.h"
+#include "Logo.h"
 
 class Wall {
 public:
@@ -63,6 +64,7 @@ public:
 	ofParameter<bool> showTweets;
 	ofParameter<bool> showBursts;
 	ofParameter<bool> showBurstsFromTweets;
+	ofParameter<bool> showLogos;
 	ofParameterGroup parameters;
 private:
 	void mouseDragged(ofMouseEventArgs & mouse);
@@ -115,6 +117,7 @@ private:
 	ofTrueTypeFont font;
 
 	queue<TweetText> tweets;
+	vector<Logo> logos;
 	ofFbo outputFBO;
 	ofFloatPixels outputBuffer;
 	vector<ofFloatColor> colorsFromTweets;
