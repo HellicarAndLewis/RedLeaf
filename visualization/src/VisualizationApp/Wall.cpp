@@ -587,7 +587,9 @@ void Wall::draw(){
 			ofLine(i,0,i,h);
 		}
 	}
-	if(!tweets.empty()) tweets.front().draw();
+	if(!tweets.empty()){
+		tweets.front().draw();
+	}
 	outputFBO.end();
 	if(showTweets){
 		outputFBO.readToPixels(outputBuffer);

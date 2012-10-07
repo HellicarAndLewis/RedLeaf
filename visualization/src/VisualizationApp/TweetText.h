@@ -31,6 +31,7 @@ public:
 	static ofParameter<float> speedPixelsPerSec;
 	static ofParameter<int> y;
 	static ofParameter<int> limitScreenX;
+	static ofParameter<float> xScale;
 	static ofParameter<int> fontSize;
 	static ofParameter<bool> useColors;
 	static ofParameter<float> alpha;

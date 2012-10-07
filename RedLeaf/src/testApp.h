@@ -35,4 +35,5 @@ class RedLeafApp : public ofBaseApp{
 		ofParameter<bool> videoVisualization;
 		ofParameter<bool> verticalSync;
 		bool showGui;
+
 };

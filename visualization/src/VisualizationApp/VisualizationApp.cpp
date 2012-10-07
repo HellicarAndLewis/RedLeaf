@@ -32,6 +32,7 @@ void VisualizationApp::setup(){
 	gui.getGroup("Twitter").add(changeTweetFont.setup("changeFont"));
 	gui.getGroup("Twitter").add(TweetText::speedPixelsPerSec);
 	gui.getGroup("Twitter").add(TweetText::y);
+	gui.getGroup("Twitter").add(TweetText::xScale);
 	gui.getGroup("Twitter").add(TweetText::fontSize);
 	gui.getGroup("Twitter").add(TweetText::useColors);
 	gui.getGroup("Twitter").add(TweetText::alpha);
