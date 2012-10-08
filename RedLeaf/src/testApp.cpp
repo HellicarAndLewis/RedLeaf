@@ -16,7 +16,7 @@ void RedLeafApp::setup(){
 	videoVisualization.addListener(this,&RedLeafApp::activeAppChanged);
 	verticalSync.addListener(this,&RedLeafApp::verticalSyncChanged);
 
-	gui.add(videoVisualization.set("Video/Viz",true));
+	gui.add(videoVisualization.set("Video_Viz",true));
 	gui.add(verticalSync.set("vsync",false));
 	gui.add(LEDStrip::parameters);
 	gui.add(EnergyBurst::parameters);
