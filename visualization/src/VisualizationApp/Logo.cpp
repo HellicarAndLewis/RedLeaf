@@ -46,7 +46,7 @@ Logo::Logo(u_long now, int x)
 }
 
 void Logo::update(){
-	color.a = 255;
+	color.a = alpha*255;
 	position.x-=ofGetLastFrameTime()*speedPixelsPerSec;
 	position.y = y;
 }

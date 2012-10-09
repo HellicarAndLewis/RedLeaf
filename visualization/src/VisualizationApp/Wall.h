@@ -35,6 +35,7 @@ public:
 		ThreeD,
 		NumModes
 	};
+	void generateOutput();
 	void drawActiveArea(RenderMode renderMode);
 	void drawOutput();
 

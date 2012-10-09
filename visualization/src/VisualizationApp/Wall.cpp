@@ -589,8 +589,7 @@ void Wall::update(){
 		}
 	}
 }
-
-void Wall::draw(){
+void Wall::generateOutput(){
 	outputFBO.begin();
 	ofClear(0,255);
 	if(showBursts || showBurstsFromTweets){
@@ -608,6 +607,11 @@ void Wall::draw(){
 		}
 	}
 	outputFBO.end();
+	ofSetColor(255);
+}
+
+void Wall::draw(){
+	generateOutput();
 	if(showTweets || showLogos){
 		outputFBO.readToPixels(outputBuffer);
 		int stride = w*4;
@@ -865,9 +869,7 @@ void Wall::drawOutput(){
 		ofSetColor(255);
 	}*/
 	if(!muted){
-		ofPushMatrix();
 		outputFBO.draw(secondScreenPos->x,secondScreenPos->y,secondScreenSize->x,secondScreenSize->y);
-		ofPopMatrix();
 	}
 }
 

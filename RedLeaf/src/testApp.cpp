@@ -104,6 +104,7 @@ void RedLeafApp::draw(){
 	if(showGui){
 		gui.draw();
 		if(!videoVisualization){
+			visualizationApp.wall.generateOutput();
 			visualizationApp.wall.drawActiveArea(Wall::ThreeD);
 			visualizationApp.wall.drawOutput();
 			videoApp.drawCameras();
@@ -111,6 +112,7 @@ void RedLeafApp::draw(){
 			visualizationApp.wall.draw();
 		}
 	}else{
+		visualizationApp.wall.generateOutput();
 		visualizationApp.wall.drawOutput();
 	}
 
