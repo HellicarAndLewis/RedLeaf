@@ -13,7 +13,7 @@
 #include "ofAppRunner.h"
 
 ofxAxisGrabber::ofxAxisGrabber() {
-	paramRefreshRateMs = 0;
+	paramRefreshRateMs = 3000;
 	desiredFramerate = 0;
 	startTimeOneSecMicros = 0;
 	framesInOneSec = 0;
@@ -26,6 +26,7 @@ ofxAxisGrabber::ofxAxisGrabber() {
 	parameters.add(exposure.set("exposure",50,0,100));
 	parameters.add(irFilterCut.set("irFilterCut",0,0,2));
 	parameters.add(compression.set("compression",30,0,100));
+	parameters.add(paramRefreshRateMs.set("paramRefreshRateMs",3000,0,10000));
 	parameters.add(fps.set("fps",0,0,60));
 	parameters.add(cameraConnected.set("cameraConnected",false));
 	parameters.add(cameraAuth.set("cameraAuth",false));
