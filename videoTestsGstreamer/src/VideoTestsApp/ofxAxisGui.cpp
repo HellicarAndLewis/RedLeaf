@@ -50,6 +50,7 @@ void ofxAxisGui::setup(string cameraAddress,string _cameraName,int x, int y){
 	gui.add(axis->exposure);
 	gui.add(axis->irFilterCut);
 	gui.add(axis->compression);
+	gui.add(axis->paramRefreshRateMs);
 
 	gui.getIntSlider("focus").setUpdateOnReleaseOnly(true);
 	gui.getIntSlider("exposure").setUpdateOnReleaseOnly(true);

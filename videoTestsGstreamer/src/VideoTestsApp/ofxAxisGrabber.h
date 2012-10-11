@@ -74,7 +74,7 @@ public:
 	ofParameter<int> exposure;
 	ofParameter<int> irFilterCut;
 	ofParameter<int> compression;
-	ofParameter<int> paramRefreshRateMs;
+	ofParameter<int>  paramRefreshRateMs;
 	ofParameterGroup parameters;
 
 private:
