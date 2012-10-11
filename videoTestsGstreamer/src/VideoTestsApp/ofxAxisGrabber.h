@@ -74,6 +74,7 @@ public:
 	ofParameter<int> exposure;
 	ofParameter<int> irFilterCut;
 	ofParameter<int> compression;
+	ofParameter<int> paramRefreshRateMs;
 	ofParameterGroup parameters;
 
 private:
@@ -97,7 +98,6 @@ private:
 
 	ofxHttpUtils http;
 
-	int paramRefreshRateMs;
 	ofRectangle focusWindow;
 	ofRectangle focusWindowScaled;
 
