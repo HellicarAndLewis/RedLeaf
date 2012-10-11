@@ -268,32 +268,34 @@ void ofxAxisGrabber::setFocusWindow(){
 
 void ofxAxisGrabber::threadedFunction(){
 	while(isThreadRunning()){
-		u_long now = ofGetElapsedTimeMillis();
-		updating = true;
-		ofxHttpResponse response = http.getUrl("http://"+cameraAddress+"/axis-cgi/opticssetup.cgi?monitor=poll&timestamp="+ofToString(ofGetSystemTime()));
-		if(response.status==200){
-			cameraConnected = true;
-			cameraAuth = true;
-			Poco::XML::DOMParser parser;
-			Poco::XML::Document * xml = parser.parseString(response.responseBody);
-			focus = round(ofToFloat(xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusPosition")->nodeValue())*297);
-			prevFocus = focus;
-			xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusOperationInProgress")->nodeValue();
-			focusMeasure = ofToInt(xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusMeasure")->nodeValue());
-			xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusAssistantRunning")->nodeValue();
-		}else{
-			if(response.status==-1){
-				cameraConnected = false;
-			}else if(response.status==401){
-				cameraAuth = false;
+		if(http.getQueueLength()==0){
+			u_long now = ofGetElapsedTimeMillis();
+			updating = true;
+			ofxHttpResponse response = http.getUrl("http://"+cameraAddress+"/axis-cgi/opticssetup.cgi?monitor=poll&timestamp="+ofToString(ofGetSystemTime()));
+			if(response.status==200){
+				cameraConnected = true;
+				cameraAuth = true;
+				Poco::XML::DOMParser parser;
+				Poco::XML::Document * xml = parser.parseString(response.responseBody);
+				focus = round(ofToFloat(xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusPosition")->nodeValue())*297);
+				prevFocus = focus;
+				xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusOperationInProgress")->nodeValue();
+				focusMeasure = ofToInt(xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusMeasure")->nodeValue());
+				xml->getElementsByTagName("opticsSetupState")->item(0)->attributes()->getNamedItem("focusAssistantRunning")->nodeValue();
+			}else{
+				if(response.status==-1){
+					cameraConnected = false;
+				}else if(response.status==401){
+					cameraAuth = false;
+				}
+				ofLogError("ofxAxisGrabber")<< "couldn't update parameters: " << response.status << ": " << response.reasonForStatus;
 			}
-			ofLogError("ofxAxisGrabber")<< "couldn't update parameters: " << response.status << ": " << response.reasonForStatus;
+			requestFocusWindow();
+			checkExposure();
+			checkIRFilterCut();
+			checkCompression();
+			updating = false;
 		}
-		requestFocusWindow();
-		checkExposure();
-		checkIRFilterCut();
-		checkCompression();
-		updating = false;
 		ofSleepMillis(paramRefreshRateMs);
 	}
 }
