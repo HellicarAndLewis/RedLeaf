@@ -3,6 +3,12 @@ RedLeaf
 
 An interactive installation for the Nissan Leaf Electric vehicle, taking input from Twitter #hashtags and a network of security cameras.
 
+The system takes input from Twitter, and displays it on a large scale on the exterior of a temporary building that is touring across Europe.
+
+http://www.newsroom.nissan-europe.com/EU/en-gb/Media/Media.aspx?mediaid=97572
+http://blog.nissan-global.com/EN/?p=6452
+
+It uses security cameras around the building to allow peoples movement to release bursts of light over the same LED surface that the Twitter information is displayed on.
 
 Compiling
 =========
